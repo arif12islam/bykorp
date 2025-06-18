@@ -64,7 +64,7 @@ function Chatbot() {
         .map(msg => ({ role: msg.sender === 'user' ? 'user' : 'model', parts: [{ text: msg.text }] }));
       
       setMessages(prev => [...prev, { text: '', sender: 'bot' }]);
-      const response = await fetch('http://localhost:5001/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ history: history.slice(0, -1), prompt: promptToSend }) });
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ history: history.slice(0, -1), prompt: promptToSend }) });
       if (!response.body) throw new Error("No response body.");
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
