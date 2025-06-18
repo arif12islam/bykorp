@@ -1,0 +1,1026 @@
+/* src/index.css - FINAL VERSION with Perfected Spacing */
+
+/* 1. Global Variables and Body Styles */
+
+:root {
+  --font-main: 'Figtree', sans-serif;
+  
+  /* --- THE CHANGES ARE HERE --- */
+  --color-accent: #0052D4; /* Was #4F46E5 */
+  --color-accent-hover: #0041A8; /* Was #4338CA */
+  /* --- END OF CHANGES --- */
+
+  /* The rest of your colors remain the same */
+  --color-background: #111827;
+  --color-background-alt: #F9FAFB;
+  --color-dark: #172032;
+  --color-muted: #6B7280;
+  --color-border: #E5E7EB;
+  --text-light: #F9FAFB;
+  --text-dark: #1F2937;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-dark); /* Default text color, we will override where needed */
+  
+  /* --- NEW BACKGROUND STYLES START --- */
+  background-color: #040815; /* The dark blue base color */
+  
+  /* The blue glow effects */
+  background-image: 
+    radial-gradient(circle at 90% 20%, rgba(0, 82, 212, 0.45), transparent 40%),
+    linear-gradient(150deg, rgba(0, 82, 212, 0.5) 0%, transparent 50%);
+  
+  /* This makes the background stay in place when scrolling */
+  background-attachment: fixed; 
+  background-size: cover;
+  /* --- NEW BACKGROUND STYLES END --- */
+}
+
+/* This new rule adds the fixed grain effect to the entire page */
+body::after {
+  content: '';
+  position: relative; /* Fixes the grain to the viewport */
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  
+  /* We use z-index: -1 to place it BEHIND all other content */
+  z-index: -1; 
+  
+  /* The SVG filter that creates the grain texture */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  
+  opacity: 0.07;
+}
+html.lenis {
+  scroll-behavior: auto;
+}
+html { scroll-behavior: smooth; }
+code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
+
+/* 2. Main App and Header Styles */
+/* 2. Main App and Header Styles */
+
+.App, .App-header {
+  transform: none !important;
+}
+.App-header {
+  /* background properties have been removed */
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 120px 2rem 2rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-light); /* Text is already light, which is perfect */
+}
+
+
+/* This rule ensures your text and buttons are on top of everything */
+.hero-content { 
+  
+  max-width: 2000px; 
+  width: 100%; 
+  position: relative; /* Lifts the content */
+  z-index: 1;         /* Places it above the grain layer */
+}
+.hero-content h1 { font-size: 5.5rem; font-weight: 900; margin-bottom: 2rem; margin-top: -5rem; max-width: 850px; line-height: 1.2; }
+.hero-content p { font-size: 1.25rem; color: #9CA3AF; max-width: 550px; margin-bottom: 10rem; line-height: 1.6; }
+
+/* 3. Reusable Button Style */
+.btn {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
+  border: none;
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  
+  /* --- MODIFICATIONS FOR NEW EFFECT --- */
+  position: relative; /* Required for the overlay */
+  overflow: hidden;   /* Hides the overlay when its height is 0 */
+  z-index: 1;         /* Ensures proper stacking */
+  transition: color 0.3s ease, transform 0.3s ease; /* Animate color and transform */
+}
+
+/* NEW: This creates the overlay element that will slide up */
+.btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  background-color: var(--color-background-alt); /* Light background for the overlay */
+  z-index: -1; /* Places the overlay behind the text */
+  transition: height 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-accent); /* Initial solid accent background */
+  color: white; /* Initial white text */
+}
+
+/* NEW: This animates the overlay's height on hover */
+.btn:hover::before {
+  bottom: 0;
+  top: auto;
+  height: 100%;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent); /* Keep the background color the same on hover */
+  color: var(--color-accent); /* Change the text color to the accent color */
+  transform: translateY(-3px); /* Apply the lift effect */
+}
+
+/* Styles for the contact form button (no changes needed here) */
+.contact-form .btn {
+  width: 100%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+/* In index.css, replace the entire Navbar Styles section with this */
+
+/* In index.css, replace the entire Navbar Styles section with this */
+/* ======================================================================== */
+/* 4. Navbar Styles (Corrected and with Glassmorphism Pill)               */
+/* ======================================================================== */
+
+.navbar-final {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.5s ease-out;
+}
+
+.navbar-final.scrolled {
+  transform: translateY(-30px);
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.5s ease-out;
+}
+
+.navbar-final.hidden {
+  
+  
+  transform: translateY(-120%);
+}
+
+/* --- Brand/Logo Styles --- */
+.brand-container {
+  pointer-events: all;
+  position: relative;
+  z-index: 1001;
+}
+
+.brand-link-wrapper {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  position: relative;
+}
+
+.logo-bg {
+  position: absolute;
+  top: -2px;
+  left: -3px;
+  width: 50px;
+  height: 54px;
+  border-radius: 10px;
+  z-index: -1;
+  transform: scale(0.8);
+  background-color: rgba(17, 24, 39, 0);
+  backdrop-filter: blur(0px);
+  transition: background-color 0.4s ease, backdrop-filter 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-final.scrolled .logo-bg {
+  transform: scale(1);
+  background-color: rgba(17, 24, 39, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-logo {
+  height: 45px;
+  width: 45px;
+  transition: transform 0.3s ease;
+}
+
+.navbar-final.scrolled .navbar-logo {
+  transform: scale(0.7);
+}
+
+.brand-text {
+  color: var(--text-light);
+  font-size: 2.5rem;
+  font-weight: 800;
+  white-space: nowrap;
+  margin-left: 0.75rem;
+  transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+  transform: translateX(0);
+  max-width: 200px;
+}
+
+.navbar-final.scrolled .brand-text {
+  opacity: 0;
+  max-width: 0;
+  transform: translateX(-20px);
+}
+
+/* --- Right Section (Links + CTA) Styles --- */
+.nav-right-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  pointer-events: all;
+}
+
+.navbar-pill {
+  display: flex;
+  align-items: center;
+  /* UPDATED: Change padding to have no vertical padding */
+  left: -100px;
+  padding: 0 0.5rem; 
+  border-radius: 10px;
+  position: relative;
+  background-color: rgba(17, 24, 39, 0);
+  backdrop-filter: blur(0px);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.0);
+  border: 1px solid transparent;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+}
+
+.navbar-final.scrolled .navbar-pill {
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  /* NEW: Glass effect styles */
+  background-color: rgba(17, 24, 39, 0.5); /* Semi-transparent dark tint */
+  backdrop-filter: blur(10px); /* The frosted glass blur */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle edge for the glass */
+}
+
+/* --- The rest of the styles are unchanged --- */
+
+.navbar-links-final {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links-final li {
+  position: relative;
+  margin: 0;
+}
+
+.navbar-links-final a {
+  position: relative;
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 300;
+  /* UPDATED: Change vertical padding to match the CTA button */
+  padding: 0.85rem 1.25rem;
+  border-radius: 10px;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links-final a:hover {
+  color: #FFFFFF;
+}
+
+.navbar-links-final a span {
+  position: relative;
+}
+
+.navbar-links-final a span::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1.5px;
+  background-color: var(--text-light);
+  bottom: -5px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.navbar-links-final a:hover span::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.btn-navbar-cta {
+  display: flex;
+  align-items: center; 
+  padding: 0.85rem 1.5rem;
+  background-color: var(--color-accent);
+  color: var(--text-light); 
+  border-radius: 10px;
+  font-family: var(--font-main);
+  font-weight: 1000;
+  font-size: 0.8rem;
+  text-decoration: none;
+  left: -100px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+.btn-navbar-cta::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0; 
+  width: 100%;
+  height: 0; 
+  background-color: var(--color-background-alt);
+  z-index: 0;
+  border-radius: 10px;
+  transition: height 0.3s ease; 
+}
+
+.btn-navbar-cta .cta-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1; 
+  transition: transform 0.3s ease;
+}
+
+.btn-navbar-cta:hover::before {
+  bottom: 0;
+  top: auto;
+  height: 100%; 
+}
+
+.btn-navbar-cta:hover {
+  color: var(--color-accent);
+}
+
+.btn-navbar-cta:hover .cta-content {
+  transform: translateY(-3px);
+}
+
+
+/* --- Mega Menu Styles --- */
+
+.mega-menu {
+  position: fixed;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%); 
+  padding-top: 1rem;
+  z-index: 1001;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.navbar-links-final li:hover > .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.mega-menu-content {
+  display: flex;
+  background-color: var(--color-background-alt);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(107, 114, 128, 0.2);
+  border: 1px solid var(--color-border);
+  width: 460px;
+  height: 190px;
+  overflow: hidden;
+}
+
+.mega-menu-links a,
+.mega-menu-feature {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-links-final li:hover .mega-menu-links a,
+.navbar-links-final li:hover .mega-menu-feature {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.navbar-links-final li:hover .mega-menu-links a:nth-child(1) { transition-delay: 0.05s; }
+.navbar-links-final li:hover .mega-menu-links a:nth-child(2) { transition-delay: 0.1s; }
+.navbar-links-final li:hover .mega-menu-links a:nth-child(3) { transition-delay: 0.15s; }
+.navbar-links-final li:hover .mega-menu-links a:nth-child(4) { transition-delay: 0.2s; }
+.navbar-links-final li:hover .mega-menu-links a:nth-child(5) { transition-delay: 0.25s; }
+.navbar-links-final li:hover .mega-menu-feature { transition-delay: 0.15s; }
+
+.mega-menu-links {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-basis: 50%;
+  border-right: 1px solid var(--color-border);
+}
+
+.mega-menu-links h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mega-menu-links a {
+  color: var(--text-dark);
+  font-weight: 500;
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: block;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.mega-menu-links a:hover {
+  background-color: #f0f1f3;
+  color: var(--color-accent);
+}
+
+.mega-menu-feature {
+  flex-basis: 50%;
+  background-color: var(--color-background-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.feature-content { text-align: center; }
+.feature-content h5 { margin: 0 0 0.25rem 0; font-size: 1rem; font-weight: 700; }
+.feature-content p { margin: 0 0 0.5rem 0; font-size: 1.25rem; font-weight: 800; color: var(--color-accent); }
+.feature-content span { font-size: 0.9rem; color: var(--color-muted); line-height: 1.5; }
+/* 5. Generic Section Styles */
+.services-section, .showcase-section, .contact-section, .trusted-by-section {
+    padding: 6rem 2rem; /* Consistent vertical spacing for all sections */
+}
+.section-title {
+    font-size: 2.75rem; /* Slightly larger title */
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-top: 0;
+    margin-bottom: 4rem; /* More space below title */
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 6. TrustedBy Section Styles */
+.trusted-by-section { background-color: var(--color-background-alt); padding: 4rem 2rem; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
+.trusted-by-title {
+  text-align: center; color: var(--color-muted); font-size: 0.9rem;
+  font-weight: 700; letter-spacing: 1px; margin-top: 0; margin-bottom: 3rem; /* More space */
+}
+.logos-container { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 4rem; /* More space */ }
+.client-logo { height: 30px; opacity: 0.6; filter: grayscale(100%); transition: opacity 0.3s ease, filter 0.3s ease; }
+.client-logo:hover { opacity: 1; filter: grayscale(0%); }
+
+/* 7. Services & Showcase Card Styles */
+.services-section { background-color: var(--color-background-alt); }
+.showcase-section { background-color: var(--color-background-alt); border-top: 1px solid var(--color-border); }
+.services-container, .portfolio-grid { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+.portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.service-card, a.portfolio-item {
+  background: var(--color-light-card); border: 1px solid var(--color-border);
+  border-radius: 12px; padding: 2.5rem; /* More internal padding */
+  box-shadow: 0 4px 10px rgba(0, 47, 69, 0.05);
+  text-align: left; transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-card:hover, a.portfolio-item:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0, 47, 69, 0.08); }
+.service-card h3, a.portfolio-item h4 { margin-top: 0; margin-bottom: 1rem; color: var(--text-dark); font-weight: 700; }
+a.portfolio-item h4 { margin: 0; }
+.service-card p, .portfolio-item p { color: var(--color-muted); line-height: 1.6; }
+a.portfolio-item { display: block; text-decoration: none; color: inherit; }
+.portfolio-item-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+.portfolio-icon { font-size: 1.75rem; color: var(--color-accent); flex-shrink: 0; }
+
+/* 8. Contact Section Styles */
+.contact-section {
+  background-color: transparent;
+  text-align: center; /* Center text inside the section */
+}
+
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-title {
+  font-size: 2rem; /* Bigger title */
+  color: var(--color-background-alt);
+  margin-top: -7rem;
+  margin-bottom: 3rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto; 
+}
+
+.contact-subtitle {
+  font-size: 1.25rem;
+  color: var(--color-background-alt);
+  margin-top: 1rem; /* Remove negative margin, add some spacing */
+  margin-bottom: 3rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto; /* Center the subtitle block */
+}
+
+.contact-form {
+  max-width: 700px;
+  margin: 0 auto; /* Center the form */
+  text-align: left; /* Keep form fields left-aligned */
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 0px solid var(--color-muted); /* Add visible border */
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: var(--font-main);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: var(--color-dark);
+  color: white;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-muted);
+
+}
+
+
+
+/* 9. Footer Styles */
+.footer-redesigned {
+  background-color: var(--color-dark);
+  color: var(--text-light);
+  padding: 6rem 2rem 2rem 4rem; /* Shifted left padding */
+}
+
+/* Main footer content */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto 4rem auto;
+  flex-wrap: wrap;
+  margin-left: 5rem; /* Shift content right */
+}
+
+/* Footer button */
+/* --- Main Footer Button Styles --- */
+.btn-footer-cta {
+  display: flex;
+  align-items: center;
+  /* This gap will correctly space the span and the icon */
+  gap: 0.5rem;
+  max-width: 80px;
+  padding: 0.85rem 1.5rem;
+  background-color: var(--color-accent);
+  color: var(--text-light);
+  border-radius: 10px;
+  font-family: var(--font-main);
+  font-weight: 1000;
+  font-size: .8rem;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  left: -10px;
+  right: 10px;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+/* --- Background Overlay Animation --- */
+.btn-footer-cta::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  background-color: var(--color-background-alt);
+  z-index: 0;
+  border-radius: 10px;
+  transition: height 0.3s ease;
+}
+
+/* --- (NEW) Styling for Button's Direct Children --- */
+/* This targets both the <span> and the <svg> icon */
+.btn-footer-cta > span,
+.btn-footer-cta > svg {
+  position: relative;
+  z-index: 1; /* Ensures they are above the background overlay */
+  transition: transform 0.3s ease;
+}
+
+
+/* --- Hover State Changes --- */
+
+/* This handles the text color change on hover */
+.btn-footer-cta:hover {
+  color: var(--color-accent);
+}
+
+/* This expands the background overlay on hover */
+.btn-footer-cta:hover::before {
+  bottom: 0;
+  top: auto;
+  height: 100%;
+}
+
+/* (NEW) This slides both the <span> and <svg> icon up on hover */
+.btn-footer-cta:hover > span,
+.btn-footer-cta:hover > svg {
+  transform: translateY(-3px);
+}
+
+/* Individual footer column */
+.footer-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.footer-column p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 1.1rem;
+  max-width: 450px;
+}
+
+.footer-column.about .btn-navbar-cta {
+  margin-top: 2rem;
+}
+
+/* Newsletter form */
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.newsletter-form input {
+  flex-grow: 1;
+  background-color: #374151;
+  border: 0px solid #374151;
+  border-radius: 10px;
+  padding: 0.75rem 1.25rem;
+  color: var(--text-light);
+  font-family: var(--font-main);
+  font-size: 1rem;
+}
+.newsletter-form input::placeholder {
+  color: var(--text-muted);
+  border: 0;
+}
+.newsletter-form input:focus {
+  outline: none;
+  border-color: var(--color-muted);
+}
+
+/* --- Main Subscribe Button Styles --- */
+.btn-sub-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 150px;
+  padding: 0.85rem 1.5rem;
+  background-color: var(--color-accent);
+  color: var(--text-light);
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-main);
+  font-weight: 1000;
+  font-size: .8rem;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  left: -10px;
+  right: 10px;
+  /* Added to contain the ::before element's animation */
+  overflow: hidden;
+  /* Refined to transition only the color property */
+  transition: color 0.3s ease;
+}
+
+/* --- Background Overlay Animation --- */
+.btn-sub-cta::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  background-color: var(--color-background-alt);
+  z-index: 0;
+  border-radius: 10px;
+  transition: height 0.3s ease;
+}
+
+/* --- Styling for Button's Direct Children (Text + Icon) --- */
+.btn-sub-cta > span,
+.btn-sub-cta > svg {
+  position: relative;
+  z-index: 1; /* Keeps content above the background overlay */
+  transition: transform 0.3s ease;
+}
+
+
+/* --- Hover State Changes --- */
+
+/* Handles the text color change on hover */
+.btn-sub-cta:hover {
+  color: var(--color-accent);
+}
+
+/* Expands the background overlay on hover */
+.btn-sub-cta:hover::before {
+  bottom: 0;
+  top: auto;
+  height: 100%;
+}
+
+/* Slides the content (text and icon) up on hover */
+.btn-sub-cta:hover > span,
+.btn-sub-cta:hover > svg {
+  transform: translateY(-3px);
+}
+
+/* Email input wrapper */
+.email {
+  max-width: 300px;
+  margin-right: 10px;
+}
+
+.newsletter-form button {
+  flex-shrink: 0;
+}
+
+/* Sub-footer */
+.sub-footer {
+  padding-top: 2rem;
+  border-top: 1px solid #374151;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-left: 2rem; /* shift right */
+  display: flex;
+  flex-direction: column;  /* stack vertically */
+  align-items: center;     /* center horizontally */
+  gap: 1rem;
+}
+
+/* Social media links */
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.social-links a {
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.social-links a:hover {
+  color: var(--color-accent);
+}
+
+/* Copyright text */
+.copyright {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* 11. --- CHATBOT STYLES (NOW INCLUDED) --- */
+.bychat-app-container {}
+.chat-fab-final {
+  position: fixed; bottom: 2rem; right: 2rem; height: 60px; width: 60px; background-color: var(--color-accent);
+  border-radius: 10px; border: none; display: flex; align-items: center; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); z-index: 9998;
+  transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-radius 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.2s ease-in-out, opacity 0.3s ease;
+  opacity: 1; padding: 0; overflow: hidden;
+}
+.chat-fab-final.expanded { width: 230px; border-radius: 10px; }
+.chat-fab-final:hover { transform: scale(1.05); }
+.chat-fab-final.hidden { transform: scale(0); opacity: 0; }
+.fab-content { display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+.fab-icon-container { font-size: 2rem; color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 60px; transition: transform 0.3s ease; }
+.chat-fab-final.expanded .fab-icon-container { transform: rotate(-15deg); }
+.fab-text {
+  color: white; font-family: var(--font-main); font-weight: 500; font-size: 1rem;
+  transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out;
+  opacity: 1; transform: translateX(0); padding-right: 1.25rem; line-height: 60px;
+}
+.chat-fab-final:not(.expanded) .fab-text { opacity: 0; transform: translateX(10px); width: 0; padding-right: 0; }
+.chat-window-final {
+  position: fixed; bottom: 2rem; right: 2rem; width: 400px; max-height: 80vh; background-color: white;
+  border-radius: 10px; box-shadow: 0 5px 40px rgba(0,0,0,0.15); display: flex; flex-direction: column;
+  overflow: hidden; z-index: 9999; transform-origin: bottom right; transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0; transform: scale(0.5); pointer-events: none;
+}
+.chat-window-final.open { opacity: 1; transform: scale(1); pointer-events: all; }
+.chat-window-final.minimized { transform: translateY(calc(100% - 80px)) scale(1); }
+.chat-header-final {
+  display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background-color: white;
+  border-bottom: 1px solid #f0f0f0; flex-shrink: 0;
+}
+.chat-header-final .avatar { width: 48px; height: 48px; }
+.header-text h3 { margin: 0; font-size: 1.1rem; font-weight: 700; }
+.header-text p { margin: 0; color: var(--color-muted); font-size: 0.9rem; }
+.header-icons { margin-left: auto; display: flex; gap: 0.5rem; }
+.header-icons button { background: none; border: none; font-size: 1.25rem; color: var(--color-muted); cursor: pointer; padding: 0.25rem; }
+.chat-messages-final {
+  flex-grow: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column;
+  gap: 1rem; background-color: var(--color-background-alt);
+}
+.message-bubble-final { padding: 0.75rem 1.25rem; border-radius: 10px; line-height: 1.6; font-size: 1rem; max-width: 85%; }
+.message-bubble-final.bot { background-color: #EFF2F7; color: var(--text-dark); align-self: flex-start; border-top-left-radius: 4px; }
+.message-bubble-final.user { background-color: var(--color-accent); color: white; align-self: flex-end; border-top-right-radius: 4px; }
+.typing-indicator-final::after {
+  content: ' '; display: inline-block; width: 2px; height: 1em; background-color: var(--color-muted);
+  margin-left: 4px; animation: blink 1s step-end infinite; vertical-align: text-bottom;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.common-questions { padding: 0 1.5rem 1rem; background-color: var(--color-background-alt); border-top: 1px solid #f0f0f0; }
+.common-questions p { font-size: 0.9rem; color: var(--color-muted); margin: 0 0 0.75rem 0; }
+.common-questions button {
+  width: 100%; text-align: left; padding: 0.75rem 1rem; border: 1px solid var(--color-border);
+  border-radius: 10px; background-color: white; cursor: pointer; margin-bottom: 0.5rem;
+  font-size: 0.95rem; font-family: var(--font-main); transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.common-questions button:hover { border-color: var(--color-accent); background-color: #f0f5ff; }
+.chat-input-area-final {
+  padding: 1rem 1.5rem; border-top: 1px solid var(--color-border); background-color: rgba(255,255,255,0.8);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.chat-input-area-final form { display: flex; align-items: center; gap: 0.75rem; }
+.chat-input-area-final input { flex-grow: 1; border: none; background: none; padding: 0.5rem; font-size: 1rem; font-family: var(--font-main); }
+.chat-input-area-final input:focus { outline: none; }
+.chat-input-area-final button {
+  width: 40px; height: 40px; border-radius: 10px; border: none; background-color: var(--color-accent); color: white;
+  display: flex; align-items: center; justify-content: center; font-size: 1.25rem; cursor: pointer; transition: background-color 0.2s ease;
+}
+.chat-input-area-final button:hover { background-color: var(--color-accent-hover); }
+.chat-input-area-final button:disabled { background-color: #d1d5db; cursor: not-allowed; }
+.disclaimer { font-size: 0.75rem; text-align: center; color: var(--color-muted); margin: 0.75rem 0 0 0; }
+
+
+/* ======================================================================== */
+/* 5. Responsive Design & Media Queries                                   */
+/* ======================================================================== */
+
+/* --- Mobile Navigation Styles --- */
+
+/* 1. Style for the hamburger button (it's hidden on desktop) */
+.mobile-nav-toggle {
+  display: none; /* Hidden by default */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1002;
+  pointer-events: all;
+}
+
+/* 2. A simple hamburger icon created with CSS */
+.hamburger-icon {
+  width: 28px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hamburger-icon span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: var(--text-light);
+  border-radius: 2px;
+}
+
+
+/* Add this to the end of index.css */
+
+/* --- FINAL Mobile Menu and Responsive Styles --- */
+
+/* Utility class to prevent body scroll when menu is open */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* Animate hamburger to an 'X' when active */
+.mobile-nav-toggle.is-active .hamburger-icon span:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+}
+.mobile-nav-toggle.is-active .hamburger-icon span:nth-child(2) {
+  opacity: 0;
+}
+.mobile-nav-toggle.is-active .hamburger-icon span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+.hamburger-icon span {
+  transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 15, 25, 0.95); /* Semi-transparent dark background */
+  backdrop-filter: blur(10px);
+  z-index: 999; /* Just below the navbar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Links inside the mobile menu */
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.mobile-nav-links a {
+  color: var(--text-light);
+  font-size: 2rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.mobile-nav-links a:hover {
+  color: var(--color-accent);
+}
+
+/* Style the CTA button for the mobile menu */
+.mobile-nav-links .btn-primary {
+  padding: 1rem 2.5rem;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
