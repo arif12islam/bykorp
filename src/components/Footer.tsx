@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
@@ -10,12 +12,16 @@ const SOCIAL_LINKS = [
 ]
 
 const QUICK_LINKS = [
-    { name: "Home", href: "#home" },
-    { name: "Our Story", href: "#story" },
-    { name: "Services", href: "#services" },
-    { name: "Reviews", href: "#reviews" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", id: "home" },
+    { name: "Our Story", id: "story" },
+    { name: "Services", id: "services" },
+    { name: "Reviews", id: "reviews" },
+    { name: "Contact", id: "contact" },
 ]
+
+function scrollTo(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+}
 
 export function Footer() {
     const currentYear = new Date().getFullYear()
@@ -28,7 +34,7 @@ export function Footer() {
 
                     {/* Brand Column */}
                     <div className="space-y-6">
-                        <Link href="#home" className="inline-flex items-center gap-3 group">
+                        <button onClick={() => scrollTo("home")} className="inline-flex items-center gap-3 group cursor-pointer">
                             <div className="relative h-10 w-10">
                                 <Image
                                     src="/bykorp_logo.png"
@@ -40,7 +46,7 @@ export function Footer() {
                             <span className="font-montserrat font-bold text-2xl tracking-tight text-white">
                                 Bykorp
                             </span>
-                        </Link>
+                        </button>
                         <p className="text-white/60 text-sm leading-relaxed max-w-xs">
                             Architects of Digital Infrastructure. Bridging AI automation with strategic digital marketing for scalable growth.
                         </p>
@@ -73,12 +79,12 @@ export function Footer() {
                         <ul className="space-y-3">
                             {QUICK_LINKS.map((link) => (
                                 <li key={link.name}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-white/60 hover:text-white transition-colors duration-300 text-sm"
+                                    <button
+                                        onClick={() => scrollTo(link.id)}
+                                        className="text-white/60 hover:text-white transition-colors duration-300 text-sm cursor-pointer"
                                     >
                                         {link.name}
-                                    </Link>
+                                    </button>
                                 </li>
                             ))}
                         </ul>
