@@ -53,12 +53,16 @@ export function Navbar() {
     return (
         <>
             <motion.header
-                initial={{ y: -100, opacity: 0 }}
+                initial={{ y: -100, opacity: 0, scale: 0.95 }}
                 animate={{
                     y: isVisible ? 0 : -100,
-                    opacity: isVisible ? 1 : 0
+                    opacity: isVisible ? 1 : 0,
+                    scale: isVisible ? 1 : 0.95
                 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                    duration: 0.5,
+                    ease: [0.22, 1, 0.36, 1] // Fluid Apple-like custom easing
+                }}
                 className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4 md:pt-6 transition-all duration-500"
             >
                 <div
