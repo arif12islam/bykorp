@@ -45,7 +45,7 @@ export function Navbar() {
                     className={cn(
                         "flex items-center justify-between px-6 md:px-8 transition-all duration-500 w-full border",
                         isScrolled
-                            ? "max-w-5xl h-16 bg-white/60 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full"
+                            ? "max-w-5xl h-16 bg-white/30 backdrop-blur-[32px] saturate-150 border border-white/40 shadow-[rgba(0,0,0,0.05)_0_8px_32px_0] ring-1 ring-inset ring-white/60 rounded-full"
                             : "max-w-7xl h-20 bg-transparent border-transparent rounded-full"
                     )}
                 >
