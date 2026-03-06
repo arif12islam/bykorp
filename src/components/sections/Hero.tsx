@@ -113,7 +113,7 @@ export function Hero() {
                         variants={itemVariants}
                         className="text-[3.5rem] md:text-7xl lg:text-[5rem] font-montserrat font-black text-brand-primary leading-[1] tracking-tighter mb-8"
                     >
-                        Scale Your Enterprise With{" "}
+                        Scale Your Business With{" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">
                             Precision AI
                         </span>{" "}
@@ -132,7 +132,7 @@ export function Hero() {
                         className="flex flex-col sm:flex-row gap-4"
                     >
                         <Button size="lg" className="group rounded-full shadow-lg shadow-brand-primary/20 hover:-translate-y-1 h-14 px-8" onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: 'smooth' })}>
-                            Partner With Us
+                            Start Your Project
                             <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-2" strokeWidth={2} />
                         </Button>
                         <Button variant="outline" size="lg" className="rounded-full shadow-sm hover:-translate-y-1 h-14 px-8" onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: 'smooth' })}>

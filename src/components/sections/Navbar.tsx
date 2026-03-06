@@ -85,7 +85,7 @@ export function Navbar() {
                             className="rounded-full px-6 shadow-md shadow-brand-primary/20 hover:shadow-lg hover:shadow-brand-primary/30 transition-all duration-500 hover:-translate-y-0.5"
                             onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: 'smooth' })}
                         >
-                            Get Started
+                            Start Your Project
                         </Button>
                     </div>
 
