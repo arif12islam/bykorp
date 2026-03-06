@@ -45,16 +45,19 @@ export function Navbar() {
                             : "max-w-7xl h-20 bg-transparent border-transparent rounded-full"
                     )}
                 >
-                    {/* Logo */}
+                    {/* Logo + Brand Name */}
                     <Link href="#home" className="flex items-center gap-2 z-50 relative group">
-                        <div className="relative h-8 w-24 md:h-10 md:w-28 transition-transform duration-300 group-hover:scale-105">
+                        <div className="relative h-8 w-8 md:h-10 md:w-10 transition-transform duration-300 group-hover:scale-105">
                             <Image
                                 src="/bykorp_logo.png"
                                 alt="Bykorp Logo"
                                 fill
-                                className="object-contain object-left"
+                                className="object-contain"
                             />
                         </div>
+                        <span className="font-montserrat font-bold text-lg md:text-xl text-brand-primary tracking-tight">
+                            Bykorp
+                        </span>
                     </Link>
 
                     {/* Desktop Navigation */}
