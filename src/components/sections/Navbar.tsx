@@ -61,7 +61,10 @@ export function Navbar() {
                                 className="object-contain"
                             />
                         </div>
-                        <span className="font-montserrat font-bold text-lg md:text-xl text-brand-primary tracking-tight">
+                        <span className={cn(
+                            "font-montserrat font-bold text-lg md:text-xl tracking-tight transition-colors duration-300",
+                            isScrolled ? "text-brand-primary" : "text-white"
+                        )}>
                             Bykorp
                         </span>
                     </button>
@@ -72,7 +75,12 @@ export function Navbar() {
                             <button
                                 key={link.name}
                                 onClick={() => scrollTo(link.id)}
-                                className="px-4 py-2 text-sm font-semibold text-brand-secondary hover:text-brand-primary hover:bg-brand-primary/5 rounded-full transition-all duration-300 relative group cursor-pointer"
+                                className={cn(
+                                    "px-4 py-2 text-sm font-semibold rounded-full transition-all duration-300 relative group cursor-pointer",
+                                    isScrolled
+                                        ? "text-brand-secondary hover:text-brand-primary hover:bg-brand-primary/5"
+                                        : "text-white/80 hover:text-white hover:bg-white/10"
+                                )}
                             >
                                 {link.name}
                             </button>
@@ -93,7 +101,12 @@ export function Navbar() {
 
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="md:hidden z-50 relative text-brand-primary p-2 -mr-2 bg-brand-primary/5 rounded-full hover:bg-brand-primary/10 transition-colors"
+                        className={cn(
+                            "md:hidden z-50 relative p-2 -mr-2 rounded-full transition-colors",
+                            isScrolled
+                                ? "text-brand-primary bg-brand-primary/5 hover:bg-brand-primary/10"
+                                : "text-white bg-white/10 hover:bg-white/20"
+                        )}
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         aria-label="Toggle menu"
                     >
