@@ -78,7 +78,7 @@ const itemVariants = {
 }
 
 // 3D Tilt Card Component
-function TiltCard({ service, index }: { service: typeof SERVICES[0], index: number }) {
+function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], index: number, stickyTop: string }) {
     const Icon = service.icon
     const { theme } = service
 
@@ -124,14 +124,16 @@ function TiltCard({ service, index }: { service: typeof SERVICES[0], index: numb
         <motion.div
             variants={itemVariants}
             style={{
+                "--mobile-top": stickyTop,
+                zIndex: index,
                 rotateX,
                 rotateY,
                 transformStyle: "preserve-3d",
                 perspective: 1000
-            }}
+            } as React.CSSProperties}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className={`group relative w-full h-full bg-white p-8 lg:p-10 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex ${isWide ? 'flex-col md:flex-row items-start md:items-center' : 'flex-col justify-between'} transition-shadow duration-500 md:hover:shadow-xl z-10 ${gridClass}`}
+            className={`group sticky md:relative top-[var(--mobile-top)] md:top-auto w-full h-full bg-white p-8 lg:p-10 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex ${isWide ? 'flex-col md:flex-row items-start md:items-center' : 'flex-col justify-between'} transition-shadow duration-500 md:hover:shadow-xl z-10 ${gridClass}`}
         >
             {/* Background Graphics */}
             <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${theme.light} blur-3xl transition-all duration-700 group-hover:scale-150 z-0 hidden md:block transform-gpu transition-transform`} style={{ transform: "translateZ(20px)" }} />
@@ -167,7 +169,7 @@ function TiltCard({ service, index }: { service: typeof SERVICES[0], index: numb
 
 export function Services() {
     return (
-        <section id="services" className="bg-white border-y border-brand-accent/20 pt-24 pb-24 relative">
+        <section id="services" className="bg-white border-y border-brand-accent/20 pt-24 pb-24 md:pb-48 relative">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 {/* Section Header */}
                 <div className="text-center mb-16 px-6">
@@ -180,21 +182,27 @@ export function Services() {
                     </p>
                 </div>
 
-                {/* Grid Container */}
+                {/* Hybrid Container: Stack on Mobile, Bento Grid on Desktop */}
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 grid-flow-row-dense"
+                    className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 md:grid-flow-row-dense pb-[10vh] md:pb-0"
                 >
-                    {SERVICES.map((service, index) => (
-                        <TiltCard
-                            key={service.id}
-                            service={service}
-                            index={index}
-                        />
-                    ))}
+                    {SERVICES.map((service, index) => {
+                        // Calculate a dynamic top offset for the mobile sticky stacking effect
+                        const stickyTop = `calc(6rem + ${index * 1.5}rem)`
+
+                        return (
+                            <TiltCard
+                                key={service.id}
+                                service={service}
+                                index={index}
+                                stickyTop={stickyTop}
+                            />
+                        )
+                    })}
                 </motion.div>
             </div>
         </section>
