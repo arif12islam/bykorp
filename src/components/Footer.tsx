@@ -91,8 +91,8 @@ export function Footer() {
                         </h3>
                         <ul className="space-y-3 text-sm text-white/60">
                             <li>
-                                <Link href="mailto:info@bykorp.com" className="hover:text-white transition-colors duration-300">
-                                    info@bykorp.com
+                                <Link href="mailto:bycorpinfo@gmail.com" className="hover:text-white transition-colors duration-300">
+                                    bycorpinfo@gmail.com
                                 </Link>
                             </li>
                             <li>

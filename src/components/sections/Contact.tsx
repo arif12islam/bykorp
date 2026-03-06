@@ -35,9 +35,13 @@ export function Contact() {
 
     const onSubmit = async (data: FormData) => {
         setIsSubmitting(true)
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500))
-        console.log("Form data submitted:", data)
+
+        const subject = encodeURIComponent(`New Inquiry: ${data.service} - from ${data.name}`)
+        const body = encodeURIComponent(
+            `Name: ${data.name}\nEmail: ${data.email}\nService: ${data.service}\n\nMessage:\n${data.message}`
+        )
+        window.open(`mailto:bycorpinfo@gmail.com?subject=${subject}&body=${body}`, '_self')
+
         setIsSubmitting(false)
         setIsSuccess(true)
         reset()
@@ -65,8 +69,8 @@ export function Contact() {
                                 </div>
                                 <div>
                                     <p className="font-montserrat font-bold text-sm">Email</p>
-                                    <a href="mailto:info@bykorp.com" className="hover:text-brand-primary transition-colors">
-                                        info@bykorp.com
+                                    <a href="mailto:bycorpinfo@gmail.com" className="hover:text-brand-primary transition-colors">
+                                        bycorpinfo@gmail.com
                                     </a>
                                 </div>
                             </div>
