@@ -33,7 +33,7 @@ export function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 py-16 border-b border-white/10">
 
                     {/* Brand Column */}
-                    <div className="space-y-6">
+                    <div className="space-y-6 flex flex-col items-center md:items-start text-center md:text-left">
                         <button onClick={() => scrollTo("home")} className="inline-flex items-center gap-3 group cursor-pointer">
                             <div className="relative h-10 w-10">
                                 <Image
@@ -47,12 +47,12 @@ export function Footer() {
                                 Bykorp
                             </span>
                         </button>
-                        <p className="text-white/60 text-sm leading-relaxed max-w-xs">
+                        <p className="text-white/60 text-sm leading-relaxed max-w-xs mx-auto md:mx-0">
                             Architects of Digital Infrastructure. Bridging AI automation with strategic digital marketing for scalable growth.
                         </p>
 
                         {/* Social Links */}
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center md:justify-start gap-3">
                             {SOCIAL_LINKS.map((social) => {
                                 const Icon = social.icon
                                 return (
@@ -72,7 +72,7 @@ export function Footer() {
                     </div>
 
                     {/* Quick Links */}
-                    <div>
+                    <div className="flex flex-col items-center md:items-start text-center md:text-left">
                         <h3 className="font-montserrat font-bold text-sm uppercase tracking-widest text-white/40 mb-6">
                             Quick Links
                         </h3>
@@ -91,7 +91,7 @@ export function Footer() {
                     </div>
 
                     {/* Contact Info */}
-                    <div>
+                    <div className="flex flex-col items-center md:items-start text-center md:text-left">
                         <h3 className="font-montserrat font-bold text-sm uppercase tracking-widest text-white/40 mb-6">
                             Get in Touch
                         </h3>
@@ -114,9 +114,9 @@ export function Footer() {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-8 text-xs text-white/40">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-8 text-xs text-white/40 text-center md:text-left border-t border-white/5 md:border-none">
                     <p>&copy; {currentYear} Bykorp. All rights reserved.</p>
-                    <div className="flex gap-6">
+                    <div className="flex gap-4 md:gap-6">
                         <Link href="#" className="hover:text-white/70 transition-colors">Privacy Policy</Link>
                         <Link href="#" className="hover:text-white/70 transition-colors">Terms of Service</Link>
                     </div>
