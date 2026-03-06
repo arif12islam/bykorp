@@ -40,7 +40,7 @@ export function Contact() {
         const body = encodeURIComponent(
             `Name: ${data.name}\nEmail: ${data.email}\nService: ${data.service}\n\nMessage:\n${data.message}`
         )
-        window.open(`mailto:bycorpinfo@gmail.com?subject=${subject}&body=${body}`, '_self')
+        window.open(`mailto:bykorp.digital@gmail.com?subject=${subject}&body=${body}`, '_self')
 
         setIsSubmitting(false)
         setIsSuccess(true)
@@ -69,8 +69,8 @@ export function Contact() {
                                 </div>
                                 <div>
                                     <p className="font-montserrat font-bold text-sm">Email</p>
-                                    <a href="mailto:bycorpinfo@gmail.com" className="hover:text-brand-primary transition-colors">
-                                        bycorpinfo@gmail.com
+                                    <a href="mailto:info@bykorp.com" className="hover:text-brand-primary transition-colors">
+                                        info@bykorp.com
                                     </a>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@ export function Contact() {
                                 </div>
                                 <div>
                                     <p className="font-montserrat font-bold text-sm">Phone</p>
-                                    <a href="tel:+8801630346988" className="hover:text-brand-primary transition-colors">
+                                    <a href="https://wa.me/8801630346988" target="_blank" rel="noopener noreferrer" className="hover:text-brand-primary transition-colors">
                                         +8801630346988
                                     </a>
                                 </div>

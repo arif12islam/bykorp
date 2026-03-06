@@ -91,12 +91,12 @@ export function Footer() {
                         </h3>
                         <ul className="space-y-3 text-sm text-white/60">
                             <li>
-                                <Link href="mailto:bycorpinfo@gmail.com" className="hover:text-white transition-colors duration-300">
-                                    bycorpinfo@gmail.com
+                                <Link href="mailto:info@bykorp.com" className="hover:text-white transition-colors duration-300">
+                                    info@bykorp.com
                                 </Link>
                             </li>
                             <li>
-                                <Link href="tel:+8801630346988" className="hover:text-white transition-colors duration-300">
+                                <Link href="https://wa.me/8801630346988" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">
                                     +880 1630 346988
                                 </Link>
                             </li>
