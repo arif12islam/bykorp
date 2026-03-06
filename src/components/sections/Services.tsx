@@ -82,6 +82,10 @@ function TiltCard({ service, index }: { service: typeof SERVICES[0], index: numb
     const Icon = service.icon
     const { theme } = service
 
+    // Bento Grid Logic: Cards 0, 4, 6, 7 are "wide" (horizontal form)
+    const isWide = [0, 4, 6, 7].includes(index)
+    const gridClass = isWide ? "md:col-span-2" : "col-span-1"
+
     // Motion values for 3D effect
     const x = useMotionValue(0)
     const y = useMotionValue(0)
@@ -127,7 +131,7 @@ function TiltCard({ service, index }: { service: typeof SERVICES[0], index: numb
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className={`group relative w-full bg-white p-8 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex flex-col justify-between transition-shadow duration-500 md:hover:shadow-xl z-10`}
+            className={`group relative w-full h-full bg-white p-8 lg:p-10 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex ${isWide ? 'flex-col md:flex-row items-start md:items-center' : 'flex-col justify-between'} transition-shadow duration-500 md:hover:shadow-xl z-10 ${gridClass}`}
         >
             {/* Background Graphics */}
             <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${theme.light} blur-3xl transition-all duration-700 group-hover:scale-150 z-0 hidden md:block transform-gpu transition-transform`} style={{ transform: "translateZ(20px)" }} />
@@ -139,17 +143,17 @@ function TiltCard({ service, index }: { service: typeof SERVICES[0], index: numb
             </div>
 
             {/* Content */}
-            <div className="relative z-10 w-full flex flex-col transform-gpu" style={{ transform: "translateZ(50px)" }}>
-                <div className={`shrink-0 mb-0 md:mb-8 inline-flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
+            <div className={`relative z-10 w-full flex ${isWide ? 'flex-col md:flex-row items-start md:items-center' : 'flex-col'} gap-6 md:gap-0 transform-gpu`} style={{ transform: "translateZ(50px)" }}>
+                <div className={`shrink-0 ${isWide ? 'md:mb-0 md:mr-8' : 'md:mb-8'} inline-flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
                     <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
                     <Icon size={32} strokeWidth={1.5} className="relative z-10" />
                 </div>
 
-                <div className="flex-1 mt-6">
-                    <h3 className="mb-3 font-montserrat text-xl font-bold text-brand-primary">
+                <div className={`flex-1 ${isWide ? 'mt-0' : 'mt-6'}`}>
+                    <h3 className="mb-2 lg:mb-3 font-montserrat text-xl lg:text-2xl font-bold text-brand-primary">
                         {service.title}
                     </h3>
-                    <p className="text-sm text-brand-secondary/80 leading-relaxed font-medium">
+                    <p className="text-sm lg:text-base text-brand-secondary/80 leading-relaxed font-medium">
                         {service.description}
                     </p>
                 </div>
@@ -182,7 +186,7 @@ export function Services() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 grid-flow-row-dense"
                 >
                     {SERVICES.map((service, index) => (
                         <TiltCard
