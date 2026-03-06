@@ -8,7 +8,6 @@ import { Section } from "@/components/ui/Section"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { Textarea } from "@/components/ui/Textarea"
-import { Mail, MapPin, Phone } from "lucide-react"
 
 // Form Validation Schema
 const formSchema = z.object({
@@ -75,9 +74,6 @@ export function Contact() {
 
                         <div className="space-y-6">
                             <div className="flex items-center gap-4 text-brand-secondary">
-                                <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-brand-accent/30 shadow-sm">
-                                    <Mail size={20} strokeWidth={1.5} className="text-brand-primary" />
-                                </div>
                                 <div>
                                     <p className="font-montserrat font-bold text-sm">Email</p>
                                     <a href="mailto:info@bykorp.com" className="hover:text-brand-primary transition-colors">
@@ -87,21 +83,15 @@ export function Contact() {
                             </div>
 
                             <div className="flex items-center gap-4 text-brand-secondary">
-                                <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-brand-accent/30 shadow-sm">
-                                    <Phone size={20} strokeWidth={1.5} className="text-brand-primary" />
-                                </div>
                                 <div>
                                     <p className="font-montserrat font-bold text-sm">Phone</p>
                                     <a href="https://wa.me/8801630346988" target="_blank" rel="noopener noreferrer" className="hover:text-brand-primary transition-colors">
-                                        +8801630346988
+                                        +880 1630 346988
                                     </a>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-4 text-brand-secondary">
-                                <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-brand-accent/30 shadow-sm">
-                                    <MapPin size={20} strokeWidth={1.5} className="text-brand-primary" />
-                                </div>
                                 <div>
                                     <p className="font-montserrat font-bold text-sm">Address</p>
                                     <p>Khilgaon, Dhaka, Bangladesh</p>
