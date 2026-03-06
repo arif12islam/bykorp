@@ -110,13 +110,6 @@ export function Story() {
                                             className="object-cover hover:scale-105 transition-transform duration-700"
                                             sizes="(max-width: 768px) 100vw, 50vw"
                                         />
-
-                                        {/* Phase badge overlay */}
-                                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 px-6 py-2 bg-white/90 rounded-full border border-white/30 shadow-lg">
-                                            <span className="font-montserrat font-bold tracking-widest uppercase text-sm text-brand-secondary">
-                                                Phase {step.id}
-                                            </span>
-                                        </div>
                                     </motion.div>
                                 )
                             })}
