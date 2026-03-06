@@ -12,33 +12,39 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        const accessKey = process.env.WEB3FORMS_KEY
-        if (!accessKey) {
+        const webhookUrl = process.env.DISCORD_WEBHOOK_URL
+        if (!webhookUrl) {
             return NextResponse.json(
-                { error: "Email service not configured. Please contact us directly at info@bykorp.com" },
+                { error: "Discord webhook not configured. Please contact us directly at info@bykorp.com" },
                 { status: 500 }
             )
         }
 
-        // Send via Web3Forms API
-        const res = await fetch("https://api.web3forms.com/submit", {
+        // Send via Discord Webhook
+        const res = await fetch(webhookUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                access_key: accessKey,
-                subject: `New Inquiry: ${service} - from ${name}`,
-                from_name: "Bykorp Contact Form",
-                name,
-                email,
-                service,
-                message,
+                username: "Bykorp Website",
+                avatar_url: "https://www.bykorp.com/bykorp_logo.png",
+                embeds: [
+                    {
+                        title: "📨 New Contact Form Submission",
+                        color: 1334814, // #14274E in decimal
+                        fields: [
+                            { name: "Name", value: name, inline: true },
+                            { name: "Email", value: email, inline: true },
+                            { name: "Service", value: service, inline: true },
+                            { name: "Message", value: message, inline: false },
+                        ],
+                        timestamp: new Date().toISOString()
+                    }
+                ]
             }),
         })
 
-        const data = await res.json()
-
-        if (!data.success) {
-            throw new Error(data.message || "Failed to send")
+        if (!res.ok) {
+            throw new Error(`Discord API error: ${res.statusText}`)
         }
 
         return NextResponse.json({ success: true })
