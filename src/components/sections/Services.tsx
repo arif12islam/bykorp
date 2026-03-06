@@ -1,7 +1,5 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
 import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool } from "lucide-react"
 
 const SERVICES = [
@@ -64,83 +62,67 @@ const SERVICES = [
 ]
 
 export function Services() {
-    const targetRef = useRef<HTMLDivElement>(null)
-    const { scrollYProgress } = useScroll({
-        target: targetRef,
-    })
-
-    // Maps scroll progress (0 to 1) to horizontal translation
-    // 8 cards -> total width is roughly 8 * 350px. We need to shift left.
-    // On mobile, screen is smaller, so percentage shifting is safer.
-    // We shift by -85% to reveal all cards in the flex container.
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"])
-
     return (
-        <section id="services" ref={targetRef} className="relative h-[350vh] bg-white border-y border-brand-accent/20">
-            {/* Sticky Container */}
-            <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
-
+        <section id="services" className="bg-white border-y border-brand-accent/20 pt-24 pb-48 relative">
+            <div className="mx-auto max-w-4xl px-6 lg:px-8">
                 {/* Section Header */}
-                <div className="text-center mb-12 shrink-0 px-6">
+                <div className="text-center mb-16 px-6">
                     <h2 className="text-3xl md:text-5xl font-montserrat font-bold text-brand-primary mb-6 tracking-tighter">
                         Our Services
                     </h2>
                     <div className="w-16 h-1 bg-brand-accent mx-auto mb-6" />
                     <p className="text-brand-secondary max-w-2xl mx-auto text-lg">
-                        Scroll to explore our comprehensive digital infrastructure.
+                        Comprehensive digital infrastructure designed to scale your operations.
                     </p>
                 </div>
 
-                {/* Horizontal Scroll Track */}
-                <div className="w-full overflow-hidden flex items-center h-full max-h-[500px]">
-                    <motion.div style={{ x }} className="flex gap-6 md:gap-10 px-6 md:px-12 lg:px-24">
-                        {SERVICES.map((service) => {
-                            const Icon = service.icon
-                            const { theme } = service
+                {/* Vertical Sticky Stack Container */}
+                <div className="relative flex flex-col gap-6 md:gap-8 pb-[10vh]">
+                    {SERVICES.map((service, index) => {
+                        const Icon = service.icon
+                        const { theme } = service
 
-                            return (
-                                <div
-                                    key={service.id}
-                                    className={`group relative w-[300px] md:w-[400px] h-[350px] md:h-[400px] shrink-0 bg-white p-8 md:p-10 rounded-3xl border ${theme.border} shadow-lg ${theme.shadow} overflow-hidden flex flex-col justify-between transition-transform duration-500 hover:-translate-y-4`}
-                                >
-                                    {/* Abstract Graphic Backgrounds */}
-                                    <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${theme.light} blur-3xl transition-all duration-700 group-hover:scale-150 z-0`} />
-                                    <div className="absolute -left-12 -bottom-12 w-48 h-48 rounded-full bg-brand-bg/80 blur-3xl transition-all duration-700 group-hover:translate-x-12 z-0" />
+                        // Calculate a dynamic top offset for the sticky stacking effect
+                        // First card stops at top-24 (96px), second at top-32 (128px), etc.
+                        const stickyTop = `calc(6rem + ${index * 1.5}rem)`
 
-                                    {/* Faint Background Icon */}
-                                    <div className={`absolute right-4 bottom-4 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.08] group-hover:-rotate-12 group-hover:scale-125 transition-all duration-700 z-0 pointer-events-none`}>
-                                        <Icon size={200} strokeWidth={1} />
-                                    </div>
+                        return (
+                            <div
+                                key={service.id}
+                                className={`group sticky w-full shrink-0 bg-white p-8 md:p-10 rounded-3xl border ${theme.border} shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8 transition-transform duration-500 hover:-translate-y-2`}
+                                style={{ top: stickyTop, zIndex: index }}
+                            >
+                                {/* Background Graphics */}
+                                <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${theme.light} blur-3xl transition-all duration-700 group-hover:scale-150 z-0 hidden md:block`} />
+                                <div className="absolute -left-12 -bottom-12 w-48 h-48 rounded-full bg-brand-bg/80 blur-3xl transition-all duration-700 group-hover:translate-x-12 z-0 hidden md:block" />
 
-                                    {/* Card Content */}
-                                    <div className="relative z-10 h-full flex flex-col">
-                                        <div className={`mb-8 md:mb-10 inline-flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
-                                            <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
-                                            <Icon size={32} strokeWidth={1.5} className="relative z-10" />
-                                        </div>
-
-                                        <div>
-                                            <h3 className="mb-4 font-montserrat text-2xl md:text-3xl font-bold text-brand-primary">
-                                                {service.title}
-                                            </h3>
-                                            <p className="text-base md:text-lg text-brand-secondary/80 leading-relaxed font-medium">
-                                                {service.description}
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* Bottom Accent Line */}
-                                    <div className={`absolute bottom-0 left-0 h-1.5 w-0 bg-gradient-to-r ${theme.gradient} transition-all duration-500 group-hover:w-full`} />
+                                {/* Faint Background Icon */}
+                                <div className={`absolute -right-8 -bottom-8 md:right-4 md:bottom-4 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.08] group-hover:-rotate-12 group-hover:scale-125 transition-all duration-700 z-0 pointer-events-none`}>
+                                    <Icon size={160} strokeWidth={1} className="md:w-[200px] md:h-[200px]" />
                                 </div>
-                            )
-                        })}
-                    </motion.div>
-                </div>
 
-                {/* Scroll Indicator */}
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-pulse hidden md:flex">
-                    <span className="text-xs font-montserrat tracking-widest uppercase font-bold text-brand-secondary">Scroll</span>
-                    <div className="w-1 h-8 rounded-full bg-gradient-to-b from-brand-secondary to-transparent" />
+                                {/* Content */}
+                                <div className="relative z-10 w-full flex flex-row items-center md:items-start md:flex-col gap-6 md:gap-0">
+                                    <div className={`shrink-0 mb-0 md:mb-8 inline-flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
+                                        <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
+                                        <Icon size={32} strokeWidth={1.5} className="relative z-10" />
+                                    </div>
+
+                                    <div className="flex-1 md:pr-12">
+                                        <h3 className="mb-2 md:mb-4 font-montserrat text-xl md:text-3xl font-bold text-brand-primary">
+                                            {service.title}
+                                        </h3>
+                                        <p className="text-sm md:text-lg text-brand-secondary/80 leading-relaxed font-medium md:max-w-md">
+                                            {service.description}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Bottom Accent Line */}
+                                <div className={`absolute bottom-0 left-0 h-1 md:h-1.5 w-0 bg-gradient-to-r ${theme.gradient} transition-all duration-500 group-hover:w-full`} />
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </section>
