@@ -48,23 +48,18 @@ export function Story() {
     const y3 = useTransform(scrollYProgress, [0.66, 0.8], [50, 0])
     const ys = [y1, y2, y3]
 
-    // Image/Graphic Scales & Opacities
+    // Image Opacities (scale removed for mobile perf)
     const imgOpacity1 = useTransform(scrollYProgress, [0, 0.33], [1, 0])
     const imgOpacity2 = useTransform(scrollYProgress, [0.33, 0.5, 0.66], [0, 1, 0])
     const imgOpacity3 = useTransform(scrollYProgress, [0.66, 0.8, 1], [0, 1, 1])
     const imgOpacities = [imgOpacity1, imgOpacity2, imgOpacity3]
 
-    const imgScale1 = useTransform(scrollYProgress, [0, 0.33], [1, 0.8])
-    const imgScale2 = useTransform(scrollYProgress, [0.33, 0.5, 0.66], [0.8, 1, 0.8])
-    const imgScale3 = useTransform(scrollYProgress, [0.66, 0.8, 1], [0.8, 1, 1])
-    const imgScales = [imgScale1, imgScale2, imgScale3]
-
     return (
         <section id="story" ref={containerRef} className="relative h-[300vh] bg-brand-bg">
             <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
-                {/* Background Decor */}
-                <div className="absolute inset-0 pointer-events-none">
+                {/* Background Decor — hidden on mobile for perf */}
+                <div className="absolute inset-0 pointer-events-none hidden md:block">
                     <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-brand-primary/5 rounded-full blur-[100px]" />
                     <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-brand-accent/10 rounded-full blur-[80px]" />
                 </div>
@@ -105,7 +100,6 @@ export function Story() {
                                         key={`img-${step.id}`}
                                         style={{
                                             opacity: imgOpacities[idx],
-                                            scale: imgScales[idx]
                                         }}
                                         className="absolute inset-0 w-full h-full rounded-3xl shadow-xl shadow-brand-primary/10 border border-brand-accent/20 overflow-hidden"
                                     >
@@ -118,7 +112,7 @@ export function Story() {
                                         />
 
                                         {/* Phase badge overlay */}
-                                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 px-6 py-2 bg-white/80 backdrop-blur-md rounded-full border border-white/30 shadow-lg">
+                                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 px-6 py-2 bg-white/90 rounded-full border border-white/30 shadow-lg">
                                             <span className="font-montserrat font-bold tracking-widest uppercase text-sm text-brand-secondary">
                                                 Phase {step.id}
                                             </span>
