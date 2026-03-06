@@ -36,16 +36,23 @@ export function Contact() {
     const onSubmit = async (data: FormData) => {
         setIsSubmitting(true)
 
-        const subject = encodeURIComponent(`New Inquiry: ${data.service} - from ${data.name}`)
-        const body = encodeURIComponent(
-            `Name: ${data.name}\nEmail: ${data.email}\nService: ${data.service}\n\nMessage:\n${data.message}`
-        )
-        window.open(`mailto:bykorp.digital@gmail.com?subject=${subject}&body=${body}`, '_self')
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            })
 
-        setIsSubmitting(false)
-        setIsSuccess(true)
-        reset()
-        setTimeout(() => setIsSuccess(false), 5000)
+            if (!res.ok) throw new Error("Failed to send")
+
+            setIsSuccess(true)
+            reset()
+            setTimeout(() => setIsSuccess(false), 5000)
+        } catch {
+            alert("Failed to send message. Please try again or email us directly.")
+        } finally {
+            setIsSubmitting(false)
+        }
     }
 
     return (
