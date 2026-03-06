@@ -1,5 +1,6 @@
 "use client"
 
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool } from "lucide-react"
 
 const SERVICES = [
@@ -61,6 +62,107 @@ const SERVICES = [
     },
 ]
 
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15
+        }
+    }
+}
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] as any } }
+}
+
+// 3D Tilt Card Component
+function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], index: number, stickyTop: string }) {
+    const Icon = service.icon
+    const { theme } = service
+
+    // Motion values for 3D effect
+    const x = useMotionValue(0)
+    const y = useMotionValue(0)
+
+    // Smooth springs
+    const mouseXSpring = useSpring(x)
+    const mouseYSpring = useSpring(y)
+
+    // Translate mouse position (from -0.5 to 0.5) to rotation (-10deg to 10deg)
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"])
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"])
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        // Only run on desktop
+        if (window.innerWidth < 768) return
+
+        const rect = e.currentTarget.getBoundingClientRect()
+        const width = rect.width
+        const height = rect.height
+        const mouseX = e.clientX - rect.left
+        const mouseY = e.clientY - rect.top
+
+        const xPct = (mouseX / width) - 0.5
+        const yPct = (mouseY / height) - 0.5
+
+        x.set(xPct)
+        y.set(yPct)
+    }
+
+    const handleMouseLeave = () => {
+        x.set(0)
+        y.set(0)
+    }
+
+    return (
+        <motion.div
+            variants={itemVariants}
+            style={{
+                top: stickyTop,
+                zIndex: index,
+                rotateX,
+                rotateY,
+                transformStyle: "preserve-3d",
+                perspective: 1000
+            }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className={`group sticky w-full shrink-0 bg-white p-8 md:p-10 rounded-3xl border ${theme.border} shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8 transition-shadow duration-500 md:hover:shadow-2xl`}
+        >
+            {/* Background Graphics */}
+            <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${theme.light} blur-3xl transition-all duration-700 group-hover:scale-150 z-0 hidden md:block transform-gpu transition-transform`} style={{ transform: "translateZ(20px)" }} />
+            <div className="absolute -left-12 -bottom-12 w-48 h-48 rounded-full bg-brand-bg/80 blur-3xl transition-all duration-700 group-hover:translate-x-12 z-0 hidden md:block transform-gpu transition-transform" style={{ transform: "translateZ(10px)" }} />
+
+            {/* Faint Background Icon */}
+            <div className={`absolute -right-8 -bottom-8 md:right-4 md:bottom-4 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.08] group-hover:-rotate-12 group-hover:scale-125 transition-all duration-700 z-0 pointer-events-none transform-gpu`} style={{ transform: "translateZ(30px)" }}>
+                <Icon size={160} strokeWidth={1} className="md:w-[200px] md:h-[200px]" />
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 w-full flex flex-row items-center md:items-start md:flex-col gap-6 md:gap-0 transform-gpu" style={{ transform: "translateZ(50px)" }}>
+                <div className={`shrink-0 mb-0 md:mb-8 inline-flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
+                    <Icon size={32} strokeWidth={1.5} className="relative z-10" />
+                </div>
+
+                <div className="flex-1 md:pr-12">
+                    <h3 className="mb-2 md:mb-4 font-montserrat text-xl md:text-3xl font-bold text-brand-primary">
+                        {service.title}
+                    </h3>
+                    <p className="text-sm md:text-lg text-brand-secondary/80 leading-relaxed font-medium md:max-w-md">
+                        {service.description}
+                    </p>
+                </div>
+            </div>
+
+            {/* Bottom Accent Line */}
+            <div className={`absolute bottom-0 left-0 h-1 md:h-1.5 w-0 bg-gradient-to-r ${theme.gradient} transition-all duration-500 group-hover:w-full transform-gpu`} style={{ transform: "translateZ(60px)" }} />
+        </motion.div>
+    )
+}
+
 export function Services() {
     return (
         <section id="services" className="bg-white border-y border-brand-accent/20 pt-24 pb-48 relative">
@@ -77,53 +179,30 @@ export function Services() {
                 </div>
 
                 {/* Vertical Sticky Stack Container */}
-                <div className="relative flex flex-col gap-6 md:gap-8 pb-[10vh]">
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="relative flex flex-col gap-6 md:gap-8 pb-[10vh]"
+                >
                     {SERVICES.map((service, index) => {
                         const Icon = service.icon
                         const { theme } = service
-
                         // Calculate a dynamic top offset for the sticky stacking effect
                         // First card stops at top-24 (96px), second at top-32 (128px), etc.
                         const stickyTop = `calc(6rem + ${index * 1.5}rem)`
 
                         return (
-                            <div
+                            <TiltCard
                                 key={service.id}
-                                className={`group sticky w-full shrink-0 bg-white p-8 md:p-10 rounded-3xl border ${theme.border} shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8 transition-transform duration-500 hover:-translate-y-2`}
-                                style={{ top: stickyTop, zIndex: index }}
-                            >
-                                {/* Background Graphics */}
-                                <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${theme.light} blur-3xl transition-all duration-700 group-hover:scale-150 z-0 hidden md:block`} />
-                                <div className="absolute -left-12 -bottom-12 w-48 h-48 rounded-full bg-brand-bg/80 blur-3xl transition-all duration-700 group-hover:translate-x-12 z-0 hidden md:block" />
-
-                                {/* Faint Background Icon */}
-                                <div className={`absolute -right-8 -bottom-8 md:right-4 md:bottom-4 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.08] group-hover:-rotate-12 group-hover:scale-125 transition-all duration-700 z-0 pointer-events-none`}>
-                                    <Icon size={160} strokeWidth={1} className="md:w-[200px] md:h-[200px]" />
-                                </div>
-
-                                {/* Content */}
-                                <div className="relative z-10 w-full flex flex-row items-center md:items-start md:flex-col gap-6 md:gap-0">
-                                    <div className={`shrink-0 mb-0 md:mb-8 inline-flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
-                                        <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
-                                        <Icon size={32} strokeWidth={1.5} className="relative z-10" />
-                                    </div>
-
-                                    <div className="flex-1 md:pr-12">
-                                        <h3 className="mb-2 md:mb-4 font-montserrat text-xl md:text-3xl font-bold text-brand-primary">
-                                            {service.title}
-                                        </h3>
-                                        <p className="text-sm md:text-lg text-brand-secondary/80 leading-relaxed font-medium md:max-w-md">
-                                            {service.description}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* Bottom Accent Line */}
-                                <div className={`absolute bottom-0 left-0 h-1 md:h-1.5 w-0 bg-gradient-to-r ${theme.gradient} transition-all duration-500 group-hover:w-full`} />
-                            </div>
+                                service={service}
+                                index={index}
+                                stickyTop={stickyTop}
+                            />
                         )
                     })}
-                </div>
+                </motion.div>
             </div>
         </section>
     )
