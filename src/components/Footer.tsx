@@ -71,48 +71,45 @@ export function Footer() {
                         </div>
                     </div>
 
-                    {/* Links & Contact Grid (Side-by-side on mobile) */}
-                    <div className="grid grid-cols-2 gap-8 md:gap-12 md:col-span-2">
-                        {/* Quick Links */}
-                        <div className="flex flex-col items-start text-left">
-                            <h3 className="font-montserrat font-bold text-sm uppercase tracking-widest text-white/40 mb-6">
-                                Quick Links
-                            </h3>
-                            <ul className="space-y-3">
-                                {QUICK_LINKS.map((link) => (
-                                    <li key={link.name}>
-                                        <button
-                                            onClick={() => scrollTo(link.id)}
-                                            className="text-white/60 hover:text-white transition-colors duration-300 text-sm cursor-pointer"
-                                        >
-                                            {link.name}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                    {/* Quick Links */}
+                    <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                        <h3 className="font-montserrat font-bold text-sm uppercase tracking-widest text-white/40 mb-6">
+                            Quick Links
+                        </h3>
+                        <ul className="space-y-3">
+                            {QUICK_LINKS.map((link) => (
+                                <li key={link.name}>
+                                    <button
+                                        onClick={() => scrollTo(link.id)}
+                                        className="text-white/60 hover:text-white transition-colors duration-300 text-sm cursor-pointer"
+                                    >
+                                        {link.name}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                        {/* Contact Info */}
-                        <div className="flex flex-col items-start text-left">
-                            <h3 className="font-montserrat font-bold text-sm uppercase tracking-widest text-white/40 mb-6">
-                                Get in Touch
-                            </h3>
-                            <ul className="space-y-3 text-sm text-white/60">
-                                <li>
-                                    <Link href="mailto:info@bykorp.com" className="hover:text-white transition-colors duration-300 truncate block">
-                                        info@bykorp.com
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="https://wa.me/8801630346988" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">
-                                        +880 1630 346988
-                                    </Link>
-                                </li>
-                                <li className="text-white/40 leading-relaxed">
-                                    Khilgaon, Dhaka,<br />Bangladesh
-                                </li>
-                            </ul>
-                        </div>
+                    {/* Contact Info */}
+                    <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                        <h3 className="font-montserrat font-bold text-sm uppercase tracking-widest text-white/40 mb-6">
+                            Get in Touch
+                        </h3>
+                        <ul className="space-y-3 text-sm text-white/60">
+                            <li>
+                                <Link href="mailto:info@bykorp.com" className="hover:text-white transition-colors duration-300">
+                                    info@bykorp.com
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="https://wa.me/8801630346988" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">
+                                    +880 1630 346988
+                                </Link>
+                            </li>
+                            <li className="text-white/40">
+                                Khilgaon, Dhaka, Bangladesh
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
