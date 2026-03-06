@@ -1,0 +1,101 @@
+"use client"
+
+import { Section } from "@/components/ui/Section"
+import { motion } from "framer-motion"
+
+const VALUES = [
+    {
+        num: "01",
+        title: "Precision",
+        desc: "Measured steps. Data-backed decisions. We don't guess, we engineer.",
+    },
+    {
+        num: "02",
+        title: "Scalability",
+        desc: "Systems built to handle 10x growth without breaking.",
+    },
+    {
+        num: "03",
+        title: "Innovation",
+        desc: "Continuously integrating the latest AI to keep you ahead of the curve.",
+    },
+    {
+        num: "04",
+        title: "Transparency",
+        desc: "Clear reporting, complete access, and honest communication.",
+    },
+]
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+        },
+    },
+}
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: "easeOut" },
+    },
+}
+
+export function About() {
+    return (
+        <Section id="about" className="bg-brand-primary text-brand-bg relative overflow-hidden">
+            {/* Abstract Design Elements */}
+            <div className="absolute top-0 right-0 w-96 h-96 border-[1px] border-white/10 rounded-full translate-x-1/2 -translate-y-1/2 animate-spin-slow" style={{ animationDuration: '30s' }} />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] border-[1px] border-white/5 rounded-full -translate-x-1/2 translate-y-1/2 animate-spin-slow" style={{ animationDuration: '45s', animationDirection: 'reverse' }} />
+            <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-white/5 rounded-full mix-blend-overlay filter blur-3xl opacity-50 animate-pulse" />
+
+            <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="mb-16 md:mb-24 md:w-2/3"
+                >
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-montserrat font-bold mb-6 tracking-tighter text-white leading-tight">
+                        Beyond the Traditional Agency Protocol
+                    </h2>
+                    <div className="w-24 h-1 bg-gradient-to-r from-brand-accent to-transparent mb-8 rounded-full" />
+                    <p className="text-lg md:text-xl text-brand-bg/80 leading-relaxed font-medium">
+                        Our mission is unambiguous: bridging the gap between traditional digital marketing and cutting-edge AI automation for enterprise-level growth. We partner with visionaries who are ready to dominate their market.
+                    </p>
+                </motion.div>
+
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-100px" }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                >
+                    {VALUES.map((val) => (
+                        <motion.div
+                            key={val.num}
+                            variants={itemVariants}
+                            className="bg-white/5 rounded-3xl p-8 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:-translate-y-2 transition-all duration-300 shadow-xl shadow-black/10 group backdrop-blur-sm"
+                        >
+                            <span className="text-brand-accent font-montserrat font-bold text-sm inline-block mb-6 bg-white/10 px-4 py-1.5 rounded-full shadow-inner transition-colors group-hover:bg-white/20 group-hover:text-white">
+                                {val.num}
+                            </span>
+                            <h3 className="text-2xl font-montserrat font-bold text-white mb-4 tracking-tight">
+                                {val.title}
+                            </h3>
+                            <p className="text-base text-brand-bg/70 leading-relaxed group-hover:text-brand-bg/90 transition-colors">
+                                {val.desc}
+                            </p>
+                        </motion.div>
+                    ))}
+                </motion.div>
+            </div>
+        </Section>
+    )
+}
