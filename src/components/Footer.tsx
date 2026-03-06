@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
+import { Facebook, Instagram, Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react"
 
 const SOCIAL_LINKS = [
     { name: "Facebook", icon: Facebook, href: "https://facebook.com/bykorp" },
@@ -95,19 +95,22 @@ export function Footer() {
                         <h3 className="font-montserrat font-bold text-sm uppercase tracking-widest text-white/40 mb-6">
                             Get in Touch
                         </h3>
-                        <ul className="space-y-3 text-sm text-white/60">
+                        <ul className="space-y-4 text-sm text-white/60">
                             <li>
-                                <Link href="mailto:info@bykorp.com" className="hover:text-white transition-colors duration-300">
-                                    info@bykorp.com
+                                <Link href="mailto:info@bykorp.com" className="flex items-center gap-3 hover:text-white transition-colors duration-300 group">
+                                    <Mail size={16} strokeWidth={1.5} className="text-white/40 group-hover:text-white transition-colors" />
+                                    <span>info@bykorp.com</span>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="https://wa.me/8801630346988" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-300">
-                                    +880 1630 346988
+                                <Link href="https://wa.me/8801630346988" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors duration-300 group">
+                                    <Phone size={16} strokeWidth={1.5} className="text-white/40 group-hover:text-white transition-colors" />
+                                    <span>+880 1630 346988</span>
                                 </Link>
                             </li>
-                            <li className="text-white/40">
-                                Khilgaon, Dhaka, Bangladesh
+                            <li className="flex items-center gap-3 text-white/40 group cursor-default">
+                                <MapPin size={16} strokeWidth={1.5} className="text-white/20 group-hover:text-white/40 transition-colors" />
+                                <span>Khilgaon, Dhaka, Bangladesh</span>
                             </li>
                         </ul>
                     </div>
