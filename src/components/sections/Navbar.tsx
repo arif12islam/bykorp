@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, X } from "lucide-react"
@@ -23,27 +23,12 @@ function scrollTo(id: string) {
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-    const [isVisible, setIsVisible] = useState(true)
-    const lastScrollY = useRef(0)
 
     // Handle scroll effect for floating navbar
     useEffect(() => {
         const handleScroll = () => {
-            const currentScrollY = window.scrollY
-
             // Visual style transition (transparent -> frosted glass)
-            setIsScrolled(currentScrollY > 20)
-
-            // Visibility transition (auto-hide on scroll down past hero)
-            if (currentScrollY > 400) {
-                // Scrolling UP makes it visible, DOWN hides it
-                setIsVisible(currentScrollY < lastScrollY.current)
-            } else {
-                // Always visible at the top of the page
-                setIsVisible(true)
-            }
-
-            lastScrollY.current = currentScrollY
+            setIsScrolled(window.scrollY > 20)
         }
 
         window.addEventListener("scroll", handleScroll, { passive: true })
@@ -53,16 +38,9 @@ export function Navbar() {
     return (
         <>
             <motion.header
-                initial={{ y: -100, opacity: 0, scale: 0.95 }}
-                animate={{
-                    y: isVisible ? 0 : -100,
-                    opacity: isVisible ? 1 : 0,
-                    scale: isVisible ? 1 : 0.95
-                }}
-                transition={{
-                    duration: 0.5,
-                    ease: [0.22, 1, 0.36, 1] // Fluid Apple-like custom easing
-                }}
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4 md:pt-6 transition-all duration-500"
             >
                 <div
