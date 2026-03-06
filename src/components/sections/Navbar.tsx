@@ -45,8 +45,8 @@ export function Navbar() {
                     className={cn(
                         "flex items-center justify-between px-6 md:px-8 transition-all duration-500 w-full border",
                         isScrolled
-                            ? "max-w-5xl h-16 bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border-brand-accent/20 rounded-full"
-                            : "max-w-7xl h-20 bg-transparent border-transparent rounded-full"
+                            ? "max-w-5xl h-16 bg-white/60 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full"
+                            : "max-w-7xl h-20 bg-white/20 backdrop-blur-md border border-white/40 shadow-sm rounded-full"
                     )}
                 >
                     {/* Logo + Brand Name */}
@@ -113,7 +113,7 @@ export function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="fixed inset-0 z-40 bg-white/95 backdrop-blur-2xl md:hidden overflow-hidden flex flex-col justify-center"
+                        className="fixed inset-0 z-40 bg-white/80 backdrop-blur-3xl md:hidden overflow-hidden flex flex-col justify-center"
                     >
                         <nav className="flex flex-col gap-2 px-8">
                             {NAV_LINKS.map((link, i) => (
