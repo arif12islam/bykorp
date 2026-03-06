@@ -78,7 +78,7 @@ const itemVariants = {
 }
 
 // 3D Tilt Card Component
-function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], index: number, stickyTop: string }) {
+function TiltCard({ service, index }: { service: typeof SERVICES[0], index: number }) {
     const Icon = service.icon
     const { theme } = service
 
@@ -120,8 +120,6 @@ function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], 
         <motion.div
             variants={itemVariants}
             style={{
-                top: stickyTop,
-                zIndex: index,
                 rotateX,
                 rotateY,
                 transformStyle: "preserve-3d",
@@ -129,7 +127,7 @@ function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], 
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className={`group sticky w-full shrink-0 bg-white p-8 md:p-10 rounded-3xl border ${theme.border} shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8 transition-shadow duration-500 md:hover:shadow-2xl`}
+            className={`group relative w-full bg-white p-8 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex flex-col justify-between transition-shadow duration-500 md:hover:shadow-xl z-10`}
         >
             {/* Background Graphics */}
             <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${theme.light} blur-3xl transition-all duration-700 group-hover:scale-150 z-0 hidden md:block transform-gpu transition-transform`} style={{ transform: "translateZ(20px)" }} />
@@ -141,17 +139,17 @@ function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], 
             </div>
 
             {/* Content */}
-            <div className="relative z-10 w-full flex flex-row items-center md:items-start md:flex-col gap-6 md:gap-0 transform-gpu" style={{ transform: "translateZ(50px)" }}>
+            <div className="relative z-10 w-full flex flex-col transform-gpu" style={{ transform: "translateZ(50px)" }}>
                 <div className={`shrink-0 mb-0 md:mb-8 inline-flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
                     <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
                     <Icon size={32} strokeWidth={1.5} className="relative z-10" />
                 </div>
 
-                <div className="flex-1 md:pr-12">
-                    <h3 className="mb-2 md:mb-4 font-montserrat text-xl md:text-3xl font-bold text-brand-primary">
+                <div className="flex-1 mt-6">
+                    <h3 className="mb-3 font-montserrat text-xl font-bold text-brand-primary">
                         {service.title}
                     </h3>
-                    <p className="text-sm md:text-lg text-brand-secondary/80 leading-relaxed font-medium md:max-w-md">
+                    <p className="text-sm text-brand-secondary/80 leading-relaxed font-medium">
                         {service.description}
                     </p>
                 </div>
@@ -165,8 +163,8 @@ function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], 
 
 export function Services() {
     return (
-        <section id="services" className="bg-white border-y border-brand-accent/20 pt-24 pb-48 relative">
-            <div className="mx-auto max-w-4xl px-6 lg:px-8">
+        <section id="services" className="bg-white border-y border-brand-accent/20 pt-24 pb-24 relative">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 {/* Section Header */}
                 <div className="text-center mb-16 px-6">
                     <h2 className="text-3xl md:text-5xl font-montserrat font-bold text-brand-primary mb-6 tracking-tighter">
@@ -178,30 +176,21 @@ export function Services() {
                     </p>
                 </div>
 
-                {/* Vertical Sticky Stack Container */}
+                {/* Grid Container */}
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="relative flex flex-col gap-6 md:gap-8 pb-[10vh]"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                 >
-                    {SERVICES.map((service, index) => {
-                        const Icon = service.icon
-                        const { theme } = service
-                        // Calculate a dynamic top offset for the sticky stacking effect
-                        // First card stops at top-24 (96px), second at top-32 (128px), etc.
-                        const stickyTop = `calc(6rem + ${index * 1.5}rem)`
-
-                        return (
-                            <TiltCard
-                                key={service.id}
-                                service={service}
-                                index={index}
-                                stickyTop={stickyTop}
-                            />
-                        )
-                    })}
+                    {SERVICES.map((service, index) => (
+                        <TiltCard
+                            key={service.id}
+                            service={service}
+                            index={index}
+                        />
+                    ))}
                 </motion.div>
             </div>
         </section>
