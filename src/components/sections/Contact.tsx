@@ -43,13 +43,17 @@ export function Contact() {
                 body: JSON.stringify(data),
             })
 
-            if (!res.ok) throw new Error("Failed to send")
+            if (!res.ok) {
+                const data = await res.json()
+                throw new Error(data.error || "Failed to send")
+            }
 
             setIsSuccess(true)
             reset()
             setTimeout(() => setIsSuccess(false), 5000)
-        } catch {
-            alert("Failed to send message. Please try again or email us directly.")
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : "Unknown error"
+            alert(msg)
         } finally {
             setIsSubmitting(false)
         }

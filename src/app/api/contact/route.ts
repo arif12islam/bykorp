@@ -13,9 +13,20 @@ export async function POST(req: NextRequest) {
             )
         }
 
+        // Check env vars
+        if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+            console.error("Missing GMAIL_USER or GMAIL_APP_PASSWORD env vars")
+            return NextResponse.json(
+                { error: "Email service not configured. Please contact us directly at info@bykorp.com" },
+                { status: 500 }
+            )
+        }
+
         // Create transporter with Gmail SMTP
         const transporter = nodemailer.createTransport({
-            service: "gmail",
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
             auth: {
                 user: process.env.GMAIL_USER,
                 pass: process.env.GMAIL_APP_PASSWORD,
@@ -61,11 +72,13 @@ export async function POST(req: NextRequest) {
         })
 
         return NextResponse.json({ success: true })
-    } catch (error) {
-        console.error("Email send error:", error)
+    } catch (error: unknown) {
+        const errMsg = error instanceof Error ? error.message : "Unknown error"
+        console.error("Email send error:", errMsg)
         return NextResponse.json(
-            { error: "Failed to send email" },
+            { error: `Failed to send: ${errMsg}` },
             { status: 500 }
         )
     }
 }
+
