@@ -44,7 +44,8 @@ export function Hero() {
                     animation: fade-spin-in 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
                     will-change: transform;
                 }
-                .orbit-ring > .orbit-continuous {
+                .orbit-ring > .orbit-continuous,
+                .orbit-ring-delayed > .orbit-continuous {
                     animation: orbit-spin 25s linear infinite;
                     will-change: transform;
                 }
@@ -72,7 +73,7 @@ export function Hero() {
                 </svg>
 
                 {/* Orbital Rings — pure CSS for mobile perf */}
-                <div className="absolute w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[900px] lg:h-[900px] translate-x-1/3 translate-y-1/4">
+                <div className="absolute w-[600px] h-[600px] md:w-[900px] md:h-[900px] translate-x-1/3 translate-y-1/4">
                     <div className="orbit-ring absolute inset-0 w-full h-full">
                         <div className="orbit-continuous absolute inset-0 w-full h-full rounded-full border-[1px] border-brand-accent/30">
                             <div className="absolute top-1/2 left-0 w-3 h-3 md:w-4 md:h-4 bg-brand-primary rounded-full shadow-[0_0_15px_rgba(20,39,78,0.5)] -translate-x-1/2 -translate-y-1/2" />
@@ -80,7 +81,7 @@ export function Hero() {
                     </div>
                 </div>
 
-                <div className="absolute w-[350px] h-[350px] md:w-[500px] md:h-[500px] lg:w-[700px] lg:h-[700px] -translate-x-1/4 -translate-y-1/3">
+                <div className="absolute w-[450px] h-[450px] md:w-[700px] md:h-[700px] -translate-x-1/4 -translate-y-1/3">
                     <div className="orbit-ring-delayed absolute inset-0 w-full h-full">
                         <div className="orbit-continuous absolute inset-0 w-full h-full rounded-full border-[1px] border-dashed border-brand-accent/40">
                             <div className="absolute top-1/2 right-0 w-2.5 h-2.5 md:w-3 md:h-3 bg-brand-secondary rounded-full shadow-[0_0_10px_rgba(57,72,103,0.4)] translate-x-1/2 -translate-y-1/2" />
