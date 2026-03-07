@@ -47,7 +47,7 @@ const itemVariants = {
 
 export function About() {
     return (
-        <Section id="about" className="bg-brand-primary text-brand-bg relative overflow-hidden">
+        <Section id="about" className="bg-brand-primary text-brand-bg relative overflow-visible md:overflow-hidden">
             {/* Orbit animation for About section rings */}
             <style>{`
                 @keyframes about-orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
