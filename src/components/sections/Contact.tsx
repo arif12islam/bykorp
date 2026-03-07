@@ -137,7 +137,7 @@ export function Contact() {
                                 <div className="relative">
                                     <select
                                         id="service"
-                                        className={`flex h-12 w-full appearance-none rounded-xl border px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-brand-primary bg-transparent ${errors.service ? 'border-red-500' : 'border-brand-accent'} text-brand-secondary`}
+                                        className={`flex h-12 w-full appearance-none rounded-xl border px-3 py-2 text-base md:text-sm focus:outline-none focus:ring-1 focus:ring-brand-primary bg-transparent ${errors.service ? 'border-red-500' : 'border-brand-accent'} text-brand-secondary`}
                                         {...register("service")}
                                     >
                                         <option value="">Select a service...</option>

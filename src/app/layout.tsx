@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -24,7 +24,14 @@ export const metadata: Metadata = {
       { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
-  manifest: '/manifest.json', // Useful for some Android scaling
+  manifest: '/manifest.json',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
