@@ -1,8 +1,8 @@
 "use client"
 
-import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion"
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool } from "lucide-react"
-import { useState, useRef } from "react"
+import { useState } from "react"
 
 const SERVICES = [
     {
@@ -78,112 +78,33 @@ const itemVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] as any } }
 }
 
-// 3D Tilt Card Component (Reusable for both paths)
-function ServiceCard({ service, index, isMobile }: { service: typeof SERVICES[0], index: number, isMobile: boolean }) {
+// Mobile Service Card (sticky stacking effect)
+function MobileServiceCard({ service, index }: { service: typeof SERVICES[0], index: number }) {
     const Icon = service.icon
     const { theme } = service
-
-    // Motion values for 3D effect
-    const x = useMotionValue(0)
-    const y = useMotionValue(0)
-
-    const mouseXSpring = useSpring(x)
-    const mouseYSpring = useSpring(y)
-
-    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"])
-    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"])
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (isMobile) return // Disable complex hover math on mobile
-        const rect = e.currentTarget.getBoundingClientRect()
-        const width = rect.width
-        const height = rect.height
-        const mouseX = e.clientX - rect.left
-        const mouseY = e.clientY - rect.top
-
-        const xPct = (mouseX / width) - 0.5
-        const yPct = (mouseY / height) - 0.5
-
-        x.set(xPct)
-        y.set(yPct)
-    }
-
-    const handleMouseLeave = () => {
-        x.set(0)
-        y.set(0)
-    }
-
     const mobileTop = `calc(6rem + ${index * 1.5}rem)`
 
-    if (isMobile) {
-        return (
-            <motion.div
-                variants={itemVariants}
-                style={{
-                    top: mobileTop,
-                    zIndex: index,
-                }}
-                className={`sticky w-full bg-white p-8 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex flex-col justify-between mb-8`}
-            >
-                <div className={`shrink-0 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${theme.light} ${theme.text}`}>
-                    <Icon size={32} strokeWidth={1.5} />
-                </div>
-                <div>
-                    <h3 className="mb-2 font-montserrat text-xl font-bold text-brand-primary">
-                        {service.title}
-                    </h3>
-                    <p className="text-sm text-brand-secondary/80 leading-relaxed font-medium">
-                        {service.description}
-                    </p>
-                </div>
-                <div className={`absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r ${theme.gradient}`} />
-            </motion.div>
-        )
-    }
-
-    // --- DESKTOP 3D HORIZONTAL CARD ---
     return (
         <motion.div
+            variants={itemVariants}
             style={{
-                rotateX,
-                rotateY,
-                transformStyle: "preserve-3d",
-                perspective: 1000
-            } as React.CSSProperties}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            className={`group relative w-[35vw] flex-shrink-0 h-[65vh] bg-white p-10 lg:p-12 rounded-[40px] border ${theme.border} shadow-xl overflow-hidden flex flex-col justify-between transition-shadow duration-500 hover:shadow-2xl origin-center`}
+                top: mobileTop,
+                zIndex: index,
+            }}
+            className={`sticky w-full bg-white p-8 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex flex-col justify-between mb-8`}
         >
-            {/* Background Graphics */}
-            <div className={`absolute -right-12 -top-12 w-64 h-64 rounded-full ${theme.light} blur-[80px] transition-all duration-700 group-hover:scale-150 group-hover:opacity-100 opacity-60 z-0 transform-gpu transition-transform`} style={{ transform: "translateZ(20px)" }} />
-
-            {/* Faint Background Icon */}
-            <div className={`absolute -right-8 -bottom-8 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.08] group-hover:-rotate-12 group-hover:scale-120 transition-all duration-700 z-0 pointer-events-none transform-gpu`} style={{ transform: "translateZ(30px)" }}>
-                <Icon size={240} strokeWidth={1} />
+            <div className={`shrink-0 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${theme.light} ${theme.text}`}>
+                <Icon size={32} strokeWidth={1.5} />
             </div>
-
-            {/* Content */}
-            <div className="relative z-10 w-full flex flex-col transform-gpu h-full" style={{ transform: "translateZ(50px)" }}>
-                <div className="flex justify-between items-start w-full">
-                    <div className={`shrink-0 inline-flex h-20 w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
-                        <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
-                        <Icon size={36} strokeWidth={1.5} className="relative z-10" />
-                    </div>
-                    <span className={`text-6xl font-black opacity-10 ${theme.text}`}>0{index + 1}</span>
-                </div>
-
-                <div className="mt-auto">
-                    <h3 className="mb-4 font-montserrat text-3xl xl:text-4xl font-bold text-brand-primary tracking-tight">
-                        {service.title}
-                    </h3>
-                    <p className="text-lg xl:text-xl text-brand-secondary/80 leading-relaxed font-medium">
-                        {service.description}
-                    </p>
-                </div>
+            <div>
+                <h3 className="mb-2 font-montserrat text-xl font-bold text-brand-primary">
+                    {service.title}
+                </h3>
+                <p className="text-sm text-brand-secondary/80 leading-relaxed font-medium">
+                    {service.description}
+                </p>
             </div>
-
-            {/* Bottom Accent Line */}
-            <div className={`absolute bottom-0 left-0 h-2 w-0 bg-gradient-to-r ${theme.gradient} transition-all duration-700 ease-out group-hover:w-full transform-gpu`} style={{ transform: "translateZ(60px)" }} />
+            <div className={`absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r ${theme.gradient}`} />
         </motion.div>
     )
 }
@@ -214,17 +135,16 @@ export function Services() {
                     className="flex flex-col relative"
                 >
                     {SERVICES.map((service, index) => (
-                        <ServiceCard
+                        <MobileServiceCard
                             key={`mob-srv-${service.id}`}
                             service={service}
                             index={index}
-                            isMobile={true}
                         />
                     ))}
                 </motion.div>
             </div>
 
-            {/* ==== DESKTOP VERSION (INTERACTIVE DYNAMIC BENTO GRID) ==== */}
+            {/* ==== DESKTOP VERSION (SMOOTH INTERACTIVE BENTO GRID) ==== */}
             <div className="hidden md:flex flex-col w-full max-w-[1400px] mx-auto px-12 pt-32 pb-32 relative">
                 <div className="text-center mb-20">
                     <span className="text-brand-accent font-bold tracking-widest uppercase mb-4 text-sm block">Capabilities</span>
@@ -233,72 +153,71 @@ export function Services() {
                         <div className="absolute -bottom-4 left-0 right-0 h-2 bg-gradient-to-r from-brand-primary via-brand-accent to-transparent rounded-full opacity-30" />
                     </h2>
                     <p className="text-xl text-brand-secondary mt-8 max-w-2xl mx-auto font-medium">
-                        Interact with our architecture. Hover to explore how our specialized nodes connect to build your ultimate growth engine.
+                        Hover to explore our specialized capabilities that power your digital growth engine.
                     </p>
                 </div>
 
-                {/* The Dynamic Grid */}
-                <div className="grid grid-cols-4 grid-rows-2 gap-6 w-full h-[75vh]">
+                {/* The Smooth Bento Grid - Cards stay in place, scale on hover */}
+                <div className="grid grid-cols-4 grid-rows-2 gap-6 w-full h-[75vh]" style={{ perspective: "1200px" }}>
                     {SERVICES.map((service, index) => {
-                        const isHovered = hoveredIndex === index;
-                        const isAnyHovered = hoveredIndex !== null;
-                        const Icon = service.icon;
+                        const isHovered = hoveredIndex === index
+                        const isAnyHovered = hoveredIndex !== null
+                        const Icon = service.icon
 
                         return (
                             <motion.div
-                                layout
-                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 key={`desk-bento-${service.id}`}
                                 onMouseEnter={() => setHoveredIndex(index)}
                                 onMouseLeave={() => setHoveredIndex(null)}
-                                className={`relative rounded-[40px] cursor-crosshair overflow-hidden border ${service.theme.border} bg-white transition-colors duration-500 ease-out flex flex-col
-                                    ${isHovered ? 'col-span-2 row-span-2 shadow-2xl z-20' : 'col-span-1 row-span-1 shadow-md z-10 hover:shadow-lg'}
-                                `}
-                                style={{
-                                    opacity: isAnyHovered && !isHovered ? 0.6 : 1,
-                                    scale: isAnyHovered && !isHovered ? 0.96 : 1,
-                                    filter: isAnyHovered && !isHovered ? "blur(2px) grayscale(50%)" : "blur(0px) grayscale(0%)",
+                                animate={{
+                                    scale: isHovered ? 1.12 : isAnyHovered ? 0.95 : 1,
+                                    zIndex: isHovered ? 30 : 10,
+                                    opacity: isAnyHovered && !isHovered ? 0.5 : 1,
+                                    filter: isAnyHovered && !isHovered ? "blur(3px) grayscale(40%)" : "blur(0px) grayscale(0%)",
                                 }}
+                                transition={{ type: "spring", stiffness: 400, damping: 28, mass: 0.8 }}
+                                className={`relative rounded-[32px] cursor-pointer overflow-hidden border ${service.theme.border} bg-white flex flex-col shadow-lg hover:shadow-2xl origin-center`}
                             >
-                                {/* Expanding Gradient Background */}
-                                <motion.div
-                                    layout
-                                    className={`absolute inset-0 bg-gradient-to-br ${service.theme.gradient} opacity-0 transition-opacity duration-700 ease-in-out`}
-                                    style={{ opacity: isHovered ? 0.08 : 0 }}
+                                {/* Gradient wash */}
+                                <div
+                                    className={`absolute inset-0 bg-gradient-to-br ${service.theme.gradient} transition-opacity duration-500 ease-out pointer-events-none`}
+                                    style={{ opacity: isHovered ? 0.1 : 0 }}
                                 />
 
-                                {/* Icon Watermark (Expands massively on hover) */}
-                                <motion.div
-                                    layout
-                                    className={`absolute -bottom-12 -right-12 ${service.theme.bgIcon} pointer-events-none transition-all duration-700 ease-out`}
+                                {/* Watermark Icon */}
+                                <div
+                                    className={`absolute -bottom-10 -right-10 ${service.theme.bgIcon} pointer-events-none transition-all duration-700 ease-out`}
                                     style={{
-                                        opacity: isHovered ? 0.15 : 0.03,
-                                        scale: isHovered ? 1.5 : 1,
-                                        rotate: isHovered ? "-10deg" : "0deg"
+                                        opacity: isHovered ? 0.12 : 0.03,
+                                        transform: isHovered ? "scale(1.3) rotate(-12deg)" : "scale(1) rotate(0deg)",
                                     }}
                                 >
-                                    <Icon size={isHovered ? 300 : 160} strokeWidth={1} />
-                                </motion.div>
+                                    <Icon size={200} strokeWidth={1} />
+                                </div>
 
-                                <div className={`relative z-10 w-full h-full flex flex-col justify-between p-8 xl:p-10 transition-all duration-500`}>
+                                {/* Content */}
+                                <div className="relative z-10 w-full h-full flex flex-col justify-between p-8 xl:p-10">
                                     <div className="flex justify-between items-start w-full">
-                                        <div className={`shrink-0 inline-flex items-center justify-center rounded-2xl ${service.theme.light} ${service.theme.text} transition-all duration-500 ${isHovered ? 'h-24 w-24' : 'h-16 w-16'}`}>
-                                            <Icon size={isHovered ? 48 : 32} strokeWidth={1.5} />
+                                        <div className={`shrink-0 inline-flex items-center justify-center rounded-2xl transition-all duration-500 ease-out ${service.theme.light} ${service.theme.text} ${isHovered ? 'h-20 w-20' : 'h-14 w-14'}`}>
+                                            <Icon size={isHovered ? 40 : 28} strokeWidth={1.5} />
                                         </div>
-                                        <span className={`font-black transition-all duration-500 ${service.theme.text} ${isHovered ? 'text-7xl opacity-20' : 'text-3xl opacity-10'}`}>0{index + 1}</span>
+                                        <span className={`font-black transition-all duration-500 ease-out ${service.theme.text} ${isHovered ? 'text-6xl opacity-15' : 'text-2xl opacity-[0.07]'}`}>
+                                            0{index + 1}
+                                        </span>
                                     </div>
 
                                     <div className="mt-auto">
-                                        <motion.h3 layout className={`font-montserrat font-bold text-brand-primary tracking-tight transition-all duration-500 ${isHovered ? 'text-4xl xl:text-5xl mb-6' : 'text-xl mb-3'}`}>
+                                        <h3 className={`font-montserrat font-bold text-brand-primary tracking-tight transition-all duration-500 ease-out ${isHovered ? 'text-2xl xl:text-3xl mb-4' : 'text-lg mb-2'}`}>
                                             {service.title}
-                                        </motion.h3>
-
-                                        {/* Description magically reveals more space when hovered */}
-                                        <motion.p layout className={`font-medium transition-all duration-500 ${isHovered ? 'text-brand-secondary/90 text-xl xl:text-2xl leading-relaxed max-w-xl' : 'text-brand-secondary/70 text-sm leading-snug line-clamp-2'}`}>
+                                        </h3>
+                                        <p className={`font-medium transition-all duration-500 ease-out ${isHovered ? 'text-brand-secondary/90 text-base leading-relaxed' : 'text-brand-secondary/60 text-xs leading-snug line-clamp-2'}`}>
                                             {service.description}
-                                        </motion.p>
+                                        </p>
                                     </div>
                                 </div>
+
+                                {/* Bottom accent */}
+                                <div className={`absolute bottom-0 left-0 h-1.5 bg-gradient-to-r ${service.theme.gradient} transition-all duration-700 ease-out ${isHovered ? 'w-full' : 'w-0'}`} />
                             </motion.div>
                         )
                     })}
