@@ -73,14 +73,14 @@ export function Story() {
     // Artistic Curtain Reveal (Clip Path Wipe) + Ken Burns Zoom
     // Image 1 sits at the back, slowly zooming
     const dImgScale1 = useTransform(scrollYProgress, [0, 0.4], [1, 1.1])
-    const dImgClip1 = useTransform(scrollYProgress, [0, 1], ["inset(0% 0% 0% 0% rounded 24px)", "inset(0% 0% 0% 0% rounded 24px)"])
+    const dImgClip1 = useTransform(scrollYProgress, [0, 1], ["inset(0% 0% 0% 0%)", "inset(0% 0% 0% 0%)"])
 
     // Image 2 wipes up from the bottom (inset bottom edge from 100% to 0%) over Image 1
     const dImgScale2 = useTransform(scrollYProgress, [0.25, 0.65], [1, 1.1])
     const dImgClip2 = useTransform(
         scrollYProgress,
         [0.25, 0.4],
-        ["inset(100% 0% 0% 0% rounded 24px)", "inset(0% 0% 0% 0% rounded 24px)"]
+        ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)"]
     )
 
     // Image 3 wipes up from the bottom over Image 2
@@ -88,7 +88,7 @@ export function Story() {
     const dImgClip3 = useTransform(
         scrollYProgress,
         [0.6, 0.75],
-        ["inset(100% 0% 0% 0% rounded 24px)", "inset(0% 0% 0% 0% rounded 24px)"]
+        ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)"]
     )
 
     const deskImgClips = [dImgClip1, dImgClip2, dImgClip3]
