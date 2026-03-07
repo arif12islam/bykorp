@@ -1,64 +1,117 @@
 "use client"
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool } from "lucide-react"
+import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool, BrainCircuit, Layout, Megaphone, FileText } from "lucide-react"
 
 const SERVICES = [
     {
         id: 1, title: "Web Dev", icon: Code, description: "Scalable, high-performance web applications built on modern frameworks.",
         theme: {
-            light: "bg-blue-500/10", text: "text-blue-500", border: "border-blue-500/30",
-            gradient: "from-blue-500 to-cyan-400", bgIcon: "text-blue-500"
-        }
+            light: "bg-blue-500/10",
+            text: "text-blue-600",
+            border: "border-blue-500/20",
+            gradient: "from-blue-500 to-cyan-400",
+            bgIcon: "text-blue-500",
+            shadowColor: "rgba(59,130,246,0.15)",
+        },
     },
     {
-        id: 2, title: "AI Automation", icon: Bot, description: "Intelligent workflows that save hours and reduce operational overhead.",
+        id: "ai-automation",
+        title: "AI Automation",
+        description: "Streamline operations with intelligent systems that work 24/7.",
+        icon: BrainCircuit,
         theme: {
-            light: "bg-violet-500/10", text: "text-violet-500", border: "border-violet-500/30",
-            gradient: "from-violet-500 to-purple-500", bgIcon: "text-violet-500"
-        }
+            light: "bg-purple-500/10",
+            text: "text-purple-600",
+            border: "border-purple-500/20",
+            gradient: "from-purple-500 to-fuchsia-400",
+            bgIcon: "text-purple-500",
+            shadowColor: "rgba(168,85,247,0.15)",
+        },
     },
     {
-        id: 3, title: "Web Design", icon: Palette, description: "Premium, conversion-focused user interfaces and experiences.",
+        id: "web-design",
+        title: "Web Design",
+        description: "Pixel-perfect interfaces optimized for engagement and conversion.",
+        icon: Layout,
         theme: {
-            light: "bg-fuchsia-500/10", text: "text-fuchsia-500", border: "border-fuchsia-500/30",
-            gradient: "from-fuchsia-500 to-pink-500", bgIcon: "text-fuchsia-500"
-        }
+            light: "bg-pink-500/10",
+            text: "text-pink-600",
+            border: "border-pink-500/20",
+            gradient: "from-pink-500 to-rose-400",
+            bgIcon: "text-pink-500",
+            shadowColor: "rgba(236,72,153,0.15)",
+        },
     },
     {
-        id: 4, title: "Digital Marketing", icon: TrendingUp, description: "Data-driven campaigns that maximize ROI and accelerate enterprise growth.",
+        id: "digital-marketing",
+        title: "Digital Marketing",
+        description: "Data-driven campaigns that dominate your market segment.",
+        icon: Megaphone,
         theme: {
-            light: "bg-rose-500/10", text: "text-rose-500", border: "border-rose-500/30",
-            gradient: "from-rose-500 to-orange-500", bgIcon: "text-rose-500"
-        }
+            light: "bg-orange-500/10",
+            text: "text-orange-600",
+            border: "border-orange-500/20",
+            gradient: "from-orange-500 to-amber-400",
+            bgIcon: "text-orange-500",
+            shadowColor: "rgba(249,115,22,0.15)",
+        },
     },
     {
-        id: 5, title: "SEO", icon: Search, description: "Technical and on-page optimization for long-term organic visibility.",
+        id: "seo-optimization",
+        title: "SEO Optimization",
+        description: "Own the search results with advanced technical and content SEO.",
+        icon: Search,
         theme: {
-            light: "bg-emerald-500/10", text: "text-emerald-500", border: "border-emerald-500/30",
-            gradient: "from-emerald-500 to-teal-400", bgIcon: "text-emerald-500"
-        }
+            light: "bg-emerald-500/10",
+            text: "text-emerald-600",
+            border: "border-emerald-500/20",
+            gradient: "from-emerald-500 to-teal-400",
+            bgIcon: "text-emerald-500",
+            shadowColor: "rgba(16,185,129,0.15)",
+        },
     },
     {
-        id: 6, title: "Social Media", icon: Share2, description: "Strategic content distribution to build authority and community.",
+        id: "social-media",
+        title: "Social Media",
+        description: "Build a cult-like following with strategic content distribution.",
+        icon: Share2,
         theme: {
-            light: "bg-amber-500/10", text: "text-amber-500", border: "border-amber-500/30",
-            gradient: "from-amber-500 to-yellow-400", bgIcon: "text-amber-500"
-        }
+            light: "bg-indigo-500/10",
+            text: "text-indigo-600",
+            border: "border-indigo-500/20",
+            gradient: "from-indigo-500 to-violet-400",
+            bgIcon: "text-indigo-500",
+            shadowColor: "rgba(99,102,241,0.15)",
+        },
     },
     {
-        id: 7, title: "Local SEO", icon: MapPin, description: "Dominate local search results and capture high-intent geographic traffic.",
+        id: "local-seo",
+        title: "Local SEO",
+        description: "Capture hyper-local traffic and dominate your immediate area.",
+        icon: MapPin,
         theme: {
-            light: "bg-indigo-500/10", text: "text-indigo-500", border: "border-indigo-500/30",
-            gradient: "from-indigo-500 to-blue-500", bgIcon: "text-indigo-500"
-        }
+            light: "bg-red-500/10",
+            text: "text-red-600",
+            border: "border-red-500/20",
+            gradient: "from-red-500 to-rose-400",
+            bgIcon: "text-red-500",
+            shadowColor: "rgba(239,68,68,0.15)",
+        },
     },
     {
-        id: 8, title: "Content", icon: PenTool, description: "Authoritative, industry-leading copy that converts readers into clients.",
+        id: "content-strategy",
+        title: "Content Strategy",
+        description: "Authority-building content that converts readers into buyers.",
+        icon: FileText,
         theme: {
-            light: "bg-orange-500/10", text: "text-orange-500", border: "border-orange-500/30",
-            gradient: "from-orange-500 to-amber-500", bgIcon: "text-orange-500"
-        }
+            light: "bg-yellow-500/10",
+            text: "text-yellow-600",
+            border: "border-yellow-500/20",
+            gradient: "from-yellow-400 to-amber-500",
+            bgIcon: "text-yellow-500",
+            shadowColor: "rgba(234,179,8,0.15)",
+        },
     },
 ]
 
@@ -218,7 +271,7 @@ export function Services() {
                                 key={`mob-srv-${service.id}`}
                                 variants={itemVariants}
                                 style={{ top: mobileTop, zIndex: index }}
-                                className={`sticky w-full bg-white/90 backdrop-blur-[2px] p-8 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex flex-col justify-between mb-8`}
+                                className={`sticky w-full bg-white/90 backdrop-blur-[2px] p-8 rounded-3xl border ${theme.border} shadow-[0_8px_30px_-12px_${theme.shadowColor}] overflow-hidden flex flex-col justify-between mb-8`}
                             >
                                 <div className={`absolute -right-6 -bottom-6 ${theme.bgIcon} opacity-[0.04] -rotate-12 scale-125 z-0 pointer-events-none`}>
                                     <Icon size={140} strokeWidth={1} />
