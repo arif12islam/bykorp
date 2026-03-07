@@ -271,8 +271,10 @@ export function Services() {
                                 key={`mob-srv-${service.id}`}
                                 variants={itemVariants}
                                 style={{ top: mobileTop, zIndex: index }}
-                                className={`sticky w-full bg-white/90 backdrop-blur-[2px] p-8 rounded-3xl border ${theme.border} shadow-[0_8px_30px_-12px_${theme.shadowColor}] overflow-hidden flex flex-col justify-between mb-8`}
+                                className={`sticky w-full bg-white/70 backdrop-blur-md p-8 rounded-3xl border ${theme.border} shadow-[inset_0_1px_1px_rgba(255,255,255,1),inset_0_-10px_20px_rgba(255,255,255,0.3)] overflow-hidden flex flex-col justify-between mb-8`}
                             >
+                                {/* Inner liquid glow effect matching theme color */}
+                                <div className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,${theme.shadowColor.replace("0.15", "0.2")},transparent_60%)] pointer-events-none`} />
                                 <div className={`absolute -right-6 -bottom-6 ${theme.bgIcon} opacity-[0.04] -rotate-12 scale-125 z-0 pointer-events-none`}>
                                     <Icon size={140} strokeWidth={1} />
                                 </div>
