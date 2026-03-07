@@ -48,12 +48,16 @@ const itemVariants = {
 export function About() {
     return (
         <Section id="about" className="bg-brand-primary text-brand-bg relative overflow-hidden">
-            {/* Abstract Design Elements */}
-            <div className="absolute top-0 right-0 w-96 h-96 translate-x-1/2 -translate-y-1/2 animate-spin-slow" style={{ animationDuration: '30s' }}>
+            {/* Orbit animation for About section rings */}
+            <style>{`
+                @keyframes about-orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+            `}</style>
+
+            <div className="absolute top-0 right-0 w-96 h-96 translate-x-1/2 -translate-y-1/2" style={{ animation: 'about-orbit 30s linear infinite' }}>
                 <div className="absolute inset-0 rounded-full border-[1px] border-white/10" />
                 <div className="absolute top-1/2 left-0 w-3 h-3 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.5)] -translate-x-1/2 -translate-y-1/2" />
             </div>
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] -translate-x-1/2 translate-y-1/2 animate-spin-slow" style={{ animationDuration: '45s', animationDirection: 'reverse' }}>
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] -translate-x-1/2 translate-y-1/2" style={{ animation: 'about-orbit 45s linear infinite reverse' }}>
                 <div className="absolute inset-0 rounded-full border-[1px] border-white/5" />
                 <div className="absolute top-1/2 right-0 w-2.5 h-2.5 bg-brand-accent rounded-full shadow-[0_0_12px_rgba(155,164,180,0.6)] translate-x-1/2 -translate-y-1/2" />
             </div>
