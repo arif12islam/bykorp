@@ -55,8 +55,16 @@ export function Story() {
     const imgOpacity3 = useTransform(scrollYProgress, [0.66, 0.8, 1], [0, 1, 1])
     const imgOpacities = [imgOpacity1, imgOpacity2, imgOpacity3]
 
+    // --- DESKTOP STICKY STACK ANIMATION ---
+    const dCardScale1 = useTransform(scrollYProgress, [0, 0.33], [1, 0.9])
+    const dCardScale2 = useTransform(scrollYProgress, [0.33, 0.66], [1, 0.95])
+    const dCardScale3 = useTransform(scrollYProgress, [0.66, 1], [1, 1])
+    const dCardScales = [dCardScale1, dCardScale2, dCardScale3]
 
-
+    const dCardOp1 = useTransform(scrollYProgress, [0, 0.33], [1, 0.4])
+    const dCardOp2 = useTransform(scrollYProgress, [0.33, 0.66], [1, 0.7])
+    const dCardOp3 = useTransform(scrollYProgress, [0.66, 1], [1, 1])
+    const dCardOps = [dCardOp1, dCardOp2, dCardOp3]
 
     return (
         <section id="story" ref={containerRef} className="relative h-[300vh] bg-brand-bg">
@@ -111,45 +119,37 @@ export function Story() {
                         </div>
                     </div>
 
-                    {/* ==== DESKTOP VERSION (SEAMLESS FLUID PARALLAX) ==== */}
-                    <div className="hidden md:grid grid-cols-2 gap-16 items-center w-full h-full">
-
-                        {/* Smooth Text Container */}
-                        <div className="relative h-[400px] flex flex-col justify-center">
-                            <h2 className="text-4xl lg:text-5xl font-montserrat font-bold text-brand-primary mb-6 tracking-tighter absolute top-0">
+                    {/* ==== DESKTOP VERSION (MODERN STICKY CARD STACK) ==== */}
+                    <div className="hidden md:flex flex-col w-full relative pb-[20vh] mt-16 lg:px-12">
+                        <div className="text-center mb-24">
+                            <h2 className="text-4xl lg:text-5xl font-montserrat font-bold text-brand-primary tracking-tighter">
                                 Our Story
                             </h2>
-                            <div className="w-16 h-1 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full absolute top-20" />
-
-                            <div className="relative w-full h-[200px] mt-24">
-                                {STORY_STEPS.map((step, idx) => (
-                                    <motion.div
-                                        key={`desk-text-${step.id}`}
-                                        style={{
-                                            opacity: opacities[idx],
-                                            y: ys[idx]
-                                        }}
-                                        className="absolute inset-0 flex items-center origin-left"
-                                    >
-                                        <p className="text-2xl lg:text-3xl text-brand-secondary/90 leading-relaxed font-medium">
-                                            {step.text}
-                                        </p>
-                                    </motion.div>
-                                ))}
-                            </div>
+                            <div className="w-24 h-1 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full mx-auto mt-6" />
                         </div>
 
-                        {/* Smooth Image Cards Container */}
-                        <div className="relative h-[500px] w-full flex items-center justify-center">
-                            {STORY_STEPS.map((step, idx) => (
-                                <motion.div
-                                    key={`desk-img-${step.id}`}
-                                    style={{
-                                        opacity: imgOpacities[idx],
-                                        y: ys[idx]
-                                    }}
-                                    className="absolute inset-0 w-full h-full rounded-3xl shadow-xl shadow-brand-primary/10 border border-brand-accent/20 overflow-hidden"
-                                >
+                        {STORY_STEPS.map((step, idx) => (
+                            <motion.div
+                                key={`desk-stack-${step.id}`}
+                                style={{
+                                    scale: dCardScales[idx],
+                                    opacity: dCardOps[idx],
+                                    top: `calc(15vh + ${idx * 40}px)`,
+                                }}
+                                className="sticky w-full h-[65vh] flex items-center bg-brand-bg/95 backdrop-blur-xl border border-brand-accent/20 rounded-[40px] shadow-2xl overflow-hidden mb-32 origin-top"
+                            >
+                                {/* Left Content */}
+                                <div className="w-1/2 p-16 lg:p-24 flex flex-col justify-center h-full relative z-10">
+                                    <span className={`text-sm font-bold tracking-widest uppercase mb-4 ${step.accent}`}>
+                                        0{step.id} // Phase
+                                    </span>
+                                    <p className="text-2xl lg:text-3xl text-brand-secondary/90 leading-relaxed font-medium">
+                                        {step.text}
+                                    </p>
+                                </div>
+
+                                {/* Right Image */}
+                                <div className="w-1/2 h-full relative">
                                     <Image
                                         src={step.image}
                                         alt={`Story Phase ${step.id}`}
@@ -157,10 +157,11 @@ export function Story() {
                                         className="object-cover"
                                         sizes="50vw"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 to-transparent pointer-events-none" />
-                                </motion.div>
-                            ))}
-                        </div>
+                                    {/* Gradient overlay to blend image seamlessly into the card background */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-brand-bg via-brand-bg/50 to-transparent" />
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </div>
