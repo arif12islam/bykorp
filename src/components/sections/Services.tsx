@@ -220,18 +220,25 @@ export function Services() {
                                 style={{ top: mobileTop, zIndex: index }}
                                 className={`sticky w-full bg-white/90 backdrop-blur-[2px] p-8 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex flex-col justify-between mb-8`}
                             >
-                                <div className={`shrink-0 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${theme.light} ${theme.text}`}>
-                                    <Icon size={32} strokeWidth={1.5} />
+                                <div className={`absolute -right-6 -bottom-6 ${theme.bgIcon} opacity-[0.04] -rotate-12 scale-125 z-0 pointer-events-none`}>
+                                    <Icon size={140} strokeWidth={1} />
                                 </div>
-                                <div>
-                                    <h3 className="mb-2 font-montserrat text-xl font-bold text-brand-primary">
-                                        {service.title}
-                                    </h3>
-                                    <p className="text-sm text-brand-secondary/80 leading-relaxed font-medium">
-                                        {service.description}
-                                    </p>
+
+                                {/* Content Wrapper (to stay above watermark) */}
+                                <div className="relative z-10">
+                                    <div className={`shrink-0 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${theme.light} ${theme.text}`}>
+                                        <Icon size={32} strokeWidth={1.5} />
+                                    </div>
+                                    <div>
+                                        <h3 className="mb-2 font-montserrat text-xl font-bold text-brand-primary">
+                                            {service.title}
+                                        </h3>
+                                        <p className="text-sm text-brand-secondary/80 leading-relaxed font-medium">
+                                            {service.description}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className={`absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r ${theme.gradient}`} />
+                                <div className={`absolute bottom-0 left-0 h-1 w-full z-10 bg-gradient-to-r ${theme.gradient}`} />
                             </motion.div>
                         )
                     })}
