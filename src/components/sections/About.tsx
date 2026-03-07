@@ -95,7 +95,7 @@ export function About() {
                                 top: `calc(6rem + ${index * 1.5}rem)`,
                                 zIndex: index,
                             }}
-                            className="sticky md:static bg-white/5 rounded-3xl p-8 border border-white/10 hover:bg-white/10 hover:border-white/20 md:hover:-translate-y-2 transition-all duration-300 shadow-xl shadow-black/10 group backdrop-blur-sm mb-6 md:mb-0"
+                            className="sticky md:static bg-[#1a3060] md:bg-white/5 rounded-3xl p-8 border border-white/10 hover:bg-white/10 hover:border-white/20 md:hover:-translate-y-2 transition-all duration-300 shadow-xl shadow-black/10 group md:backdrop-blur-sm mb-6 md:mb-0"
                         >
                             <span className="text-brand-accent font-montserrat font-bold text-sm inline-block mb-6 bg-white/10 px-4 py-1.5 rounded-full shadow-inner transition-colors group-hover:bg-white/20 group-hover:text-white">
                                 {val.num}
