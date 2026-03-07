@@ -218,7 +218,7 @@ export function Services() {
                                 key={`mob-srv-${service.id}`}
                                 variants={itemVariants}
                                 style={{ top: mobileTop, zIndex: index }}
-                                className={`sticky w-full bg-white p-8 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex flex-col justify-between mb-8`}
+                                className={`sticky w-full bg-white/90 backdrop-blur-[2px] p-8 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex flex-col justify-between mb-8`}
                             >
                                 <div className={`shrink-0 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${theme.light} ${theme.text}`}>
                                     <Icon size={32} strokeWidth={1.5} />
