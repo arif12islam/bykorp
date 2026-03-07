@@ -56,43 +56,7 @@ export function Story() {
     const imgOpacities = [imgOpacity1, imgOpacity2, imgOpacity3]
 
 
-    // --- DESKTOP ARTISTIC "CURTAIN REVEAL" ANIMATION ---
-    // Softer, more elegant text entry (fading and sliding up)
-    const dTextOp1 = useTransform(scrollYProgress, [0, 0.25], [1, 0])
-    const dTextY1 = useTransform(scrollYProgress, [0, 0.25], [0, -40])
 
-    const dTextOp2 = useTransform(scrollYProgress, [0.2, 0.35, 0.55, 0.65], [0, 1, 1, 0])
-    const dTextY2 = useTransform(scrollYProgress, [0.2, 0.35, 0.55, 0.65], [40, 0, 0, -40])
-
-    const dTextOp3 = useTransform(scrollYProgress, [0.6, 0.75, 1], [0, 1, 1])
-    const dTextY3 = useTransform(scrollYProgress, [0.6, 0.75, 1], [40, 0, 0])
-
-    const deskTextOps = [dTextOp1, dTextOp2, dTextOp3]
-    const deskTextYs = [dTextY1, dTextY2, dTextY3]
-
-    // Artistic Curtain Reveal (Clip Path Wipe) + Ken Burns Zoom
-    // Image 1 sits at the back, slowly zooming
-    const dImgScale1 = useTransform(scrollYProgress, [0, 0.4], [1, 1.1])
-    const dImgClip1 = useTransform(scrollYProgress, [0, 1], ["inset(0% 0% 0% 0%)", "inset(0% 0% 0% 0%)"])
-
-    // Image 2 wipes up from the bottom (inset bottom edge from 100% to 0%) over Image 1
-    const dImgScale2 = useTransform(scrollYProgress, [0.25, 0.65], [1, 1.1])
-    const dImgClip2 = useTransform(
-        scrollYProgress,
-        [0.25, 0.4],
-        ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)"]
-    )
-
-    // Image 3 wipes up from the bottom over Image 2
-    const dImgScale3 = useTransform(scrollYProgress, [0.6, 1], [1, 1.1])
-    const dImgClip3 = useTransform(
-        scrollYProgress,
-        [0.6, 0.75],
-        ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)"]
-    )
-
-    const deskImgClips = [dImgClip1, dImgClip2, dImgClip3]
-    const deskImgScales = [dImgScale1, dImgScale2, dImgScale3]
 
     return (
         <section id="story" ref={containerRef} className="relative h-[300vh] bg-brand-bg">
@@ -162,8 +126,8 @@ export function Story() {
                                     <motion.div
                                         key={`desk-text-${step.id}`}
                                         style={{
-                                            opacity: deskTextOps[idx],
-                                            y: deskTextYs[idx]
+                                            opacity: opacities[idx],
+                                            y: ys[idx]
                                         }}
                                         className="absolute inset-0 flex items-center origin-left"
                                     >
@@ -181,25 +145,19 @@ export function Story() {
                                 <motion.div
                                     key={`desk-img-${step.id}`}
                                     style={{
-                                        clipPath: deskImgClips[idx],
-                                        zIndex: idx,
+                                        opacity: imgOpacities[idx],
+                                        y: ys[idx]
                                     }}
-                                    className="absolute inset-0 w-full h-full shadow-2xl shadow-brand-primary/20"
+                                    className="absolute inset-0 w-full h-full rounded-3xl shadow-xl shadow-brand-primary/10 border border-brand-accent/20 overflow-hidden"
                                 >
-                                    <motion.div
-                                        style={{ scale: deskImgScales[idx] }}
-                                        className="relative w-full h-full origin-center"
-                                    >
-                                        <Image
-                                            src={step.image}
-                                            alt={`Story Phase ${step.id}`}
-                                            fill
-                                            className="object-cover rounded-3xl"
-                                            sizes="50vw"
-                                        />
-                                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-brand-primary/10 to-transparent pointer-events-none" />
-                                        <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-brand-accent/30 pointer-events-none" />
-                                    </motion.div>
+                                    <Image
+                                        src={step.image}
+                                        alt={`Story Phase ${step.id}`}
+                                        fill
+                                        className="object-cover"
+                                        sizes="50vw"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 to-transparent pointer-events-none" />
                                 </motion.div>
                             ))}
                         </div>
