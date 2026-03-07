@@ -85,13 +85,17 @@ export function About() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                    className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative"
                 >
-                    {VALUES.map((val) => (
+                    {VALUES.map((val, index) => (
                         <motion.div
                             key={val.num}
                             variants={itemVariants}
-                            className="bg-white/5 rounded-3xl p-8 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:-translate-y-2 transition-all duration-300 shadow-xl shadow-black/10 group backdrop-blur-sm"
+                            style={{
+                                top: `calc(6rem + ${index * 1.5}rem)`,
+                                zIndex: index,
+                            }}
+                            className="sticky md:static bg-white/5 rounded-3xl p-8 border border-white/10 hover:bg-white/10 hover:border-white/20 md:hover:-translate-y-2 transition-all duration-300 shadow-xl shadow-black/10 group backdrop-blur-sm mb-6 md:mb-0"
                         >
                             <span className="text-brand-accent font-montserrat font-bold text-sm inline-block mb-6 bg-white/10 px-4 py-1.5 rounded-full shadow-inner transition-colors group-hover:bg-white/20 group-hover:text-white">
                                 {val.num}
