@@ -1,72 +1,63 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool } from "lucide-react"
-import { useState } from "react"
 
 const SERVICES = [
     {
         id: 1, title: "Web Dev", icon: Code, description: "Scalable, high-performance web applications built on modern frameworks.",
         theme: {
             light: "bg-blue-500/10", text: "text-blue-500", border: "border-blue-500/30",
-            gradient: "from-blue-500 to-cyan-400", bgIcon: "text-blue-500",
-            bgSolid: "bg-blue-500"
+            gradient: "from-blue-500 to-cyan-400", bgIcon: "text-blue-500"
         }
     },
     {
         id: 2, title: "AI Automation", icon: Bot, description: "Intelligent workflows that save hours and reduce operational overhead.",
         theme: {
             light: "bg-violet-500/10", text: "text-violet-500", border: "border-violet-500/30",
-            gradient: "from-violet-500 to-purple-500", bgIcon: "text-violet-500",
-            bgSolid: "bg-violet-500"
+            gradient: "from-violet-500 to-purple-500", bgIcon: "text-violet-500"
         }
     },
     {
         id: 3, title: "Web Design", icon: Palette, description: "Premium, conversion-focused user interfaces and experiences.",
         theme: {
             light: "bg-fuchsia-500/10", text: "text-fuchsia-500", border: "border-fuchsia-500/30",
-            gradient: "from-fuchsia-500 to-pink-500", bgIcon: "text-fuchsia-500",
-            bgSolid: "bg-fuchsia-500"
+            gradient: "from-fuchsia-500 to-pink-500", bgIcon: "text-fuchsia-500"
         }
     },
     {
         id: 4, title: "Digital Marketing", icon: TrendingUp, description: "Data-driven campaigns that maximize ROI and accelerate enterprise growth.",
         theme: {
             light: "bg-rose-500/10", text: "text-rose-500", border: "border-rose-500/30",
-            gradient: "from-rose-500 to-orange-500", bgIcon: "text-rose-500",
-            bgSolid: "bg-rose-500"
+            gradient: "from-rose-500 to-orange-500", bgIcon: "text-rose-500"
         }
     },
     {
         id: 5, title: "SEO", icon: Search, description: "Technical and on-page optimization for long-term organic visibility.",
         theme: {
             light: "bg-emerald-500/10", text: "text-emerald-500", border: "border-emerald-500/30",
-            gradient: "from-emerald-500 to-teal-400", bgIcon: "text-emerald-500",
-            bgSolid: "bg-emerald-500"
+            gradient: "from-emerald-500 to-teal-400", bgIcon: "text-emerald-500"
         }
     },
     {
         id: 6, title: "Social Media", icon: Share2, description: "Strategic content distribution to build authority and community.",
         theme: {
             light: "bg-amber-500/10", text: "text-amber-500", border: "border-amber-500/30",
-            gradient: "from-amber-500 to-yellow-400", bgIcon: "text-amber-500",
-            bgSolid: "bg-amber-500"
+            gradient: "from-amber-500 to-yellow-400", bgIcon: "text-amber-500"
         }
     },
     {
         id: 7, title: "Local SEO", icon: MapPin, description: "Dominate local search results and capture high-intent geographic traffic.",
         theme: {
             light: "bg-indigo-500/10", text: "text-indigo-500", border: "border-indigo-500/30",
-            gradient: "from-indigo-500 to-blue-500", bgIcon: "text-indigo-500",
-            bgSolid: "bg-indigo-500"
+            gradient: "from-indigo-500 to-blue-500", bgIcon: "text-indigo-500"
         }
     },
     {
         id: 8, title: "Content", icon: PenTool, description: "Authoritative, industry-leading copy that converts readers into clients.",
         theme: {
             light: "bg-orange-500/10", text: "text-orange-500", border: "border-orange-500/30",
-            gradient: "from-orange-500 to-amber-500", bgIcon: "text-orange-500",
-            bgSolid: "bg-orange-500"
+            gradient: "from-orange-500 to-amber-500", bgIcon: "text-orange-500"
         }
     },
 ]
@@ -84,9 +75,117 @@ const itemVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] as any } }
 }
 
-export function Services() {
-    const [activePanel, setActivePanel] = useState<number | null>(null)
+// Cinematic entrance directions per card index
+const entranceVariants = [
+    { hidden: { opacity: 0, x: -120, rotateY: 25, scale: 0.85 }, visible: { opacity: 1, x: 0, rotateY: 0, scale: 1 } },   // 0: fly from left
+    { hidden: { opacity: 0, y: -100, rotateX: -20, scale: 0.9 }, visible: { opacity: 1, y: 0, rotateX: 0, scale: 1 } },    // 1: drop from top
+    { hidden: { opacity: 0, x: 120, rotateY: -25, scale: 0.85 }, visible: { opacity: 1, x: 0, rotateY: 0, scale: 1 } },    // 2: fly from right
+    { hidden: { opacity: 0, y: 100, scale: 0.7, rotateZ: -5 }, visible: { opacity: 1, y: 0, scale: 1, rotateZ: 0 } },      // 3: rise from bottom
+    { hidden: { opacity: 0, x: -80, y: 80, rotateZ: 8, scale: 0.8 }, visible: { opacity: 1, x: 0, y: 0, rotateZ: 0, scale: 1 } },  // 4: diagonal bottom-left
+    { hidden: { opacity: 0, scale: 0.5, rotateY: 45 }, visible: { opacity: 1, scale: 1, rotateY: 0 } },                     // 5: flip in
+    { hidden: { opacity: 0, x: 80, y: 80, rotateZ: -8, scale: 0.8 }, visible: { opacity: 1, x: 0, y: 0, rotateZ: 0, scale: 1 } }, // 6: diagonal bottom-right
+    { hidden: { opacity: 0, y: 120, rotateX: 20, scale: 0.85 }, visible: { opacity: 1, y: 0, rotateX: 0, scale: 1 } },     // 7: perspective rise
+]
 
+// 3D Tilt Card for Desktop
+function TiltCard({ service, index }: { service: typeof SERVICES[0], index: number }) {
+    const Icon = service.icon
+    const { theme } = service
+
+    // Bento grid: cards 0, 3, 5, 6 are wide
+    const isWide = [0, 3, 5, 6].includes(index)
+    const gridClass = isWide ? "md:col-span-2" : "col-span-1"
+
+    // 3D tilt mouse tracking
+    const mx = useMotionValue(0)
+    const my = useMotionValue(0)
+    const mouseXSpring = useSpring(mx, { stiffness: 200, damping: 20 })
+    const mouseYSpring = useSpring(my, { stiffness: 200, damping: 20 })
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"])
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"])
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        mx.set((e.clientX - rect.left) / rect.width - 0.5)
+        my.set((e.clientY - rect.top) / rect.height - 0.5)
+    }
+
+    const handleMouseLeave = () => {
+        mx.set(0)
+        my.set(0)
+    }
+
+    const entrance = entranceVariants[index]
+    const staggerDelay = 0.08 * index
+
+    return (
+        <motion.div
+            initial={entrance.hidden}
+            whileInView={entrance.visible}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{
+                duration: 0.9,
+                delay: staggerDelay,
+                ease: [0.22, 1, 0.36, 1], // Smooth aggressive easing
+            }}
+            className={`${gridClass}`}
+            style={{ perspective: 1000 }}
+        >
+            <motion.div
+                style={{
+                    rotateX,
+                    rotateY,
+                    transformStyle: "preserve-3d",
+                }}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                className={`group relative w-full h-full bg-white p-8 lg:p-10 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex ${isWide ? 'flex-row items-center' : 'flex-col justify-between'} transition-shadow duration-500 hover:shadow-2xl`}
+            >
+                {/* Background Glow */}
+                <div
+                    className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${theme.light} blur-3xl transition-all duration-700 group-hover:scale-[2] opacity-60 group-hover:opacity-100 z-0 transform-gpu`}
+                    style={{ transform: "translateZ(20px)" }}
+                />
+
+                {/* Faint Watermark Icon */}
+                <div
+                    className={`absolute -right-8 -bottom-8 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.1] group-hover:-rotate-12 group-hover:scale-125 transition-all duration-700 z-0 pointer-events-none transform-gpu`}
+                    style={{ transform: "translateZ(30px)" }}
+                >
+                    <Icon size={180} strokeWidth={1} />
+                </div>
+
+                {/* Content */}
+                <div
+                    className={`relative z-10 w-full flex ${isWide ? 'flex-row items-center' : 'flex-col'} gap-6 transform-gpu`}
+                    style={{ transform: "translateZ(50px)" }}
+                >
+                    <div className={`shrink-0 ${isWide ? 'mr-6' : 'mb-4'} inline-flex h-16 w-16 lg:h-20 lg:w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
+                        <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
+                        <Icon size={32} strokeWidth={1.5} className="relative z-10" />
+                    </div>
+
+                    <div className="flex-1">
+                        <h3 className="mb-2 lg:mb-3 font-montserrat text-xl lg:text-2xl font-bold text-brand-primary">
+                            {service.title}
+                        </h3>
+                        <p className="text-sm lg:text-base text-brand-secondary/80 leading-relaxed font-medium">
+                            {service.description}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Bottom Accent */}
+                <div
+                    className={`absolute bottom-0 left-0 h-1.5 w-0 bg-gradient-to-r ${theme.gradient} transition-all duration-500 group-hover:w-full transform-gpu`}
+                    style={{ transform: "translateZ(60px)" }}
+                />
+            </motion.div>
+        </motion.div>
+    )
+}
+
+export function Services() {
     return (
         <section id="services" className="bg-brand-bg border-y border-brand-accent/20 relative">
 
@@ -139,122 +238,37 @@ export function Services() {
                 </motion.div>
             </div>
 
-            {/* ==== DESKTOP VERSION (EXPANDING VERTICAL PANELS) ==== */}
-            <div className="hidden md:flex flex-col w-full max-w-[1500px] mx-auto px-8 pt-32 pb-32 relative">
-                <div className="text-center mb-20">
-                    <span className="text-brand-accent font-bold tracking-widest uppercase mb-4 text-sm block">Capabilities</span>
-                    <h2 className="text-5xl lg:text-6xl font-montserrat font-bold text-brand-primary tracking-tighter mb-6">
-                        Ecosystem of Growth
-                    </h2>
-                    <p className="text-xl text-brand-secondary mt-4 max-w-2xl mx-auto font-medium">
-                        Hover any panel to explore our specialized capabilities.
-                    </p>
-                </div>
-
-                {/* The Expanding Panels Container */}
-                <div
-                    className="flex h-[70vh] gap-3 w-full"
-                    onMouseLeave={() => setActivePanel(null)}
+            {/* ==== DESKTOP VERSION (CINEMATIC SCROLL-REVEAL BENTO) ==== */}
+            <div className="hidden md:block pt-32 pb-40 mx-auto max-w-7xl px-6 lg:px-8">
+                {/* Section Header with its own entrance */}
+                <motion.div
+                    initial={{ opacity: 0, y: 60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="text-center mb-20"
                 >
-                    {SERVICES.map((service, index) => {
-                        const isActive = activePanel === index
-                        const isAnyActive = activePanel !== null
-                        const Icon = service.icon
+                    <h2 className="text-5xl lg:text-6xl font-montserrat font-bold text-brand-primary mb-6 tracking-tighter">
+                        Our Services
+                    </h2>
+                    <div className="w-20 h-1.5 bg-gradient-to-r from-brand-primary to-brand-accent mx-auto mb-8 rounded-full" />
+                    <p className="text-brand-secondary max-w-2xl mx-auto text-xl font-medium">
+                        Comprehensive digital infrastructure designed to scale your operations.
+                    </p>
+                </motion.div>
 
-                        return (
-                            <div
-                                key={`panel-${service.id}`}
-                                onMouseEnter={() => setActivePanel(index)}
-                                className="relative overflow-hidden rounded-[28px] cursor-pointer group"
-                                style={{
-                                    flex: isActive ? 4 : isAnyActive ? 0.5 : 1,
-                                    transition: "flex 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
-                                }}
-                            >
-                                {/* Background gradient layer */}
-                                <div className={`absolute inset-0 bg-gradient-to-b ${service.theme.gradient} transition-opacity duration-700`}
-                                    style={{ opacity: isActive ? 0.12 : 0.04 }}
-                                />
-
-                                {/* White overlay for non-active */}
-                                <div className="absolute inset-0 bg-white transition-opacity duration-700"
-                                    style={{ opacity: isActive ? 0 : 0.85 }}
-                                />
-
-                                {/* Border */}
-                                <div className={`absolute inset-0 rounded-[28px] border ${service.theme.border} pointer-events-none`} />
-
-                                {/* Large faint watermark icon */}
-                                <div
-                                    className={`absolute ${service.theme.bgIcon} pointer-events-none transition-all duration-700 ease-out`}
-                                    style={{
-                                        opacity: isActive ? 0.08 : 0.02,
-                                        bottom: "-40px",
-                                        right: isActive ? "20px" : "-30px",
-                                        transform: isActive ? "scale(1.2) rotate(-8deg)" : "scale(0.8) rotate(0deg)",
-                                    }}
-                                >
-                                    <Icon size={280} strokeWidth={0.8} />
-                                </div>
-
-                                {/* Content Container */}
-                                <div className="relative z-10 h-full flex flex-col justify-between p-6">
-
-                                    {/* Top: Icon + Number */}
-                                    <div className="flex items-start justify-between">
-                                        <div className={`inline-flex items-center justify-center rounded-2xl transition-all duration-500 ease-out ${service.theme.light} ${service.theme.text} ${isActive ? 'h-20 w-20' : 'h-12 w-12'}`}>
-                                            <Icon size={isActive ? 40 : 24} strokeWidth={1.5} />
-                                        </div>
-                                        <span className={`font-black transition-all duration-500 ${service.theme.text} ${isActive ? 'text-5xl opacity-15' : 'text-lg opacity-10'}`}>
-                                            0{index + 1}
-                                        </span>
-                                    </div>
-
-                                    {/* Bottom: Title + Description */}
-                                    <div className="mt-auto">
-                                        {/* Collapsed: Vertical rotated title */}
-                                        <div
-                                            className="transition-all duration-500 ease-out"
-                                            style={{
-                                                opacity: isActive ? 0 : 1,
-                                                position: isActive ? "absolute" : "relative",
-                                                pointerEvents: isActive ? "none" : "auto",
-                                            }}
-                                        >
-                                            <h3 className={`font-montserrat text-lg font-bold text-brand-primary whitespace-nowrap origin-bottom-left`}
-                                                style={{
-                                                    writingMode: isAnyActive && !isActive ? "vertical-rl" : "horizontal-tb",
-                                                    transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
-                                                }}
-                                            >
-                                                {service.title}
-                                            </h3>
-                                        </div>
-
-                                        {/* Expanded: Full title + description */}
-                                        <div
-                                            className="transition-all duration-500 ease-out"
-                                            style={{
-                                                opacity: isActive ? 1 : 0,
-                                                transform: isActive ? "translateY(0)" : "translateY(24px)",
-                                                pointerEvents: isActive ? "auto" : "none",
-                                            }}
-                                        >
-                                            <h3 className="font-montserrat text-4xl xl:text-5xl font-bold text-brand-primary tracking-tight mb-6">
-                                                {service.title}
-                                            </h3>
-                                            <p className="text-lg xl:text-xl text-brand-secondary/90 leading-relaxed font-medium max-w-md">
-                                                {service.description}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Bottom Accent */}
-                                <div className={`absolute bottom-0 left-0 h-1.5 bg-gradient-to-r ${service.theme.gradient} transition-all duration-700 ease-out ${isActive ? 'w-full' : 'w-0'}`} />
-                            </div>
-                        )
-                    })}
+                {/* The Cinematic Bento Grid */}
+                <div
+                    className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 grid-flow-row-dense"
+                    style={{ perspective: "1200px" }}
+                >
+                    {SERVICES.map((service, index) => (
+                        <TiltCard
+                            key={service.id}
+                            service={service}
+                            index={index}
+                        />
+                    ))}
                 </div>
             </div>
         </section>
