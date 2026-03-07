@@ -117,8 +117,8 @@ export function Footer() {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-8 text-xs text-white/40 text-center md:text-left border-t border-white/5 md:border-none">
                     <p>&copy; {currentYear} Bykorp. All rights reserved.</p>
                     <div className="flex gap-4 md:gap-6">
-                        <Link href="#" className="hover:text-white/70 transition-colors">Privacy Policy</Link>
-                        <Link href="#" className="hover:text-white/70 transition-colors">Terms of Service</Link>
+                        <Link href="/privacy" className="hover:text-white/70 transition-colors">Privacy Policy</Link>
+                        <Link href="/terms" className="hover:text-white/70 transition-colors">Terms of Service</Link>
                     </div>
                 </div>
             </div>
