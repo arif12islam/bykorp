@@ -131,9 +131,7 @@ export function Story() {
                             <div key={`desk-hz-${step.id}`} className="w-[75vw] shrink-0 flex items-center gap-12 h-[75vh] bg-brand-bg/60 backdrop-blur-xl border border-brand-accent/20 rounded-[40px] p-12 shadow-2xl relative">
                                 {/* Left text */}
                                 <div className="w-[45%] flex flex-col justify-center h-full z-10 pr-8">
-                                    <span className={`text-sm font-bold tracking-widest uppercase mb-6 ${step.accent}`}>
-                                        0{step.id} // Phase
-                                    </span>
+
                                     <p className="text-2xl xl:text-3xl text-brand-primary/90 leading-relaxed font-semibold">
                                         {step.text}
                                     </p>
