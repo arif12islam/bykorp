@@ -55,16 +55,8 @@ export function Story() {
     const imgOpacity3 = useTransform(scrollYProgress, [0.66, 0.8, 1], [0, 1, 1])
     const imgOpacities = [imgOpacity1, imgOpacity2, imgOpacity3]
 
-    // --- DESKTOP STICKY STACK ANIMATION ---
-    const dCardScale1 = useTransform(scrollYProgress, [0, 0.33], [1, 0.9])
-    const dCardScale2 = useTransform(scrollYProgress, [0.33, 0.66], [1, 0.95])
-    const dCardScale3 = useTransform(scrollYProgress, [0.66, 1], [1, 1])
-    const dCardScales = [dCardScale1, dCardScale2, dCardScale3]
-
-    const dCardOp1 = useTransform(scrollYProgress, [0, 0.33], [1, 0.4])
-    const dCardOp2 = useTransform(scrollYProgress, [0.33, 0.66], [1, 0.7])
-    const dCardOp3 = useTransform(scrollYProgress, [0.66, 1], [1, 1])
-    const dCardOps = [dCardOp1, dCardOp2, dCardOp3]
+    // --- DESKTOP HORIZONTAL SCROLL ANIMATION ---
+    const desktopX = useTransform(scrollYProgress, [0, 1], ["0vw", "-215vw"])
 
     return (
         <section id="story" ref={containerRef} className="relative h-[300vh] bg-brand-bg">
@@ -76,93 +68,93 @@ export function Story() {
                     <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-brand-accent/10 rounded-full blur-[80px]" />
                 </div>
 
-                <div className="mx-auto max-w-7xl px-6 lg:px-8 relative w-full">
-                    {/* ==== MOBILE VERSION (PRESERVED & ISOLATED) ==== */}
-                    <div className="md:hidden grid grid-cols-1 gap-8 items-center w-full">
-                        <div className="relative h-[250px] flex flex-col justify-center">
-                            <h2 className="text-3xl font-montserrat font-bold text-brand-primary mb-4 tracking-tighter absolute top-0">
-                                Our Story
-                            </h2>
-                            <div className="w-16 h-1 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full absolute top-12" />
+                {/* ==== MOBILE VERSION (PRESERVED & ISOLATED) ==== */}
+                <div className="md:hidden grid grid-cols-1 gap-8 items-center w-full mx-auto max-w-7xl px-6 relative mt-16">
+                    <div className="relative h-[250px] flex flex-col justify-center">
+                        <h2 className="text-3xl font-montserrat font-bold text-brand-primary mb-4 tracking-tighter absolute top-0">
+                            Our Story
+                        </h2>
+                        <div className="w-16 h-1 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full absolute top-12" />
 
-                            <div className="relative w-full h-[150px] mt-16">
-                                {STORY_STEPS.map((step, idx) => (
-                                    <motion.div
-                                        key={step.id}
-                                        style={{ opacity: opacities[idx], y: ys[idx] }}
-                                        className="absolute inset-0 flex items-center"
-                                    >
-                                        <p className="text-lg text-brand-secondary/90 leading-relaxed font-medium">
-                                            {step.text}
-                                        </p>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="relative h-[300px] w-full flex items-center justify-center">
+                        <div className="relative w-full h-[150px] mt-16">
                             {STORY_STEPS.map((step, idx) => (
                                 <motion.div
-                                    key={`mob-img-${step.id}`}
-                                    style={{ opacity: imgOpacities[idx] }}
-                                    className="absolute inset-0 w-full h-full rounded-3xl shadow-xl shadow-brand-primary/10 border border-brand-accent/20 overflow-hidden"
+                                    key={step.id}
+                                    style={{ opacity: opacities[idx], y: ys[idx] }}
+                                    className="absolute inset-0 flex items-center"
                                 >
-                                    <Image
-                                        src={step.image}
-                                        alt={`Story Phase ${step.id}`}
-                                        fill
-                                        className="object-cover"
-                                        sizes="100vw"
-                                    />
+                                    <p className="text-lg text-brand-secondary/90 leading-relaxed font-medium">
+                                        {step.text}
+                                    </p>
                                 </motion.div>
                             ))}
                         </div>
                     </div>
 
-                    {/* ==== DESKTOP VERSION (MODERN STICKY CARD STACK) ==== */}
-                    <div className="hidden md:flex flex-col w-full relative pb-[20vh] mt-16 lg:px-12">
-                        <div className="text-center mb-24">
-                            <h2 className="text-4xl lg:text-5xl font-montserrat font-bold text-brand-primary tracking-tighter">
-                                Our Story
-                            </h2>
-                            <div className="w-24 h-1 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full mx-auto mt-6" />
-                        </div>
-
+                    <div className="relative h-[300px] w-full flex items-center justify-center">
                         {STORY_STEPS.map((step, idx) => (
                             <motion.div
-                                key={`desk-stack-${step.id}`}
-                                style={{
-                                    scale: dCardScales[idx],
-                                    opacity: dCardOps[idx],
-                                    top: `calc(15vh + ${idx * 40}px)`,
-                                }}
-                                className="sticky w-full h-[65vh] flex items-center bg-brand-bg/95 backdrop-blur-xl border border-brand-accent/20 rounded-[40px] shadow-2xl overflow-hidden mb-32 origin-top"
+                                key={`mob-img-${step.id}`}
+                                style={{ opacity: imgOpacities[idx] }}
+                                className="absolute inset-0 w-full h-full rounded-3xl shadow-xl shadow-brand-primary/10 border border-brand-accent/20 overflow-hidden"
                             >
-                                {/* Left Content */}
-                                <div className="w-1/2 p-16 lg:p-24 flex flex-col justify-center h-full relative z-10">
-                                    <span className={`text-sm font-bold tracking-widest uppercase mb-4 ${step.accent}`}>
-                                        0{step.id} // Phase
-                                    </span>
-                                    <p className="text-2xl lg:text-3xl text-brand-secondary/90 leading-relaxed font-medium">
-                                        {step.text}
-                                    </p>
-                                </div>
-
-                                {/* Right Image */}
-                                <div className="w-1/2 h-full relative">
-                                    <Image
-                                        src={step.image}
-                                        alt={`Story Phase ${step.id}`}
-                                        fill
-                                        className="object-cover"
-                                        sizes="50vw"
-                                    />
-                                    {/* Gradient overlay to blend image seamlessly into the card background */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-brand-bg via-brand-bg/50 to-transparent" />
-                                </div>
+                                <Image
+                                    src={step.image}
+                                    alt={`Story Phase ${step.id}`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="100vw"
+                                />
                             </motion.div>
                         ))}
                     </div>
+                </div>
+
+                {/* ==== DESKTOP VERSION (PREMIUM HORIZONTAL SCROLL) ==== */}
+                <div className="hidden md:flex items-center w-full h-full">
+                    <motion.div
+                        style={{ x: desktopX }}
+                        className="flex items-center h-full gap-[10vw] pl-[10vw]"
+                    >
+                        {/* Intro Slide */}
+                        <div className="w-[40vw] shrink-0 flex flex-col justify-center">
+                            <h2 className="text-5xl lg:text-7xl font-montserrat font-bold text-brand-primary tracking-tighter mb-8 shadow-sm">
+                                Our Story
+                            </h2>
+                            <div className="w-32 h-2 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full mb-12" />
+                            <p className="text-xl text-brand-secondary leading-relaxed font-medium">
+                                Swipe through the evolution of Bykorp's approach to digital infrastructure and architectural engineering.
+                            </p>
+                        </div>
+
+                        {STORY_STEPS.map((step, idx) => (
+                            <div key={`desk-hz-${step.id}`} className="w-[75vw] shrink-0 flex items-center gap-12 h-[75vh] bg-brand-bg/60 backdrop-blur-xl border border-brand-accent/20 rounded-[40px] p-12 shadow-2xl relative">
+                                {/* Left text */}
+                                <div className="w-[45%] flex flex-col justify-center h-full z-10 pr-8">
+                                    <span className={`text-sm font-bold tracking-widest uppercase mb-6 ${step.accent}`}>
+                                        0{step.id} // Phase
+                                    </span>
+                                    <p className="text-2xl xl:text-3xl text-brand-primary/90 leading-relaxed font-semibold">
+                                        {step.text}
+                                    </p>
+                                </div>
+                                {/* Right Image */}
+                                <div className="w-[55%] h-full relative rounded-3xl overflow-hidden shadow-inner">
+                                    <Image
+                                        src={step.image}
+                                        alt={`Phase ${step.id}`}
+                                        fill
+                                        className="object-cover"
+                                        sizes="45vw"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-brand-bg/40 to-transparent pointer-events-none" />
+                                </div>
+                            </div>
+                        ))}
+
+                        {/* Right Padding Buffer */}
+                        <div className="w-[10vw] shrink-0 h-full border-transparent" />
+                    </motion.div>
                 </div>
             </div>
         </section>
