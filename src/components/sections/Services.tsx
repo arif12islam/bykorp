@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion"
 import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool } from "lucide-react"
 
 const SERVICES = [
@@ -77,31 +77,25 @@ const itemVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] as any } }
 }
 
-// 3D Tilt Card Component
-function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], index: number, stickyTop: string }) {
+import { useRef } from "react"
+
+// 3D Tilt Card Component (Reusable for both paths)
+function ServiceCard({ service, index, isMobile }: { service: typeof SERVICES[0], index: number, isMobile: boolean }) {
     const Icon = service.icon
     const { theme } = service
-
-    // Bento Grid Logic: Cards 0, 4, 6, 7 are "wide" (horizontal form)
-    const isWide = [0, 4, 6, 7].includes(index)
-    const gridClass = isWide ? "md:col-span-2" : "col-span-1"
 
     // Motion values for 3D effect
     const x = useMotionValue(0)
     const y = useMotionValue(0)
 
-    // Smooth springs
     const mouseXSpring = useSpring(x)
     const mouseYSpring = useSpring(y)
 
-    // Translate mouse position (from -0.5 to 0.5) to rotation (-10deg to 10deg)
     const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"])
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"])
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        // Only run on desktop
-        if (window.innerWidth < 768) return
-
+        if (isMobile) return // Disable complex hover math on mobile
         const rect = e.currentTarget.getBoundingClientRect()
         const width = rect.width
         const height = rect.height
@@ -120,12 +114,38 @@ function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], 
         y.set(0)
     }
 
+    const mobileTop = `calc(6rem + ${index * 1.5}rem)`
+
+    if (isMobile) {
+        return (
+            <motion.div
+                variants={itemVariants}
+                style={{
+                    top: mobileTop,
+                    zIndex: index,
+                }}
+                className={`sticky w-full bg-white p-8 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex flex-col justify-between mb-8`}
+            >
+                <div className={`shrink-0 mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${theme.light} ${theme.text}`}>
+                    <Icon size={32} strokeWidth={1.5} />
+                </div>
+                <div>
+                    <h3 className="mb-2 font-montserrat text-xl font-bold text-brand-primary">
+                        {service.title}
+                    </h3>
+                    <p className="text-sm text-brand-secondary/80 leading-relaxed font-medium">
+                        {service.description}
+                    </p>
+                </div>
+                <div className={`absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r ${theme.gradient}`} />
+            </motion.div>
+        )
+    }
+
+    // --- DESKTOP 3D HORIZONTAL CARD ---
     return (
         <motion.div
-            variants={itemVariants}
             style={{
-                "--mobile-top": stickyTop,
-                zIndex: index,
                 rotateX,
                 rotateY,
                 transformStyle: "preserve-3d",
@@ -133,76 +153,124 @@ function TiltCard({ service, index, stickyTop }: { service: typeof SERVICES[0], 
             } as React.CSSProperties}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className={`group sticky md:relative top-[var(--mobile-top)] md:top-auto w-full h-full bg-white p-8 lg:p-10 rounded-3xl border ${theme.border} shadow-sm overflow-hidden flex ${isWide ? 'flex-col md:flex-row items-start md:items-center' : 'flex-col justify-between'} transition-shadow duration-500 md:hover:shadow-xl z-10 ${gridClass}`}
+            className={`group relative w-[35vw] flex-shrink-0 h-[65vh] bg-white p-10 lg:p-12 rounded-[40px] border ${theme.border} shadow-xl overflow-hidden flex flex-col justify-between transition-shadow duration-500 hover:shadow-2xl origin-center`}
         >
             {/* Background Graphics */}
-            <div className={`absolute -right-12 -top-12 w-48 h-48 rounded-full ${theme.light} blur-3xl transition-all duration-700 group-hover:scale-150 z-0 hidden md:block transform-gpu transition-transform`} style={{ transform: "translateZ(20px)" }} />
-            <div className="absolute -left-12 -bottom-12 w-48 h-48 rounded-full bg-brand-bg/80 blur-3xl transition-all duration-700 group-hover:translate-x-12 z-0 hidden md:block transform-gpu transition-transform" style={{ transform: "translateZ(10px)" }} />
+            <div className={`absolute -right-12 -top-12 w-64 h-64 rounded-full ${theme.light} blur-[80px] transition-all duration-700 group-hover:scale-150 group-hover:opacity-100 opacity-60 z-0 transform-gpu transition-transform`} style={{ transform: "translateZ(20px)" }} />
 
             {/* Faint Background Icon */}
-            <div className={`absolute -right-8 -bottom-8 md:right-4 md:bottom-4 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.08] group-hover:-rotate-12 group-hover:scale-125 transition-all duration-700 z-0 pointer-events-none transform-gpu`} style={{ transform: "translateZ(30px)" }}>
-                <Icon size={160} strokeWidth={1} className="md:w-[200px] md:h-[200px]" />
+            <div className={`absolute -right-8 -bottom-8 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.08] group-hover:-rotate-12 group-hover:scale-120 transition-all duration-700 z-0 pointer-events-none transform-gpu`} style={{ transform: "translateZ(30px)" }}>
+                <Icon size={240} strokeWidth={1} />
             </div>
 
             {/* Content */}
-            <div className={`relative z-10 w-full flex ${isWide ? 'flex-col md:flex-row items-start md:items-center' : 'flex-col'} gap-6 md:gap-0 transform-gpu`} style={{ transform: "translateZ(50px)" }}>
-                <div className={`shrink-0 ${isWide ? 'md:mb-0 md:mr-8' : 'md:mb-8'} inline-flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
-                    <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
-                    <Icon size={32} strokeWidth={1.5} className="relative z-10" />
+            <div className="relative z-10 w-full flex flex-col transform-gpu h-full" style={{ transform: "translateZ(50px)" }}>
+                <div className="flex justify-between items-start w-full">
+                    <div className={`shrink-0 inline-flex h-20 w-20 items-center justify-center rounded-2xl ${theme.light} ${theme.text} group-hover:text-white transition-all duration-500 shadow-sm overflow-hidden relative group-hover:scale-110`}>
+                        <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
+                        <Icon size={36} strokeWidth={1.5} className="relative z-10" />
+                    </div>
+                    <span className={`text-6xl font-black opacity-10 ${theme.text}`}>0{index + 1}</span>
                 </div>
 
-                <div className={`flex-1 ${isWide ? 'mt-0' : 'mt-6'}`}>
-                    <h3 className="mb-2 lg:mb-3 font-montserrat text-xl lg:text-2xl font-bold text-brand-primary">
+                <div className="mt-auto">
+                    <h3 className="mb-4 font-montserrat text-3xl xl:text-4xl font-bold text-brand-primary tracking-tight">
                         {service.title}
                     </h3>
-                    <p className="text-sm lg:text-base text-brand-secondary/80 leading-relaxed font-medium">
+                    <p className="text-lg xl:text-xl text-brand-secondary/80 leading-relaxed font-medium">
                         {service.description}
                     </p>
                 </div>
             </div>
 
             {/* Bottom Accent Line */}
-            <div className={`absolute bottom-0 left-0 h-1 md:h-1.5 w-0 bg-gradient-to-r ${theme.gradient} transition-all duration-500 group-hover:w-full transform-gpu`} style={{ transform: "translateZ(60px)" }} />
+            <div className={`absolute bottom-0 left-0 h-2 w-0 bg-gradient-to-r ${theme.gradient} transition-all duration-700 ease-out group-hover:w-full transform-gpu`} style={{ transform: "translateZ(60px)" }} />
         </motion.div>
     )
 }
 
 export function Services() {
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    })
+
+    // Map scroll progress to horizontal translation.
+    // Intro block + 8 cards * 35vw width + gaps = massive negative travel distance
+    const desktopX = useTransform(scrollYProgress, [0, 1], ["0vw", "-360vw"])
+
     return (
-        <section id="services" className="bg-white border-y border-brand-accent/20 pt-24 pb-24 md:pb-48 relative">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                {/* Section Header */}
-                <div className="text-center mb-16 px-6">
-                    <h2 className="text-3xl md:text-5xl font-montserrat font-bold text-brand-primary mb-6 tracking-tighter">
+        <section id="services" ref={containerRef} className="bg-brand-bg md:bg-white border-y border-brand-accent/20 relative md:h-[500vh]">
+
+            {/* ==== MOBILE VERSION (PRESERVED) ==== */}
+            <div className="md:hidden pt-24 pb-24 mx-auto max-w-7xl px-6 relative">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl font-montserrat font-bold text-brand-primary mb-6 tracking-tighter">
                         Our Services
                     </h2>
                     <div className="w-16 h-1 bg-brand-accent mx-auto mb-6" />
-                    <p className="text-brand-secondary max-w-2xl mx-auto text-lg">
+                    <p className="text-brand-secondary text-lg">
                         Comprehensive digital infrastructure designed to scale your operations.
                     </p>
                 </div>
 
-                {/* Hybrid Container: Stack on Mobile, Bento Grid on Desktop */}
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 md:grid-flow-row-dense pb-[10vh] md:pb-0"
+                    className="flex flex-col relative"
                 >
-                    {SERVICES.map((service, index) => {
-                        // Calculate a dynamic top offset for the mobile sticky stacking effect
-                        const stickyTop = `calc(6rem + ${index * 1.5}rem)`
+                    {SERVICES.map((service, index) => (
+                        <ServiceCard
+                            key={`mob-srv-${service.id}`}
+                            service={service}
+                            index={index}
+                            isMobile={true}
+                        />
+                    ))}
+                </motion.div>
+            </div>
 
-                        return (
-                            <TiltCard
-                                key={service.id}
-                                service={service}
-                                index={index}
-                                stickyTop={stickyTop}
-                            />
-                        )
-                    })}
+            {/* ==== DESKTOP VERSION (PREMIUM HORIZONTAL SCROLL) ==== */}
+            <div className="hidden md:flex sticky top-0 h-screen items-center overflow-hidden w-full bg-[#f8fbff]">
+
+                {/* Background Decor */}
+                <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/[0.02] rounded-full blur-[120px]" />
+                    <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-accent/10 rounded-full blur-[100px]" />
+                </div>
+
+                <motion.div
+                    style={{ x: desktopX }}
+                    className="flex items-center h-full gap-[4vw] pl-[10vw] relative z-10"
+                >
+                    {/* Intro Slide */}
+                    <div className="w-[35vw] shrink-0 flex flex-col justify-center pr-12">
+                        <span className="text-brand-accent font-bold tracking-widest uppercase mb-4 text-sm">Capabilities</span>
+                        <h2 className="text-5xl lg:text-7xl font-montserrat font-bold text-brand-primary tracking-tighter mb-8 shadow-sm">
+                            Ecosystem of<br />Growth.
+                        </h2>
+                        <div className="w-32 h-2 bg-gradient-to-r from-brand-primary to-brand-accent rounded-full mb-10" />
+                        <p className="text-xl lg:text-2xl text-brand-secondary leading-relaxed font-medium">
+                            Comprehensive digital infrastructure designed to scale your operations end-to-end.
+                        </p>
+                    </div>
+
+                    {/* Service Gallery */}
+                    {SERVICES.map((service, index) => (
+                        <ServiceCard
+                            key={`desk-srv-${service.id}`}
+                            service={service}
+                            index={index}
+                            isMobile={false}
+                        />
+                    ))}
+
+                    {/* Right Padding Buffer */}
+                    <div className="w-[10vw] shrink-0 h-full border-transparent" />
                 </motion.div>
             </div>
         </section>
