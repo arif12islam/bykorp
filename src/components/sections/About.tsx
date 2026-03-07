@@ -85,7 +85,7 @@ export function About() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
-                    className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative"
+                    className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative pb-40 md:pb-0"
                 >
                     {VALUES.map((val, index) => (
                         <motion.div
