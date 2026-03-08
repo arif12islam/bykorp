@@ -56,6 +56,7 @@ const STORY_STEPS = [
         id: 1,
         text: "We started with a simple hypothesis: combining traditional digital marketing strategies with cutting-edge AI automation scales enterprise growth faster than either approach alone.",
         graphic: Phase1Graphic,
+        image: "/images/story/step-1.png",
         accent: "text-blue-500",
         bg: "bg-blue-500/10",
     },
@@ -63,6 +64,7 @@ const STORY_STEPS = [
         id: 2,
         text: "Bykorp isn't just another agency. We are the architects of your digital infrastructure. We build scalable systems that generate leads, automate nurturing, and close deals while you sleep.",
         graphic: Phase2Graphic,
+        image: "/images/story/step-2.png",
         accent: "text-purple-500",
         bg: "bg-purple-500/10",
     },
@@ -70,6 +72,7 @@ const STORY_STEPS = [
         id: 3,
         text: "No fluff. No vanity metrics. Just engineered growth. We partner with visionaries ready to dominate their market.",
         graphic: Phase3Graphic,
+        image: "/images/story/step-3.png",
         accent: "text-brand-primary",
         bg: "bg-brand-primary/10",
     }
@@ -175,21 +178,33 @@ export function Story() {
                             const Graphic = step.graphic;
                             return (
                                 <div key={`desk-hz-${step.id}`} className="w-[75vw] shrink-0 flex items-center h-[75vh] bg-brand-bg/60 backdrop-blur-xl border border-brand-accent/20 rounded-[40px] p-16 shadow-2xl relative overflow-hidden group">
+                                    <div className="flex w-full h-full">
+                                        {/* Left: Text Content */}
+                                        <div className="relative z-10 w-1/2 flex flex-col justify-center pr-8">
+                                            {/* Subtle Graphic in Background */}
+                                            <div className="absolute inset-0 -left-1/4 -top-1/4 w-[150%] h-[150%] opacity-[0.05] transition-transform duration-700 group-hover:scale-[1.05] pointer-events-none z-0 mix-blend-screen">
+                                                <Graphic />
+                                            </div>
+                                            <div className="absolute inset-0 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent pointer-events-none z-0" />
 
-                                    {/* Subtle Graphic in Background */}
-                                    <div className="absolute -right-20 -bottom-20 w-[600px] h-[600px] opacity-[0.2] transition-transform duration-700 group-hover:scale-[1.05] pointer-events-none z-0 mix-blend-screen">
-                                        <Graphic />
-                                    </div>
-                                    <div className="absolute inset-0 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent pointer-events-none z-0" />
-
-                                    {/* Foreground Text */}
-                                    <div className="relative z-10 w-full max-w-4xl">
-                                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-primary/10 text-brand-primary font-montserrat font-bold text-2xl mb-8 border border-brand-primary/20">
-                                            0{step.id}
+                                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-primary/10 text-brand-primary font-montserrat font-bold text-2xl mb-8 border border-brand-primary/20">
+                                                0{step.id}
+                                            </div>
+                                            <p className="text-3xl xl:text-5xl text-white leading-tight font-montserrat font-medium drop-shadow-lg">
+                                                {step.text}
+                                            </p>
                                         </div>
-                                        <p className="text-3xl xl:text-5xl text-white leading-tight font-montserrat font-medium drop-shadow-lg">
-                                            {step.text}
-                                        </p>
+
+                                        {/* Right: Image */}
+                                        <div className="relative w-1/2 h-full rounded-3xl overflow-hidden shadow-lg">
+                                            <Image
+                                                src={step.image}
+                                                alt={`Story Phase ${step.id}`}
+                                                fill
+                                                className="object-cover"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             )

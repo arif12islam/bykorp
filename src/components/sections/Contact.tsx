@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/Textarea"
 const formSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters."),
     email: z.string().email("Please enter a valid email address."),
-    phone: z.string().optional(),
+    phone: z.string().min(5, "Please enter a valid phone number."),
     service: z.string().min(1, "Please select a service."),
     message: z.string().min(10, "Message must be at least 10 characters."),
 })
@@ -134,7 +134,7 @@ export function Contact() {
                             </div>
 
                             <div>
-                                <label htmlFor="phone" className="block text-sm font-medium text-brand-secondary mb-2">Phone Number (Optional)</label>
+                                <label htmlFor="phone" className="block text-sm font-medium text-brand-secondary mb-2">Phone Number</label>
                                 <Input
                                     id="phone"
                                     type="tel"
