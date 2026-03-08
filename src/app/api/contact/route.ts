@@ -26,8 +26,8 @@ export async function POST(req: NextRequest) {
 
         const { name, email, phone, service, message } = parsed.data
 
-        // Save to PostgreSQL Database via Prisma
-        const submission = await prisma.contactSubmission.create({
+        // Save to PostgreSQL Database via Prisma as a new Lead
+        const submission = await prisma.lead.create({
             data: {
                 name,
                 email,

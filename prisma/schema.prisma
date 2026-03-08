@@ -6,12 +6,36 @@ datasource db {
   provider = "postgresql"
 }
 
-model ContactSubmission {
-  id        String   @id @default(uuid())
-  name      String
-  email     String
-  phone     String
-  service   String
-  message   String   @db.Text
-  createdAt DateTime @default(now())
+// Enum to strictly track the lifecycle stage of a lead
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  PROPOSAL_SENT
+  WON
+  LOST
+}
+
+model Lead {
+  id              String     @id @default(uuid())
+  
+  // Core Contact Info
+  name            String
+  email           String
+  phone           String
+  company         String?    // Optional: Useful for B2B leads
+  
+  // Request Details
+  service         String
+  message         String     @db.Text
+  
+  // CRM Tracking Data
+  status          LeadStatus @default(NEW)
+  source          String     @default("Website Contact Form")
+  notes           String?    @db.Text // Internal notes section for your sales team
+  
+  // Timestamps
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  lastContactedAt DateTime?  // Track when you last reached out
 }
