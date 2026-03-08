@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
                         fields: [
                             { name: "Name", value: name, inline: true },
                             { name: "Email", value: email, inline: true },
+                            { name: "Phone", value: phone, inline: true },
                             { name: "Service", value: service, inline: true },
                             { name: "Message", value: message, inline: false },
                         ],
