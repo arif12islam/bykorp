@@ -3,9 +3,98 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool, BrainCircuit, Layout, Megaphone, FileText } from "lucide-react"
 
+// --- Custom Background Shapes for Watermarks ---
+const WebDevShape = () => (
+    <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="20" width="80" height="60" rx="4" stroke="currentColor" strokeWidth="4" fill="none" />
+        <circle cx="20" cy="30" r="3" />
+        <circle cx="30" cy="30" r="3" />
+        <circle cx="40" cy="30" r="3" />
+        <line x1="10" y1="40" x2="90" y2="40" stroke="currentColor" strokeWidth="2" />
+        <polyline points="30,60 45,75 30,90" stroke="currentColor" strokeWidth="4" fill="none" />
+        <line x1="55" y1="90" x2="70" y2="90" stroke="currentColor" strokeWidth="4" />
+    </svg>
+)
+
+const AIShape = () => (
+    <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="25" stroke="currentColor" strokeWidth="4" fill="none" />
+        <circle cx="20" cy="20" r="8" />
+        <circle cx="80" cy="20" r="8" />
+        <circle cx="80" cy="80" r="8" />
+        <circle cx="20" cy="80" r="8" />
+        <line x1="26" y1="26" x2="40" y2="40" stroke="currentColor" strokeWidth="2" />
+        <line x1="74" y1="26" x2="60" y2="40" stroke="currentColor" strokeWidth="2" />
+        <line x1="74" y1="74" x2="60" y2="60" stroke="currentColor" strokeWidth="2" />
+        <line x1="26" y1="74" x2="40" y2="60" stroke="currentColor" strokeWidth="2" />
+        <circle cx="50" cy="50" r="8" />
+    </svg>
+)
+
+const DesignShape = () => (
+    <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 20 50 Q 50 10 80 50 T 20 50" stroke="currentColor" strokeWidth="4" fill="none" />
+        <circle cx="35" cy="40" r="4" />
+        <circle cx="50" cy="30" r="4" />
+        <circle cx="65" cy="40" r="4" />
+        <path d="M 30 70 L 70 70 L 50 20 Z" stroke="currentColor" strokeWidth="4" fill="none" />
+    </svg>
+)
+
+const MarketingShape = () => (
+    <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 10 90 L 90 90" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+        <rect x="20" y="60" width="15" height="30" rx="2" stroke="currentColor" strokeWidth="4" fill="none" />
+        <rect x="45" y="40" width="15" height="50" rx="2" stroke="currentColor" strokeWidth="4" fill="none" />
+        <rect x="70" y="15" width="15" height="75" rx="2" stroke="currentColor" strokeWidth="4" fill="none" />
+        <path d="M 27 60 L 52 40 L 77 15" stroke="currentColor" strokeWidth="4" fill="none" strokeDasharray="4 4" />
+        <circle cx="77" cy="15" r="5" />
+    </svg>
+)
+
+const SEOShape = () => (
+    <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="45" cy="45" r="30" stroke="currentColor" strokeWidth="4" fill="none" />
+        <line x1="66" y1="66" x2="90" y2="90" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+        <path d="M 30 45 L 40 55 L 60 30" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+)
+
+const SocialShape = () => (
+    <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="50" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+        <circle cx="70" cy="30" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+        <circle cx="70" cy="70" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+        <line x1="39" y1="46" x2="61" y2="34" stroke="currentColor" strokeWidth="4" />
+        <line x1="39" y1="54" x2="61" y2="66" stroke="currentColor" strokeWidth="4" />
+    </svg>
+)
+
+const LocalSEOShape = () => (
+    <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 50 15 C 30 15 15 30 15 50 C 15 75 50 95 50 95 C 50 95 85 75 85 50 C 85 30 70 15 50 15 Z" stroke="currentColor" strokeWidth="4" fill="none" />
+        <circle cx="50" cy="45" r="12" stroke="currentColor" strokeWidth="4" fill="none" />
+        <path d="M 5 50 L 20 50 M 80 50 L 95 50 M 50 5 L 50 20" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.5" />
+    </svg>
+)
+
+const ContentShape = () => (
+    <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <rect x="25" y="10" width="50" height="80" rx="4" stroke="currentColor" strokeWidth="4" fill="none" />
+        <line x1="35" y1="30" x2="65" y2="30" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+        <line x1="35" y1="45" x2="65" y2="45" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+        <line x1="35" y1="60" x2="55" y2="60" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+        <path d="M 15 20 L 25 20 M 15 80 L 25 80" stroke="currentColor" strokeWidth="4" opacity="0.3" />
+    </svg>
+)
+
 const SERVICES = [
     {
-        id: 1, title: "Web Dev", icon: Code, description: "Scalable, high-performance web applications built on modern frameworks.",
+        id: "web-dev",
+        title: "Web Dev",
+        icon: Code,
+        description: "Scalable, high-performance web applications built on modern frameworks.",
+        bgShape: WebDevShape,
         theme: {
             light: "bg-blue-500/10",
             text: "text-blue-600",
@@ -20,6 +109,7 @@ const SERVICES = [
         title: "AI Automation",
         description: "Streamline operations with intelligent systems that work 24/7.",
         icon: BrainCircuit,
+        bgShape: AIShape,
         theme: {
             light: "bg-purple-500/10",
             text: "text-purple-600",
@@ -34,6 +124,7 @@ const SERVICES = [
         title: "Web Design",
         description: "Pixel-perfect interfaces optimized for engagement and conversion.",
         icon: Layout,
+        bgShape: DesignShape,
         theme: {
             light: "bg-pink-500/10",
             text: "text-pink-600",
@@ -48,6 +139,7 @@ const SERVICES = [
         title: "Digital Marketing",
         description: "Data-driven campaigns that dominate your market segment.",
         icon: Megaphone,
+        bgShape: MarketingShape,
         theme: {
             light: "bg-orange-500/10",
             text: "text-orange-600",
@@ -62,6 +154,7 @@ const SERVICES = [
         title: "SEO Optimization",
         description: "Own the search results with advanced technical and content SEO.",
         icon: Search,
+        bgShape: SEOShape,
         theme: {
             light: "bg-emerald-500/10",
             text: "text-emerald-600",
@@ -76,6 +169,7 @@ const SERVICES = [
         title: "Social Media",
         description: "Build a cult-like following with strategic content distribution.",
         icon: Share2,
+        bgShape: SocialShape,
         theme: {
             light: "bg-indigo-500/10",
             text: "text-indigo-600",
@@ -90,6 +184,7 @@ const SERVICES = [
         title: "Local SEO",
         description: "Capture hyper-local traffic and dominate your immediate area.",
         icon: MapPin,
+        bgShape: LocalSEOShape,
         theme: {
             light: "bg-red-500/10",
             text: "text-red-600",
@@ -104,6 +199,7 @@ const SERVICES = [
         title: "Content Strategy",
         description: "Authority-building content that converts readers into buyers.",
         icon: FileText,
+        bgShape: ContentShape,
         theme: {
             light: "bg-yellow-500/10",
             text: "text-yellow-600",
