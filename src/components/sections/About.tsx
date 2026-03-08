@@ -53,15 +53,17 @@ export function About() {
                 @keyframes about-orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
             `}</style>
 
-            <div className="absolute top-0 right-0 w-96 h-96 translate-x-1/2 -translate-y-1/2" style={{ animation: 'about-orbit 30s linear infinite' }}>
-                <div className="absolute inset-0 rounded-full border-[1px] border-white/10" />
-                <div className="absolute top-1/2 left-0 w-3 h-3 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.5)] -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-0 right-0 w-96 h-96 translate-x-1/2 -translate-y-1/2" style={{ animation: 'about-orbit 30s linear infinite' }}>
+                    <div className="absolute inset-0 rounded-full border-[1px] border-white/10" />
+                    <div className="absolute top-1/2 left-0 w-3 h-3 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.5)] -translate-x-1/2 -translate-y-1/2" />
+                </div>
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] -translate-x-1/2 translate-y-1/2" style={{ animation: 'about-orbit 45s linear infinite reverse' }}>
+                    <div className="absolute inset-0 rounded-full border-[1px] border-white/5" />
+                    <div className="absolute top-1/2 right-0 w-2.5 h-2.5 bg-brand-accent rounded-full shadow-[0_0_12px_rgba(155,164,180,0.6)] translate-x-1/2 -translate-y-1/2" />
+                </div>
+                <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-white/5 rounded-full mix-blend-overlay filter blur-3xl opacity-50 animate-pulse" />
             </div>
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] -translate-x-1/2 translate-y-1/2" style={{ animation: 'about-orbit 45s linear infinite reverse' }}>
-                <div className="absolute inset-0 rounded-full border-[1px] border-white/5" />
-                <div className="absolute top-1/2 right-0 w-2.5 h-2.5 bg-brand-accent rounded-full shadow-[0_0_12px_rgba(155,164,180,0.6)] translate-x-1/2 -translate-y-1/2" />
-            </div>
-            <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-white/5 rounded-full mix-blend-overlay filter blur-3xl opacity-50 animate-pulse" />
 
             <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
                 <motion.div

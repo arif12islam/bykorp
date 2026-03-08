@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${outfit.variable} ${space.variable} antialiased`}
+        className={`${outfit.variable} ${space.variable} antialiased overflow-x-hidden`}
       >
         {children}
       </body>
