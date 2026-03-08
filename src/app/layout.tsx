@@ -25,6 +25,19 @@ export const metadata: Metadata = {
     ],
   },
   manifest: '/manifest.json',
+  openGraph: {
+    title: "Bykorp | Architects of Digital Infrastructure",
+    description: "Bridging the gap between traditional digital marketing and cutting-edge AI automation for enterprise-level growth.",
+    url: "https://www.bykorp.com",
+    siteName: "Bykorp",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bykorp | Architects of Digital Infrastructure",
+    description: "Bridging the gap between traditional digital marketing and cutting-edge AI automation for enterprise-level growth.",
+  },
 };
 
 export const viewport: Viewport = {
