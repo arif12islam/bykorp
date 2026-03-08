@@ -112,19 +112,19 @@ export function Contact() {
                         )}
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-5" noValidate>
+                            <div>
+                                <label htmlFor="name" className="block text-sm font-medium text-brand-secondary mb-2">Full Name</label>
+                                <Input
+                                    id="name"
+                                    placeholder="John Doe"
+                                    {...register("name")}
+                                    error={errors.name?.message}
+                                />
+                            </div>
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-brand-secondary mb-2">Full Name</label>
-                                    <Input
-                                        id="name"
-                                        placeholder="John Doe"
-                                        {...register("name")}
-                                        error={errors.name?.message}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-brand-secondary mb-2">Work Email</label>
+                                    <label htmlFor="email" className="block text-sm font-medium text-brand-secondary mb-2">Email</label>
                                     <Input
                                         id="email"
                                         type="email"
@@ -133,17 +133,17 @@ export function Contact() {
                                         error={errors.email?.message}
                                     />
                                 </div>
-                            </div>
 
-                            <div>
-                                <label htmlFor="phone" className="block text-sm font-medium text-brand-secondary mb-2">Phone Number</label>
-                                <Input
-                                    id="phone"
-                                    type="tel"
-                                    placeholder="+880 1XXXXXXXXX"
-                                    {...register("phone")}
-                                    error={errors.phone?.message}
-                                />
+                                <div>
+                                    <label htmlFor="phone" className="block text-sm font-medium text-brand-secondary mb-2">Phone Number</label>
+                                    <Input
+                                        id="phone"
+                                        type="tel"
+                                        placeholder="+880 1XXXXXXXXX"
+                                        {...register("phone")}
+                                        error={errors.phone?.message}
+                                    />
+                                </div>
                             </div>
 
                             <div>
