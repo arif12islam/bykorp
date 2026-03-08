@@ -171,22 +171,29 @@ export function Story() {
                             </p>
                         </div>
 
-                        {STORY_STEPS.map((step, idx) => (
-                            <div key={`desk-hz-${step.id}`} className="w-[75vw] shrink-0 flex items-center gap-12 h-[75vh] bg-brand-bg/60 backdrop-blur-xl border border-brand-accent/20 rounded-[40px] p-12 shadow-2xl relative">
-                                {/* Left text */}
-                                <div className="w-[45%] flex flex-col justify-center h-full z-10 pr-8">
+                        {STORY_STEPS.map((step, idx) => {
+                            const Graphic = step.graphic;
+                            return (
+                                <div key={`desk-hz-${step.id}`} className="w-[75vw] shrink-0 flex items-center h-[75vh] bg-brand-bg/60 backdrop-blur-xl border border-brand-accent/20 rounded-[40px] p-16 shadow-2xl relative overflow-hidden group">
 
-                                    <p className="text-2xl xl:text-3xl text-brand-primary/90 leading-relaxed font-semibold">
-                                        {step.text}
-                                    </p>
+                                    {/* Subtle Graphic in Background */}
+                                    <div className="absolute -right-20 -bottom-20 w-[600px] h-[600px] opacity-[0.2] transition-transform duration-700 group-hover:scale-[1.05] pointer-events-none z-0 mix-blend-screen">
+                                        <Graphic />
+                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent pointer-events-none z-0" />
+
+                                    {/* Foreground Text */}
+                                    <div className="relative z-10 w-full max-w-4xl">
+                                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-primary/10 text-brand-primary font-montserrat font-bold text-2xl mb-8 border border-brand-primary/20">
+                                            0{step.id}
+                                        </div>
+                                        <p className="text-3xl xl:text-5xl text-white leading-tight font-montserrat font-medium drop-shadow-lg">
+                                            {step.text}
+                                        </p>
+                                    </div>
                                 </div>
-                                {/* Right Image / Graphic */}
-                                <div className="w-[55%] h-full relative rounded-3xl overflow-hidden shadow-inner border border-white/5">
-                                    <step.graphic />
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-brand-bg/40 to-transparent pointer-events-none" />
-                                </div>
-                            </div>
-                        ))}
+                            )
+                        })}
 
                         {/* Right Padding Buffer */}
                         <div className="w-[10vw] shrink-0 h-full border-transparent" />
