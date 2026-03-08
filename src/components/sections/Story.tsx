@@ -4,58 +4,10 @@ import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 
-// --- Custom Journey Graphics ---
-const Phase1Graphic = () => (
-    <div className="w-full h-full bg-gradient-to-br from-brand-bg to-[#14274E]/80 relative overflow-hidden flex items-center justify-center p-8 group">
-        <div className="absolute inset-0 bg-[#14274E] opacity-50 transition-opacity duration-700 group-hover:opacity-30" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
-        <svg viewBox="0 0 100 100" className="w-full h-full text-brand-accent/60 relative z-10 transition-transform duration-700 group-hover:scale-[1.03]" fill="none" stroke="currentColor" strokeWidth="1">
-            <circle cx="20" cy="80" r="4" fill="currentColor" />
-            <path d="M 20 80 Q 40 40 80 20" strokeWidth="1.5" strokeDasharray="4 4" />
-            <circle cx="80" cy="20" r="12" strokeWidth="1" />
-            <circle cx="80" cy="20" r="4" fill="currentColor" />
-            <circle cx="80" cy="20" r="24" strokeWidth="0.5" strokeDasharray="2 4" />
-        </svg>
-        <div className="absolute top-1/4 right-1/4 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl pointer-events-none group-hover:bg-blue-500/30 transition-colors duration-700" />
-    </div>
-)
-
-const Phase2Graphic = () => (
-    <div className="w-full h-full bg-gradient-to-br from-brand-bg to-[#14274E]/80 relative overflow-hidden flex items-center justify-center p-8 group">
-        <div className="absolute inset-0 bg-[#14274E] opacity-50 transition-opacity duration-700 group-hover:opacity-30" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
-        <svg viewBox="0 0 100 100" className="w-full h-full text-brand-accent/60 relative z-10 transition-transform duration-700 group-hover:scale-[1.03]" fill="none" stroke="currentColor" strokeWidth="1">
-            <rect x="25" y="45" width="20" height="25" rx="3" strokeWidth="1.5" />
-            <rect x="55" y="25" width="20" height="25" rx="3" strokeWidth="1.5" />
-            <path d="M 45 57.5 L 50 57.5 L 50 37.5 L 55 37.5" strokeWidth="1.5" strokeDasharray="2 2" />
-            <circle cx="25" cy="45" r="2" fill="currentColor" />
-            <circle cx="55" cy="25" r="2" fill="currentColor" />
-            <path d="M 35 45 L 35 30 L 55 30" strokeWidth="0.5" />
-        </svg>
-        <div className="absolute bottom-1/4 left-1/4 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/30 transition-colors duration-700" />
-    </div>
-)
-
-const Phase3Graphic = () => (
-    <div className="w-full h-full bg-gradient-to-br from-brand-bg to-[#14274E]/80 relative overflow-hidden flex items-center justify-center p-8 group">
-        <div className="absolute inset-0 bg-[#14274E] opacity-50 transition-opacity duration-700 group-hover:opacity-30" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20" />
-        <svg viewBox="0 0 100 100" className="w-full h-full text-brand-accent/60 relative z-10 transition-transform duration-700 group-hover:scale-[1.03]" fill="none" stroke="currentColor" strokeWidth="1">
-            <path d="M 15 75 L 35 55 L 55 65 L 85 25" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="85" cy="25" r="6" strokeWidth="1.5" />
-            <circle cx="85" cy="25" r="2" fill="currentColor" />
-            <path d="M 15 75 L 15 85 M 35 55 L 35 85 M 55 65 L 55 85 M 85 25 L 85 85" strokeWidth="0.5" strokeDasharray="2 4" />
-            <path d="M 10 85 L 90 85" strokeWidth="1" strokeLinecap="round" opacity="0.5" />
-        </svg>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-brand-primary/20 rounded-full blur-3xl pointer-events-none group-hover:bg-brand-primary/30 transition-colors duration-700" />
-    </div>
-)
-
 const STORY_STEPS = [
     {
         id: 1,
         text: "We started with a simple hypothesis: combining traditional digital marketing strategies with cutting-edge AI automation scales enterprise growth faster than either approach alone.",
-        graphic: Phase1Graphic,
         image: "/images/story/step-1.png",
         accent: "text-blue-500",
         bg: "bg-blue-500/10",
@@ -63,7 +15,6 @@ const STORY_STEPS = [
     {
         id: 2,
         text: "Bykorp isn't just another agency. We are the architects of your digital infrastructure. We build scalable systems that generate leads, automate nurturing, and close deals while you sleep.",
-        graphic: Phase2Graphic,
         image: "/images/story/step-2.png",
         accent: "text-purple-500",
         bg: "bg-purple-500/10",
@@ -71,7 +22,6 @@ const STORY_STEPS = [
     {
         id: 3,
         text: "No fluff. No vanity metrics. Just engineered growth. We partner with visionaries ready to dominate their market.",
-        graphic: Phase3Graphic,
         image: "/images/story/step-3.png",
         accent: "text-brand-primary",
         bg: "bg-brand-primary/10",
@@ -142,18 +92,21 @@ export function Story() {
                     </div>
 
                     <div className="relative h-[300px] w-full flex items-center justify-center">
-                        {STORY_STEPS.map((step, idx) => {
-                            const Graphic = step.graphic;
-                            return (
-                                <motion.div
-                                    key={`mob-img-${step.id}`}
-                                    style={{ opacity: imgOpacities[idx] }}
-                                    className="absolute inset-0 w-full h-full rounded-3xl shadow-xl shadow-brand-primary/10 border border-brand-accent/20 overflow-hidden"
-                                >
-                                    <Graphic />
-                                </motion.div>
-                            )
-                        })}
+                        {STORY_STEPS.map((step, idx) => (
+                            <motion.div
+                                key={`mob-img-${step.id}`}
+                                style={{ opacity: imgOpacities[idx] }}
+                                className="absolute inset-0 w-full h-full rounded-3xl shadow-xl shadow-brand-primary/10 border border-brand-accent/20 overflow-hidden"
+                            >
+                                <Image
+                                    src={step.image}
+                                    alt={`Story Phase ${step.id}`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="100vw"
+                                />
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
 
@@ -174,41 +127,28 @@ export function Story() {
                             </p>
                         </div>
 
-                        {STORY_STEPS.map((step, idx) => {
-                            const Graphic = step.graphic;
-                            return (
-                                <div key={`desk-hz-${step.id}`} className="w-[75vw] shrink-0 flex items-center h-[75vh] bg-brand-bg/60 backdrop-blur-xl border border-brand-accent/20 rounded-[40px] p-16 shadow-2xl relative overflow-hidden group">
-                                    <div className="flex w-full h-full">
-                                        {/* Left: Text Content */}
-                                        <div className="relative z-10 w-1/2 flex flex-col justify-center pr-8">
-                                            {/* Subtle Graphic in Background */}
-                                            <div className="absolute inset-0 -left-1/4 -top-1/4 w-[150%] h-[150%] opacity-[0.05] transition-transform duration-700 group-hover:scale-[1.05] pointer-events-none z-0 mix-blend-screen">
-                                                <Graphic />
-                                            </div>
-                                            <div className="absolute inset-0 bg-gradient-to-r from-brand-bg via-brand-bg/80 to-transparent pointer-events-none z-0" />
+                        {STORY_STEPS.map((step, idx) => (
+                            <div key={`desk-hz-${step.id}`} className="w-[75vw] shrink-0 flex items-center gap-12 h-[75vh] bg-brand-bg/60 backdrop-blur-xl border border-brand-accent/20 rounded-[40px] p-12 shadow-2xl relative">
+                                {/* Left text */}
+                                <div className="w-[45%] flex flex-col justify-center h-full z-10 pr-8">
 
-                                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-primary/10 text-brand-primary font-montserrat font-bold text-2xl mb-8 border border-brand-primary/20">
-                                                0{step.id}
-                                            </div>
-                                            <p className="text-3xl xl:text-5xl text-white leading-tight font-montserrat font-medium drop-shadow-lg">
-                                                {step.text}
-                                            </p>
-                                        </div>
-
-                                        {/* Right: Image */}
-                                        <div className="relative w-1/2 h-full rounded-3xl overflow-hidden shadow-lg">
-                                            <Image
-                                                src={step.image}
-                                                alt={`Story Phase ${step.id}`}
-                                                fill
-                                                className="object-cover"
-                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                            />
-                                        </div>
-                                    </div>
+                                    <p className="text-2xl xl:text-3xl text-brand-primary/90 leading-relaxed font-semibold">
+                                        {step.text}
+                                    </p>
                                 </div>
-                            )
-                        })}
+                                {/* Right Image */}
+                                <div className="w-[55%] h-full relative rounded-3xl overflow-hidden shadow-inner">
+                                    <Image
+                                        src={step.image}
+                                        alt={`Phase ${step.id}`}
+                                        fill
+                                        className="object-cover"
+                                        sizes="45vw"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-brand-bg/40 to-transparent pointer-events-none" />
+                                </div>
+                            </div>
+                        ))}
 
                         {/* Right Padding Buffer */}
                         <div className="w-[10vw] shrink-0 h-full border-transparent" />

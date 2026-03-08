@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/Textarea"
 const formSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters."),
     email: z.string().email("Please enter a valid email address."),
-    phone: z.string().min(5, "Please enter a valid phone number."),
+    phone: z.string().regex(/^(?:\+8801|01)[3-9]\d{8}$/, "Must be a valid Bangladeshi phone number."),
     service: z.string().min(1, "Please select a service."),
     message: z.string().min(10, "Message must be at least 10 characters."),
 })
