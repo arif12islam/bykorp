@@ -143,6 +143,7 @@ const entranceVariants = [
 // 3D Tilt Card for Desktop
 function TiltCard({ service, index }: { service: typeof SERVICES[0], index: number }) {
     const Icon = service.icon
+    const BgShape = service.bgShape
     const { theme } = service
 
     // Bento grid: cards 0, 3, 5, 6 are wide
@@ -200,12 +201,12 @@ function TiltCard({ service, index }: { service: typeof SERVICES[0], index: numb
                     style={{ transform: "translateZ(20px)" }}
                 />
 
-                {/* Faint Watermark Icon */}
+                {/* Faint Contextual Watermark Graphic */}
                 <div
-                    className={`absolute -right-8 -bottom-8 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.1] group-hover:-rotate-12 group-hover:scale-125 transition-all duration-700 z-0 pointer-events-none transform-gpu`}
-                    style={{ transform: "translateZ(30px)" }}
+                    className={`absolute -right-12 -bottom-12 w-64 h-64 ${theme.bgIcon} opacity-[0.03] group-hover:opacity-[0.1] transition-all duration-700 z-0 pointer-events-none transform-gpu`}
+                    style={{ transform: "translateZ(30px) rotate(-10deg)" }}
                 >
-                    <Icon size={180} strokeWidth={1} />
+                    <BgShape />
                 </div>
 
                 {/* Content */}
@@ -263,6 +264,7 @@ export function Services() {
                 >
                     {SERVICES.map((service, index) => {
                         const Icon = service.icon
+                        const BgShape = service.bgShape
                         const { theme } = service
                         const mobileTop = `calc(6rem + ${index * 1.5}rem)`
 
@@ -275,8 +277,9 @@ export function Services() {
                             >
                                 {/* Inner liquid glow effect matching theme color */}
                                 <div className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,${theme.shadowColor.replace("0.15", "0.2")},transparent_60%)] pointer-events-none`} />
-                                <div className={`absolute -right-6 -bottom-6 ${theme.bgIcon} opacity-[0.04] -rotate-12 scale-125 z-0 pointer-events-none`}>
-                                    <Icon size={140} strokeWidth={1} />
+
+                                <div className={`absolute -right-12 -bottom-12 w-64 h-64 ${theme.bgIcon} opacity-[0.04] z-0 pointer-events-none`} style={{ transform: "rotate(-10deg)" }}>
+                                    <BgShape />
                                 </div>
 
                                 {/* Content Wrapper (to stay above watermark) */}
