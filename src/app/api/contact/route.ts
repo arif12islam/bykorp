@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
     try {
-        const { name, email, service, message } = await req.json()
+        const { name, email, phone, service, message } = await req.json()
 
         // Validate required fields
-        if (!name || !email || !service || !message) {
+        if (!name || !email || !phone || !service || !message) {
             return NextResponse.json(
                 { error: "All fields are required" },
                 { status: 400 }
