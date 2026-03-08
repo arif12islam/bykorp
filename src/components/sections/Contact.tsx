@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -23,6 +23,20 @@ type FormData = z.infer<typeof formSchema>
 export function Contact() {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
+    const [leadSource, setLeadSource] = useState("Direct Traffic")
+
+    useEffect(() => {
+        // Collect marketing attribution metadata
+        const urlParams = new URLSearchParams(window.location.search)
+        const utmSource = urlParams.get('utm_source')
+        const referrer = document.referrer
+
+        if (utmSource) {
+            setLeadSource(`Campaign: ${utmSource}`)
+        } else if (referrer && !referrer.includes(window.location.hostname)) {
+            setLeadSource(`Referred: ${new URL(referrer).hostname}`)
+        }
+    }, [])
 
     const {
         register,
@@ -40,7 +54,7 @@ export function Contact() {
             const res = await fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
+                body: JSON.stringify({ ...data, source: leadSource }),
             })
 
             if (!res.ok) {

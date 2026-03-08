@@ -8,7 +8,8 @@ const contactSchema = z.object({
     email: z.string().email("Please enter a valid email address."),
     phone: z.string().regex(/^(?:\+8801|01)[3-9]\d{8}$/, "Must be a valid Bangladeshi phone number."),
     service: z.string().min(1, "Please select a service."),
-    message: z.string().min(10, "Message must be at least 10 characters.")
+    message: z.string().min(10, "Message must be at least 10 characters."),
+    source: z.string().optional()
 })
 
 export async function POST(req: NextRequest) {
@@ -24,7 +25,7 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        const { name, email, phone, service, message } = parsed.data
+        const { name, email, phone, service, message, source } = parsed.data
 
         // Save to PostgreSQL Database via Prisma as a new Lead
         const submission = await prisma.lead.create({
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
                 phone,
                 service,
                 message,
+                source: source || "Direct Traffic",
             }
         })
 
