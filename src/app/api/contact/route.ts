@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import prisma from "@/lib/prisma"
 
 export async function POST(req: NextRequest) {
     try {
@@ -12,11 +13,22 @@ export async function POST(req: NextRequest) {
             )
         }
 
+        // Save to PostgreSQL Database via Prisma
+        const submission = await prisma.contactSubmission.create({
+            data: {
+                name,
+                email,
+                phone,
+                service,
+                message,
+            }
+        })
+
         const webhookUrl = process.env.DISCORD_WEBHOOK_URL
         if (!webhookUrl) {
             return NextResponse.json(
-                { error: "Discord webhook not configured. Please contact us directly at info@bykorp.com" },
-                { status: 500 }
+                { success: true, warning: "Saved to database, but Discord webhook not configured." },
+                { status: 200 }
             )
         }
 
