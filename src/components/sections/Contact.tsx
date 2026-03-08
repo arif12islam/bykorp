@@ -102,8 +102,8 @@ export function Contact() {
                     </div>
 
                     {/* Contact Form */}
-                    <div className="bg-white p-8 md:p-10 rounded-3xl border border-brand-accent/20 shadow-xl">
-                        <h3 className="text-2xl font-montserrat font-bold text-brand-primary mb-6">Send a Message</h3>
+                    <div className="bg-white p-6 md:p-8 rounded-3xl border border-brand-accent/20 shadow-xl">
+                        <h3 className="text-2xl font-montserrat font-bold text-brand-primary mb-4 md:mb-6">Send a Message</h3>
 
                         {isSuccess && (
                             <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 text-sm">
@@ -111,26 +111,28 @@ export function Contact() {
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-brand-secondary mb-2">Full Name</label>
-                                <Input
-                                    id="name"
-                                    placeholder="John Doe"
-                                    {...register("name")}
-                                    error={errors.name?.message}
-                                />
-                            </div>
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-5" noValidate>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                                <div>
+                                    <label htmlFor="name" className="block text-sm font-medium text-brand-secondary mb-2">Full Name</label>
+                                    <Input
+                                        id="name"
+                                        placeholder="John Doe"
+                                        {...register("name")}
+                                        error={errors.name?.message}
+                                    />
+                                </div>
 
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-brand-secondary mb-2">Work Email</label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    placeholder="john@company.com"
-                                    {...register("email")}
-                                    error={errors.email?.message}
-                                />
+                                <div>
+                                    <label htmlFor="email" className="block text-sm font-medium text-brand-secondary mb-2">Work Email</label>
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        placeholder="john@company.com"
+                                        {...register("email")}
+                                        error={errors.email?.message}
+                                    />
+                                </div>
                             </div>
 
                             <div>
@@ -138,7 +140,7 @@ export function Contact() {
                                 <Input
                                     id="phone"
                                     type="tel"
-                                    placeholder="+1 (555) 000-0000"
+                                    placeholder="+880 1XXXXXXXXX"
                                     {...register("phone")}
                                     error={errors.phone?.message}
                                 />
