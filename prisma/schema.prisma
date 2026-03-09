@@ -6,7 +6,10 @@ datasource db {
   provider = "postgresql"
 }
 
-// Enum to strictly track the lifecycle stage of a lead
+// -------------------------------------------------------------
+// CORE CRM: Leads & Pipeline
+// -------------------------------------------------------------
+
 enum LeadStatus {
   NEW
   CONTACTED
@@ -32,10 +35,11 @@ model Lead {
   // CRM Tracking Data
   status          LeadStatus @default(NEW)
   source          String     @default("Website Contact Form")
-  notes           String?    @db.Text // Internal notes section for your sales team
+  notes           String?    @db.Text // Internal sales notes
   
   // Timestamps
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   lastContactedAt DateTime?  // Track when you last reached out
+
 }
