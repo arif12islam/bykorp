@@ -8,11 +8,12 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/Button"
 import { cn } from "@/lib/utils"
 
-const NAV_LINKS = [
+const NAV_LINKS: { name: string; id?: string; href?: string }[] = [
     { name: "Home", id: "home" },
     { name: "Story", id: "story" },
     { name: "Services", id: "services" },
     { name: "Reviews", id: "reviews" },
+    { name: "Blog", href: "/blog" },
     { name: "Contact", id: "contact" },
 ]
 
@@ -68,15 +69,25 @@ export function Navbar() {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center gap-2 xl:gap-4">
-                        {NAV_LINKS.map((link) => (
-                            <button
-                                key={link.name}
-                                onClick={() => scrollTo(link.id)}
-                                className="px-4 py-2 text-sm font-semibold text-brand-secondary hover:text-brand-primary hover:bg-brand-primary/5 rounded-full transition-all duration-300 relative group cursor-pointer"
-                            >
-                                {link.name}
-                            </button>
-                        ))}
+                        {NAV_LINKS.map((link) => 
+                            link.href ? (
+                                <Link
+                                    key={link.name}
+                                    href={link.href}
+                                    className="px-4 py-2 text-sm font-semibold text-brand-secondary hover:text-brand-primary hover:bg-brand-primary/5 rounded-full transition-all duration-300 relative group cursor-pointer"
+                                >
+                                    {link.name}
+                                </Link>
+                            ) : (
+                                <button
+                                    key={link.name}
+                                    onClick={() => scrollTo(link.id!)}
+                                    className="px-4 py-2 text-sm font-semibold text-brand-secondary hover:text-brand-primary hover:bg-brand-primary/5 rounded-full transition-all duration-300 relative group cursor-pointer"
+                                >
+                                    {link.name}
+                                </button>
+                            )
+                        )}
                     </nav>
 
                     {/* Desktop CTA */}
@@ -125,12 +136,22 @@ export function Navbar() {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: i * 0.1 + 0.1 }}
                                 >
-                                    <button
-                                        onClick={() => { scrollTo(link.id); setIsMobileMenuOpen(false) }}
-                                        className="text-4xl sm:text-5xl font-montserrat font-black text-brand-primary hover:text-brand-accent transition-colors block py-4 border-b border-brand-accent/10 w-full text-left cursor-pointer"
-                                    >
-                                        {link.name}
-                                    </button>
+                                    {link.href ? (
+                                        <Link
+                                            href={link.href}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className="text-4xl sm:text-5xl font-montserrat font-black text-brand-primary hover:text-brand-accent transition-colors block py-4 border-b border-brand-accent/10 w-full text-left cursor-pointer"
+                                        >
+                                            {link.name}
+                                        </Link>
+                                    ) : (
+                                        <button
+                                            onClick={() => { scrollTo(link.id!); setIsMobileMenuOpen(false) }}
+                                            className="text-4xl sm:text-5xl font-montserrat font-black text-brand-primary hover:text-brand-accent transition-colors block py-4 border-b border-brand-accent/10 w-full text-left cursor-pointer"
+                                        >
+                                            {link.name}
+                                        </button>
+                                    )}
                                 </motion.div>
                             ))}
 

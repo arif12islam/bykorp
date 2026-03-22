@@ -11,11 +11,12 @@ const SOCIAL_LINKS = [
     { name: "Twitter", icon: Twitter, href: "https://twitter.com/bykorp" },
 ]
 
-const QUICK_LINKS = [
+const QUICK_LINKS: { name: string; id?: string; href?: string }[] = [
     { name: "Home", id: "home" },
     { name: "Our Story", id: "story" },
     { name: "Services", id: "services" },
     { name: "Reviews", id: "reviews" },
+    { name: "Blog", href: "/blog" },
     { name: "Contact", id: "contact" },
 ]
 
@@ -79,12 +80,21 @@ export function Footer() {
                         <ul className="space-y-3">
                             {QUICK_LINKS.map((link) => (
                                 <li key={link.name}>
-                                    <button
-                                        onClick={() => scrollTo(link.id)}
-                                        className="text-white/60 hover:text-white transition-colors duration-300 text-sm cursor-pointer"
-                                    >
-                                        {link.name}
-                                    </button>
+                                    {link.href ? (
+                                        <Link
+                                            href={link.href}
+                                            className="text-white/60 hover:text-white transition-colors duration-300 text-sm"
+                                        >
+                                            {link.name}
+                                        </Link>
+                                    ) : (
+                                        <button
+                                            onClick={() => scrollTo(link.id!)}
+                                            className="text-white/60 hover:text-white transition-colors duration-300 text-sm cursor-pointer"
+                                        >
+                                            {link.name}
+                                        </button>
+                                    )}
                                 </li>
                             ))}
                         </ul>
