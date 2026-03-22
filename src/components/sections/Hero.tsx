@@ -113,7 +113,7 @@ export function Hero() {
                         variants={itemVariants}
                         className="text-[3.5rem] md:text-7xl lg:text-[5rem] font-montserrat font-black text-brand-primary leading-[1] tracking-tighter mb-8"
                     >
-                        Scale Your Business With{" "}
+                        Bykorp — Scale Your Business With{" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">
                             Precision AI
                         </span>{" "}

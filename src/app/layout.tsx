@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Outfit } from "next/font/google";
+import { StructuredData } from "./structured-data";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -14,8 +15,20 @@ const space = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Bykorp | Architects of Digital Infrastructure",
-  description: "Bridging the gap between traditional digital marketing and cutting-edge AI automation for enterprise-level growth.",
+  metadataBase: new URL("https://www.bykorp.com"),
+  title: {
+    default: "Bykorp — Digital Agency | Web Development, AI Automation & Marketing",
+    template: "%s | Bykorp",
+  },
+  description: "Bykorp is a full-service digital agency specializing in web development, AI automation, SEO, and digital marketing. We build high-converting websites and intelligent systems that drive enterprise-level growth.",
+  keywords: [
+    "Bykorp", "bykorp", "bykorp agency", "bykorp digital agency",
+    "web development agency", "AI automation", "digital marketing",
+    "SEO agency", "Next.js development", "Bangladesh digital agency",
+  ],
+  alternates: {
+    canonical: "https://www.bykorp.com",
+  },
   icons: {
     icon: [
       { url: '/icon.png', sizes: 'any' },
@@ -26,17 +39,25 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   openGraph: {
-    title: "Bykorp | Architects of Digital Infrastructure",
-    description: "Bridging the gap between traditional digital marketing and cutting-edge AI automation for enterprise-level growth.",
+    title: "Bykorp — Digital Agency | Web Development, AI Automation & Marketing",
+    description: "Bykorp is a full-service digital agency specializing in web development, AI automation, SEO, and digital marketing for enterprise-level growth.",
     url: "https://www.bykorp.com",
     siteName: "Bykorp",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/bykorp_logo.png",
+        width: 512,
+        height: 512,
+        alt: "Bykorp Digital Agency Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bykorp | Architects of Digital Infrastructure",
-    description: "Bridging the gap between traditional digital marketing and cutting-edge AI automation for enterprise-level growth.",
+    title: "Bykorp — Digital Agency | Web Development, AI Automation & Marketing",
+    description: "Bykorp is a full-service digital agency specializing in web development, AI automation, SEO, and digital marketing.",
   },
 };
 
@@ -57,6 +78,7 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${space.variable} antialiased overflow-x-hidden`}
       >
+        <StructuredData />
         {children}
       </body>
     </html>
