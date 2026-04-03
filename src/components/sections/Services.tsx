@@ -1,7 +1,8 @@
 "use client"
 
+import Link from "next/link"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
-import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool, BrainCircuit, Layout, Megaphone, FileText } from "lucide-react"
+import { Code, Bot, Palette, TrendingUp, Search, Share2, MapPin, PenTool, BrainCircuit, Layout, Megaphone, FileText, ArrowRight } from "lucide-react"
 
 // --- Custom Background Shapes for Watermarks ---
 const WebDevShape = () => (
@@ -91,6 +92,7 @@ const ContentShape = () => (
 const SERVICES = [
     {
         id: "web-dev",
+        slug: "web-development-dhaka",
         title: "Web Dev",
         icon: Code,
         description: "Scalable, high-performance web applications built on modern frameworks.",
@@ -106,6 +108,7 @@ const SERVICES = [
     },
     {
         id: "ai-automation",
+        slug: "ai-automation-agency-dhaka",
         title: "AI Automation",
         description: "Streamline operations with intelligent systems that work 24/7.",
         icon: BrainCircuit,
@@ -121,6 +124,7 @@ const SERVICES = [
     },
     {
         id: "web-design",
+        slug: "web-design-agency-dhaka",
         title: "Web Design",
         description: "Pixel-perfect interfaces optimized for engagement and conversion.",
         icon: Layout,
@@ -136,6 +140,7 @@ const SERVICES = [
     },
     {
         id: "digital-marketing",
+        slug: "digital-marketing-agency-dhaka",
         title: "Digital Marketing",
         description: "Data-driven campaigns that dominate your market segment.",
         icon: Megaphone,
@@ -151,6 +156,7 @@ const SERVICES = [
     },
     {
         id: "seo-optimization",
+        slug: "seo-agency-dhaka",
         title: "SEO Optimization",
         description: "Own the search results with advanced technical and content SEO.",
         icon: Search,
@@ -166,6 +172,7 @@ const SERVICES = [
     },
     {
         id: "social-media",
+        slug: "social-media-management-dhaka",
         title: "Social Media",
         description: "Build a cult-like following with strategic content distribution.",
         icon: Share2,
@@ -181,6 +188,7 @@ const SERVICES = [
     },
     {
         id: "local-seo",
+        slug: "local-seo-services-dhaka",
         title: "Local SEO",
         description: "Capture hyper-local traffic and dominate your immediate area.",
         icon: MapPin,
@@ -196,6 +204,7 @@ const SERVICES = [
     },
     {
         id: "content-strategy",
+        slug: "content-marketing-agency-dhaka",
         title: "Content Strategy",
         description: "Authority-building content that converts readers into buyers.",
         icon: FileText,
@@ -319,9 +328,15 @@ function TiltCard({ service, index }: { service: typeof SERVICES[0], index: numb
                         <h3 className="mb-2 lg:mb-3 font-montserrat text-xl lg:text-2xl font-bold text-brand-primary">
                             {service.title}
                         </h3>
-                        <p className="text-sm lg:text-base text-brand-secondary/80 leading-relaxed font-medium">
+                        <p className="text-sm lg:text-base text-brand-secondary/80 leading-relaxed font-medium mb-3">
                             {service.description}
                         </p>
+                        <Link
+                            href={`/services/${service.slug}`}
+                            className={`inline-flex items-center gap-1.5 text-sm font-bold ${theme.text} hover:underline transition-colors`}
+                        >
+                            Learn More <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
                     </div>
                 </div>
 
@@ -390,6 +405,12 @@ export function Services() {
                                         <p className="text-sm text-brand-secondary/80 leading-relaxed font-medium">
                                             {service.description}
                                         </p>
+                                        <Link
+                                            href={`/services/${service.slug}`}
+                                            className={`inline-flex items-center gap-1.5 text-sm font-bold ${theme.text} hover:underline transition-colors`}
+                                        >
+                                            Learn More <ArrowRight className="w-3.5 h-3.5" />
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className={`absolute bottom-0 left-0 h-1 w-full z-10 bg-gradient-to-r ${theme.gradient}`} />

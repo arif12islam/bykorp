@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { getBlogPosts } from "@/lib/blog"
+import { SERVICES } from "@/lib/services"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.bykorp.com"
@@ -41,5 +42,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
-  return [...staticPages, ...blogPages]
+  // Dynamic service pages
+  const servicePages: MetadataRoute.Sitemap = SERVICES.map((service) => ({
+    url: `${baseUrl}/services/${service.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }))
+
+  return [...staticPages, ...servicePages, ...blogPages]
 }
+
